@@ -247,14 +247,14 @@ button {
 }
 
 .primary-button {
-  background: var(--orange);
+  background: var(--green);
   color: #f9f5f2;
-  box-shadow: 0 10px 18px rgba(244, 81, 63, 0.2);
+  box-shadow: 0 10px 18px rgba(0, 159, 143, 0.2);
 }
 
 .primary-button:hover,
 .primary-button:focus-visible {
-  background: var(--orange-dark);
+  background: var(--green-dark);
 }
 
 .ghost-button {
@@ -417,7 +417,7 @@ button {
 }
 
 .report-button.primary {
-  background: var(--orange);
+  background: var(--green);
   color: #f9f5f2;
 }
 
