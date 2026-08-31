@@ -42,17 +42,22 @@ button {
 }
 
 .page-shell {
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 16px;
+  overflow: hidden;
+  padding: max(12px, env(safe-area-inset-top)) 16px
+    max(12px, env(safe-area-inset-bottom));
   background: var(--bg);
 }
 
 .phone-frame {
   width: min(100%, 420px);
-  min-height: 760px;
+  height: 100%;
+  min-height: 0;
+  max-height: 860px;
   background: rgba(255, 253, 251, 0.75);
   border: 1px solid rgba(34, 27, 24, 0.06);
   border-radius: 28px;
@@ -60,6 +65,7 @@ button {
   padding: 20px 18px 18px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .topbar {
@@ -421,7 +427,6 @@ button {
 
 @media (max-width: 420px) {
   .phone-frame {
-    min-height: 100vh;
     border-radius: 0;
     border-left: none;
     border-right: none;
