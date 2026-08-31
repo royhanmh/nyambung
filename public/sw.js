@@ -1,9 +1,9 @@
-const CACHE_NAME = "nyambung-shell-v2";
+const CACHE_NAME = "nyambung-shell-v3";
 const APP_SHELL = [
   "/",
   "/index.html",
   "/manifest.webmanifest",
-  "/favicon.svg",
+  "/favicon.png",
   "/apple-touch-icon.png",
   "/icon-192.png",
   "/icon-512.png",

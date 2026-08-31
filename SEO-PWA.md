@@ -18,9 +18,9 @@ Versi dependency tetap mengikuti `package.json`:
 ## Praktik yang diterapkan
 
 - Satu canonical URL yang konsisten di metadata, sitemap, dan structured data.
-- Open Graph dan Twitter Card memakai URL absolut agar bisa dibaca crawler lintas platform.
+- Open Graph dan Twitter Card memakai URL absolut dan asset yang benar-benar tersedia agar bisa dibaca crawler lintas platform.
 - JSON-LD memakai `WebApplication`, bahasa aplikasi, logo, URL, dan penawaran gratis.
-- Manifest memakai `id`, `scope`, `start_url`, standalone display, portrait orientation, warna brand, dan ikon maskable.
+- Manifest memakai `id`, `scope`, `start_url`, standalone display, portrait orientation, warna brand, serta entry ikon `any` dan `maskable` terpisah.
 - `robots.txt` hanya mengizinkan crawling halaman publik yang memang tersedia.
 
 ## Verifikasi
