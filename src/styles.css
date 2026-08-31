@@ -5,10 +5,15 @@
   --bg: #f5efe8;
   --panel: #fffdfb;
   --panel-strong: #efe6df;
-  --ink: #1d2f46;
-  --muted: #58677d;
-  --line: rgba(29, 47, 70, 0.12);
-  --shadow: 0 18px 36px rgba(29, 47, 70, 0.08);
+  --ink: #17423d;
+  --muted: #536a68;
+  --line: rgba(23, 66, 61, 0.14);
+  --orange: #f4513f;
+  --orange-dark: #c83c30;
+  --green: #009f8f;
+  --green-dark: #00796f;
+  --green-soft: #e1f2ed;
+  --shadow: 0 18px 36px rgba(23, 66, 61, 0.08);
   --font-display: "Nunito", "Arial Rounded MT Bold", "Segoe UI", sans-serif;
   --font-body: "Plus Jakarta Sans", "Segoe UI", sans-serif;
 }
@@ -79,7 +84,7 @@ button {
 
 .eyebrow {
   margin: 0 0 8px;
-  color: var(--muted);
+  color: var(--orange-dark);
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -117,8 +122,8 @@ button {
 }
 
 .option-card.is-active {
-  background: var(--panel-strong);
-  border-color: rgba(29, 47, 70, 0.35);
+  background: var(--green-soft);
+  border-color: rgba(0, 159, 143, 0.45);
 }
 
 .option-copy {
@@ -150,8 +155,8 @@ button {
 }
 
 .dot.show {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--green);
+  border-color: var(--green);
 }
 
 .section-block {
@@ -193,8 +198,8 @@ button {
 
 .segment.is-active,
 .chip.is-active {
-  background: var(--panel-strong);
-  border-color: rgba(29, 47, 70, 0.35);
+  background: var(--green-soft);
+  border-color: rgba(0, 159, 143, 0.45);
 }
 
 .chip-list {
@@ -210,7 +215,7 @@ button {
 
 .depth-slider {
   width: 100%;
-  accent-color: var(--ink);
+  accent-color: var(--green);
 }
 
 .depth-readout {
@@ -236,15 +241,20 @@ button {
 }
 
 .primary-button {
-  background: var(--ink);
+  background: var(--orange);
   color: #f9f5f2;
-  box-shadow: 0 10px 18px rgba(29, 47, 70, 0.12);
+  box-shadow: 0 10px 18px rgba(244, 81, 63, 0.2);
+}
+
+.primary-button:hover,
+.primary-button:focus-visible {
+  background: var(--orange-dark);
 }
 
 .ghost-button {
   background: rgba(255, 255, 255, 0.45);
   border: 1px solid var(--line);
-  color: var(--ink);
+  color: var(--green-dark);
 }
 
 .setup-actions {
@@ -285,8 +295,8 @@ button {
   margin-top: 14px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: var(--panel-strong);
-  border: 1px solid var(--line);
+  background: var(--green-soft);
+  border: 1px solid rgba(0, 159, 143, 0.18);
   color: var(--ink);
   font-size: 0.78rem;
   line-height: 1.5;
@@ -322,10 +332,10 @@ button {
 
 .secondary-button {
   min-height: 52px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(0, 159, 143, 0.32);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.45);
-  color: var(--ink);
+  background: var(--green-soft);
+  color: var(--green-dark);
   font-family: var(--font-display);
   font-weight: 800;
 }
@@ -401,7 +411,7 @@ button {
 }
 
 .report-button.primary {
-  background: var(--ink);
+  background: var(--orange);
   color: #f9f5f2;
 }
 
