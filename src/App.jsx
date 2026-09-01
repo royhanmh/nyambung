@@ -25,6 +25,9 @@ const vibeOptions = [
   { id: "personal", label: "Personal" },
 ];
 
+const getOptionLabel = (options, id) =>
+  options.find((option) => option.id === id)?.label ?? id;
+
 const relationshipAliasMap = {
   friends: ["friends", "family"],
   couple: ["couple", "pdk_t", "pasangan"],
@@ -420,7 +423,7 @@ export default function App() {
             </section>
 
             <section className="section-block">
-              <h2>Pilih vibe</h2>
+              <h2>Pilih suasana</h2>
               <div className="chip-list">
                 {vibeOptions.map((vibe) => {
                   const active = selectedVibes.includes(vibe.id);
@@ -450,7 +453,7 @@ export default function App() {
                 className="depth-slider"
                 aria-label="Tingkat kedalaman obrolan"
               />
-              <div className="depth-readout">Level {depth}</div>
+              <div className="depth-readout">Tingkat {depth}</div>
             </section>
 
             <div className="spacer" />
@@ -490,7 +493,7 @@ export default function App() {
                       ?.label
                   }
                 </span>
-                <span>Level {depth}</span>
+                <span>Tingkat {depth}</span>
               </div>
 
               <h2>{currentQuestion?.text ?? currentQuestion}</h2>
@@ -542,16 +545,25 @@ export default function App() {
               <ul>
                 <li>
                   Hubungan:{" "}
-                  {
-                    relationshipOptions.find((item) => item.id === relationship)
-                      ?.label
-                  }
+                  {getOptionLabel(relationshipOptions, relationship)}
                 </li>
-                <li>Jumlah: {playerCount}</li>
-                <li>Vibe: {selectedVibes.join(", ") || "campur"}</li>
+                <li>
+                  Jumlah: {getOptionLabel(playerCountOptions, playerCount)}
+                </li>
+                <li>
+                  Suasana:{" "}
+                  {selectedVibes
+                    .map((vibeId) => getOptionLabel(vibeOptions, vibeId))
+                    .join(", ") || "Campur"}
+                </li>
                 <li>Jawaban: {answers.length}</li>
                 <li>
-                  Context: {conversationContext.relationship} /{" "}
+                  Konteks:{" "}
+                  {getOptionLabel(
+                    relationshipOptions,
+                    conversationContext.relationship,
+                  )}{" "}
+                  /{" "}
                   {conversationContext.depth}
                 </li>
               </ul>
