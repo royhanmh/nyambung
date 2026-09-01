@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import brandLogo from "./assets/brand/nyambung-brand-logo.png";
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
 import questionDataset from "./data/nyambung-500-questions-id-ID.json";
 
@@ -78,6 +79,14 @@ function NotFoundPage() {
       <a className="primary-button not-found-button" href="/">
         KEMBALI KE AWAL
       </a>
+    </main>
+  );
+}
+
+function SplashScreen() {
+  return (
+    <main className="splash-screen" aria-label="Memuat Nyambung">
+      <img src={brandLogo} alt="nyambung" />
     </main>
   );
 }
@@ -174,6 +183,7 @@ const buildQuestionBank = ({
 };
 
 export default function App() {
+  const [isSplashVisible, setSplashVisible] = useState(true);
   const [screen, setScreen] = useState("home");
   const [relationship, setRelationship] = useState("friends");
   const [playerCount, setPlayerCount] = useState("1-1");
@@ -188,6 +198,11 @@ export default function App() {
   );
   const [reportOpen, setReportOpen] = useState(false);
   const touchStartRef = useRef(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setSplashVisible(false), 850);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const usedQuestions = useMemo(
     () => new Set(questionHistory.map((item) => item.id)),
@@ -331,6 +346,10 @@ export default function App() {
 
   if (!isKnownPath) {
     return <NotFoundPage />;
+  }
+
+  if (isSplashVisible) {
+    return <SplashScreen />;
   }
 
   return (
