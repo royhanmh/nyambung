@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const dataPath = path.join(root, "src", "data", "nyambung-500-questions-id-ID.json");
+const dataPath = path.join(root, "src", "data", "nyambung-1000-questions-id-ID.json");
 const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
 
 const replacements = [

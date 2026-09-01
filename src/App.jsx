@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
 import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
-import questionDataset from "./data/nyambung-500-questions-id-ID.json";
+import questionDataset from "./data/nyambung-1000-questions-id-ID.json";
 
 const STORAGE_KEYS = {
   favorites: "nyambung.favoriteQuestions",

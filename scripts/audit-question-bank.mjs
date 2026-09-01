@@ -4,7 +4,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const dataPath = path.join(root, "src", "data", "nyambung-500-questions-id-ID.json");
+const dataPath = path.join(root, "src", "data", "nyambung-1000-questions-id-ID.json");
 const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
 const questions = data.questions ?? [];
 const errors = [];
@@ -31,7 +31,7 @@ const jaccard = (left, right) => {
   return union === 0 ? 0 : intersection / union;
 };
 
-if (questions.length !== 500) errors.push(`expected 500 questions, got ${questions.length}`);
+if (questions.length !== 1000) errors.push(`expected 1000 questions, got ${questions.length}`);
 
 const ids = questions.map((question) => question.id);
 const texts = questions.map((question) => question.text.trim().toLowerCase());
@@ -41,7 +41,7 @@ if (new Set(texts).size !== texts.length) errors.push("duplicate question texts"
 
 const categoryCounts = countBy(questions, "category");
 for (const [category, count] of Object.entries(categoryCounts)) {
-  if (count !== 50) errors.push(`${category} has ${count} questions; expected 50`);
+  if (count !== 100) errors.push(`${category} has ${count} questions; expected 100`);
 }
 
 const bannedPatterns = [
