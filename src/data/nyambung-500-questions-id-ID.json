@@ -541,7 +541,7 @@
     },
     {
       "id": "q_0019",
-      "text": "Weekend ideal versi kamu seperti apa?",
+      "text": "Kalau bisa merancang akhir pekan yang pas buatmu, isinya apa?",
       "language": "id-ID",
       "type": "open",
       "category": "kenalan",
@@ -773,7 +773,7 @@
     },
     {
       "id": "q_0027",
-      "text": "Saat traveling, kamu tipe itinerary atau jalan aja dulu?",
+      "text": "Saat jalan-jalan, kamu tipe itinerary atau jalan aja dulu?",
       "language": "id-ID",
       "type": "open",
       "category": "kenalan",
@@ -1063,7 +1063,7 @@
     },
     {
       "id": "q_0037",
-      "text": "Apa yang bikin kamu cepat nyaman di tempat baru?",
+      "text": "Hal kecil apa yang bikin kamu cepat nyaman di tempat baru?",
       "language": "id-ID",
       "type": "open",
       "category": "kenalan",
@@ -1469,7 +1469,7 @@
     },
     {
       "id": "q_0051",
-      "text": "Siapa yang paling mungkin bilang 'otw' padahal masih di rumah?",
+      "text": "Siapa yang paling mungkin bilang 'sudah jalan' padahal masih di rumah?",
       "language": "id-ID",
       "type": "open",
       "category": "receh",
@@ -1672,7 +1672,7 @@
     },
     {
       "id": "q_0058",
-      "text": "Siapa yang paling mungkin ketiduran di acara sendiri?",
+      "text": "Kalau bisa tinggal di kota mana pun selama setahun, kamu pilih kota apa?",
       "language": "id-ID",
       "type": "open",
       "category": "receh",
@@ -2947,7 +2947,7 @@
     },
     {
       "id": "q_0102",
-      "text": "First impression orang tentang kamu yang sering salah apa?",
+      "text": "Kesan pertama orang tentang kamu yang sering salah apa?",
       "language": "id-ID",
       "type": "open",
       "category": "penasaran",
@@ -3059,7 +3059,7 @@
     },
     {
       "id": "q_0106",
-      "text": "Kalau orang mengenalmu dari playlist, kesannya bakal seperti apa?",
+      "text": "Kalau orang mengenalmu dari daftar lagu, kesannya bakal seperti apa?",
       "language": "id-ID",
       "type": "open",
       "category": "penasaran",
@@ -3255,7 +3255,7 @@
     },
     {
       "id": "q_0113",
-      "text": "Apa yang bikin kamu langsung kehilangan minat pada obrolan?",
+      "text": "Hal kecil apa yang bikin kamu langsung kehilangan minat pada obrolan?",
       "language": "id-ID",
       "type": "open",
       "category": "penasaran",
@@ -3843,7 +3843,7 @@
     },
     {
       "id": "q_0134",
-      "text": "Apa yang membuatmu percaya pada seseorang?",
+      "text": "Hal apa yang bikin kamu percaya pada seseorang?",
       "language": "id-ID",
       "type": "open",
       "category": "penasaran",
@@ -5411,7 +5411,7 @@
     },
     {
       "id": "q_0190",
-      "text": "Apa yang membuatmu tetap bertahan ketika semuanya terasa berat?",
+      "text": "Hal apa yang bikin kamu tetap bertahan ketika semuanya terasa berat?",
       "language": "id-ID",
       "type": "reflection",
       "category": "dalam",
@@ -5859,7 +5859,7 @@
     },
     {
       "id": "q_0206",
-      "text": "Apa yang bikin kamu merasa aman untuk cerita?",
+      "text": "Hal kecil apa yang bikin kamu merasa aman untuk cerita?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -6055,7 +6055,7 @@
     },
     {
       "id": "q_0213",
-      "text": "Dukungan seperti apa yang paling berarti saat kamu mengejar sesuatu?",
+      "text": "Kapan kamu terakhir kali merasa seseorang benar-benar mendengarkanmu?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -6111,7 +6111,7 @@
     },
     {
       "id": "q_0215",
-      "text": "Apa yang membuatmu sulit membuka diri?",
+      "text": "Hal apa yang bikin kamu sulit membuka diri?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -6251,7 +6251,7 @@
     },
     {
       "id": "q_0220",
-      "text": "Apa yang membuatmu memilih mempertahankan sebuah hubungan?",
+      "text": "Hal apa yang bikin kamu memilih mempertahankan sebuah hubungan?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -6363,7 +6363,7 @@
     },
     {
       "id": "q_0224",
-      "text": "Apa yang membuatmu merasa benar-benar didengar?",
+      "text": "Kapan kamu merasa ceritamu benar-benar didengar oleh seseorang?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -6699,7 +6699,7 @@
     },
     {
       "id": "q_0236",
-      "text": "Apa yang membuatmu merasa sebuah hubungan sudah tidak sehat?",
+      "text": "Hal apa yang bikin kamu merasa sebuah hubungan sudah tidak sehat?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -6783,7 +6783,7 @@
     },
     {
       "id": "q_0239",
-      "text": "Apa yang membuatmu betah berteman lama dengan seseorang?",
+      "text": "Hal apa yang bikin kamu betah berteman lama dengan seseorang?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -6979,7 +6979,7 @@
     },
     {
       "id": "q_0246",
-      "text": "Apa yang membuatmu merasa, 'ini orang aman buat aku'?",
+      "text": "Hal apa yang bikin kamu merasa, 'ini orang aman buat aku'?",
       "language": "id-ID",
       "type": "open",
       "category": "personal",
@@ -7148,7 +7148,7 @@
     },
     {
       "id": "q_0252",
-      "text": "Red flag apa yang pernah kamu abaikan karena sudah terlanjur suka?",
+      "text": "Tanda apa yang dulu pernah kamu abaikan karena telanjur suka?",
       "language": "id-ID",
       "type": "confession",
       "category": "berani",
@@ -7235,7 +7235,7 @@
     },
     {
       "id": "q_0255",
-      "text": "Pernah stalking seseorang sampai kelewatan?",
+      "text": "Pernah diam-diam melihat akun seseorang sampai kelewatan?",
       "language": "id-ID",
       "type": "confession",
       "category": "berani",
@@ -8337,7 +8337,7 @@
     },
     {
       "id": "q_0293",
-      "text": "Pernah slow response supaya kelihatan nggak terlalu tertarik?",
+      "text": "Pernah sengaja menunda balas chat supaya kelihatan nggak terlalu tertarik?",
       "language": "id-ID",
       "type": "confession",
       "category": "berani",
@@ -8580,12 +8580,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8598,7 +8595,7 @@
     },
     {
       "id": "q_0302",
-      "text": "Apa yang bikin kamu tertarik lanjut ngobrol dengan seseorang?",
+      "text": "Hal kecil apa yang bikin kamu tertarik lanjut ngobrol dengan seseorang?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -8609,12 +8606,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8627,7 +8621,7 @@
     },
     {
       "id": "q_0303",
-      "text": "First date ideal versi kamu seperti apa?",
+      "text": "Kencan pertama yang ideal buatmu bakal seperti apa?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -8638,12 +8632,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8667,12 +8658,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8696,12 +8684,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8725,12 +8710,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8743,7 +8725,7 @@
     },
     {
       "id": "q_0307",
-      "text": "Kalau dia slow response, kamu santai atau mulai overthinking?",
+      "text": "Kalau seseorang lama membalas pesanmu, kamu santai atau mulai kepikiran?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -8754,12 +8736,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8783,12 +8762,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8812,12 +8788,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8841,12 +8814,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8859,7 +8829,7 @@
     },
     {
       "id": "q_0311",
-      "text": "Apa yang bisa bikin first date jadi berkesan?",
+      "text": "Apa yang bisa bikin kencan pertama jadi berkesan?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -8870,12 +8840,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8899,12 +8866,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8928,12 +8892,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8957,12 +8918,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -8986,12 +8944,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9015,12 +8970,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9044,12 +8996,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9073,12 +9022,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9102,12 +9048,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9131,12 +9074,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9160,12 +9100,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9189,12 +9126,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9207,7 +9141,7 @@
     },
     {
       "id": "q_0323",
-      "text": "Kalau first date biasa saja tapi orangnya menarik, kasih kesempatan kedua?",
+      "text": "Kalau kencan pertama biasa saja tapi orangnya menarik, kasih kesempatan kedua?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -9218,12 +9152,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9236,7 +9167,7 @@
     },
     {
       "id": "q_0324",
-      "text": "Aktivitas apa yang cocok untuk first date?",
+      "text": "Aktivitas apa yang cocok untuk kencan pertama?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -9247,12 +9178,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9276,12 +9204,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9305,12 +9230,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9323,7 +9245,7 @@
     },
     {
       "id": "q_0327",
-      "text": "Apa yang membuatmu yakin seseorang benar-benar tertarik?",
+      "text": "Hal apa yang bikin kamu yakin seseorang benar-benar tertarik?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -9334,12 +9256,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9363,12 +9282,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9392,12 +9308,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9421,12 +9334,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9439,7 +9349,7 @@
     },
     {
       "id": "q_0331",
-      "text": "First date lebih enak siang atau malam?",
+      "text": "Kencan pertama lebih enak siang atau malam?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -9450,12 +9360,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9468,7 +9375,7 @@
     },
     {
       "id": "q_0332",
-      "text": "Red flag PDKT apa yang sering diabaikan?",
+      "text": "Tanda yang bikin ragu PDKT apa yang sering diabaikan?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -9479,12 +9386,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9508,12 +9412,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9526,7 +9427,7 @@
     },
     {
       "id": "q_0334",
-      "text": "Apa yang membuatmu aman menunjukkan sisi konyol ke seseorang?",
+      "text": "Hal apa yang bikin kamu aman menunjukkan sisi konyol ke seseorang?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -9537,12 +9438,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9566,12 +9464,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9595,12 +9490,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9624,12 +9516,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9653,12 +9542,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9682,12 +9568,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9711,12 +9594,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9740,12 +9620,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9758,7 +9635,7 @@
     },
     {
       "id": "q_0342",
-      "text": "First date pilih coffee shop, museum, taman, atau jalan-jalan?",
+      "text": "Untuk kencan pertama, kamu pilih kedai kopi, museum, taman, atau jalan-jalan?",
       "language": "id-ID",
       "type": "open",
       "category": "pdkt",
@@ -9769,12 +9646,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9798,12 +9672,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9827,12 +9698,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9856,12 +9724,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9885,12 +9750,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9914,12 +9776,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9943,12 +9802,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -9972,12 +9828,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10001,12 +9854,9 @@
       ],
       "depth": 3,
       "relationships": [
-        "friends",
-        "couple",
         "pdk_t",
         "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10030,12 +9880,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10059,12 +9904,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10088,12 +9928,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10117,12 +9952,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10135,7 +9965,7 @@
     },
     {
       "id": "q_0355",
-      "text": "Quality time ideal versi kamu seperti apa?",
+      "text": "Kalau punya waktu berdua seharian, kamu paling ingin ngapain?",
       "language": "id-ID",
       "type": "open",
       "category": "pasangan",
@@ -10146,12 +9976,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10164,7 +9989,7 @@
     },
     {
       "id": "q_0356",
-      "text": "Apa cara favoritmu menerima kasih sayang?",
+      "text": "Saat sedang butuh disayang, perhatian seperti apa yang paling kamu cari?",
       "language": "id-ID",
       "type": "open",
       "category": "pasangan",
@@ -10175,12 +10000,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10193,7 +10013,7 @@
     },
     {
       "id": "q_0357",
-      "text": "Apa cara favoritmu menunjukkan kasih sayang?",
+      "text": "Kalau kamu sayang seseorang, biasanya kamu menunjukkannya lewat apa?",
       "language": "id-ID",
       "type": "open",
       "category": "pasangan",
@@ -10204,12 +10024,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10233,12 +10048,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10262,12 +10072,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10291,12 +10096,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10320,12 +10120,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10349,12 +10144,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10378,12 +10168,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10407,12 +10192,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10425,7 +10205,7 @@
     },
     {
       "id": "q_0365",
-      "text": "Kalau bisa mengulang satu kencan, kencan yang mana?",
+      "text": "Kalau bisa mengulang satu kencan, bagian mana yang ingin kamu jalani lagi?",
       "language": "id-ID",
       "type": "open",
       "category": "pasangan",
@@ -10436,12 +10216,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10465,12 +10240,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10494,12 +10264,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10523,12 +10288,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10552,12 +10312,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10581,12 +10336,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10610,12 +10360,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10639,12 +10384,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10668,12 +10408,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10697,12 +10432,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10726,12 +10456,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10755,12 +10480,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10784,12 +10504,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10813,12 +10528,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10842,12 +10552,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10871,12 +10576,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10900,12 +10600,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10929,12 +10624,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10958,12 +10648,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -10987,12 +10672,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11016,12 +10696,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11045,12 +10720,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11074,12 +10744,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11092,7 +10757,7 @@
     },
     {
       "id": "q_0388",
-      "text": "Apa yang membuatmu merasa benar-benar didengarkan?",
+      "text": "Apa yang membuatmu merasa aman untuk bercerita tanpa takut dihakimi?",
       "language": "id-ID",
       "type": "open",
       "category": "pasangan",
@@ -11103,12 +10768,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11132,12 +10792,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11161,12 +10816,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11190,12 +10840,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11219,12 +10864,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11248,12 +10888,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11277,12 +10912,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11306,12 +10936,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11335,12 +10960,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11364,12 +10984,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11393,12 +11008,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11422,12 +11032,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11451,12 +11056,7 @@
       ],
       "depth": 4,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
-        "group",
-        "family"
+        "couple"
       ],
       "minPlayers": 2,
       "maxPlayers": 10,
@@ -11469,7 +11069,7 @@
     },
     {
       "id": "q_0401",
-      "text": "Siapa yang paling mungkin tiba-tiba pindah kota tanpa bilang?",
+      "text": "Di antara kalian, siapa yang tiba-tiba pindah kota tanpa bilang?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11480,11 +11080,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11498,7 +11095,7 @@
     },
     {
       "id": "q_0402",
-      "text": "Siapa yang paling mungkin terkenal duluan?",
+      "text": "Kalau harus menebak, siapa di sini yang bakal terkenal duluan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11509,11 +11106,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11527,7 +11121,7 @@
     },
     {
       "id": "q_0403",
-      "text": "Siapa yang paling mungkin telat tapi tetap bilang 'sebentar lagi'?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang telat tapi tetap bilang 'sebentar lagi'?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11538,11 +11132,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11556,7 +11147,7 @@
     },
     {
       "id": "q_0404",
-      "text": "Siapa yang paling mungkin survive kalau tersesat di gunung?",
+      "text": "Menurut kalian, siapa yang bertahan kalau tersesat di gunung?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11567,11 +11158,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11585,7 +11173,7 @@
     },
     {
       "id": "q_0405",
-      "text": "Siapa yang paling mungkin menghabiskan uang paling banyak saat liburan?",
+      "text": "Di antara kalian, siapa yang menghabiskan uang paling banyak saat liburan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11596,11 +11184,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11614,7 +11199,7 @@
     },
     {
       "id": "q_0406",
-      "text": "Siapa yang paling mungkin menikah duluan?",
+      "text": "Siapa di sini yang paling mungkin menikah duluan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11625,11 +11210,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11643,7 +11225,7 @@
     },
     {
       "id": "q_0407",
-      "text": "Siapa yang paling mungkin pindah ke luar negeri?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang pindah ke luar negeri?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11654,11 +11236,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11672,7 +11251,7 @@
     },
     {
       "id": "q_0408",
-      "text": "Siapa yang paling mungkin jadi bos?",
+      "text": "Menurut kalian, siapa yang jadi bos?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11683,11 +11262,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11701,7 +11277,7 @@
     },
     {
       "id": "q_0409",
-      "text": "Siapa yang paling mungkin punya channel YouTube?",
+      "text": "Di antara kalian, siapa yang punya channel YouTube?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11712,11 +11288,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11730,7 +11303,7 @@
     },
     {
       "id": "q_0410",
-      "text": "Siapa yang paling mungkin ketiduran di acara sendiri?",
+      "text": "Siapa di sini yang ketiduran di acara sendiri?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11741,11 +11314,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11770,11 +11340,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11799,11 +11366,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11828,11 +11392,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11846,7 +11407,7 @@
     },
     {
       "id": "q_0414",
-      "text": "Siapa yang paling mungkin menyimpan rahasia paling banyak?",
+      "text": "Siapa di sini yang menyimpan rahasia paling banyak?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11857,11 +11418,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11875,7 +11433,7 @@
     },
     {
       "id": "q_0415",
-      "text": "Siapa yang paling mungkin punya kehidupan paling berbeda dari dugaan kalian?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang punya kehidupan paling berbeda dari dugaan kalian?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11886,11 +11444,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11904,7 +11459,7 @@
     },
     {
       "id": "q_0416",
-      "text": "Siapa yang paling mungkin menghilang dari grup chat?",
+      "text": "Menurut kalian, siapa yang menghilang dari grup chat?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11915,11 +11470,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11933,7 +11485,7 @@
     },
     {
       "id": "q_0417",
-      "text": "Siapa yang paling mungkin jadi influencer?",
+      "text": "Siapa di antara kalian yang paling mungkin dikenal banyak orang?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11944,11 +11496,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11962,7 +11511,7 @@
     },
     {
       "id": "q_0418",
-      "text": "Siapa yang paling mungkin menang debat walaupun belum tentu benar?",
+      "text": "Siapa di sini yang menang debat walaupun belum tentu benar?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -11973,11 +11522,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -11991,7 +11537,7 @@
     },
     {
       "id": "q_0419",
-      "text": "Siapa yang paling mungkin lupa ulang tahun teman sendiri?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang lupa ulang tahun teman sendiri?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12002,11 +11548,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12020,7 +11563,7 @@
     },
     {
       "id": "q_0420",
-      "text": "Siapa yang paling mungkin membawa barang terlalu banyak saat traveling?",
+      "text": "Menurut kalian, siapa yang membawa barang terlalu banyak saat jalan-jalan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12031,11 +11574,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12049,7 +11589,7 @@
     },
     {
       "id": "q_0421",
-      "text": "Siapa yang paling mungkin mengajak makan setelah bilang sedang hemat?",
+      "text": "Di antara kalian, siapa yang mengajak makan setelah bilang sedang hemat?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12060,11 +11600,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12078,7 +11615,7 @@
     },
     {
       "id": "q_0422",
-      "text": "Siapa yang paling mungkin bangun duluan saat camping?",
+      "text": "Siapa di sini yang bangun duluan saat camping?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12089,11 +11626,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12107,7 +11641,7 @@
     },
     {
       "id": "q_0423",
-      "text": "Siapa yang paling mungkin panik duluan kalau listrik mati?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang panik duluan kalau listrik mati?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12118,11 +11652,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12136,7 +11667,7 @@
     },
     {
       "id": "q_0424",
-      "text": "Siapa yang paling mungkin punya hobi paling aneh?",
+      "text": "Menurut kalian, siapa yang punya hobi paling aneh?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12147,11 +11678,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12165,7 +11693,7 @@
     },
     {
       "id": "q_0425",
-      "text": "Siapa yang paling mungkin punya cerita sekolah paling absurd?",
+      "text": "Di antara kalian, siapa yang punya cerita sekolah paling absurd?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12176,11 +11704,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12205,11 +11730,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12223,7 +11745,7 @@
     },
     {
       "id": "q_0427",
-      "text": "Siapa yang paling mungkin jadi detektif kalau ada misteri?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang jadi detektif kalau ada misteri?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12234,11 +11756,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12252,7 +11771,7 @@
     },
     {
       "id": "q_0428",
-      "text": "Siapa yang paling mungkin lupa jalan pulang?",
+      "text": "Menurut kalian, siapa yang lupa jalan pulang?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12263,11 +11782,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12281,7 +11797,7 @@
     },
     {
       "id": "q_0429",
-      "text": "Siapa yang paling mungkin beli barang cuma karena lucu?",
+      "text": "Di antara kalian, siapa yang beli barang cuma karena lucu?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12292,11 +11808,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12310,7 +11823,7 @@
     },
     {
       "id": "q_0430",
-      "text": "Siapa yang paling mungkin punya playlist paling random?",
+      "text": "Siapa di sini yang punya daftar lagu paling random?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12321,11 +11834,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12339,7 +11849,7 @@
     },
     {
       "id": "q_0431",
-      "text": "Siapa yang paling mungkin tidur paling lama saat liburan?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang tidur paling lama saat liburan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12350,11 +11860,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12368,7 +11875,7 @@
     },
     {
       "id": "q_0432",
-      "text": "Siapa yang paling mungkin ngajak spontan road trip?",
+      "text": "Menurut kalian, siapa yang ngajak spontan road trip?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12379,11 +11886,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12408,11 +11912,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12426,7 +11927,7 @@
     },
     {
       "id": "q_0434",
-      "text": "Siapa yang paling mungkin punya foto paling memalukan di galeri?",
+      "text": "Siapa di sini yang punya foto paling memalukan di galeri?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12437,11 +11938,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12466,11 +11964,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12484,7 +11979,7 @@
     },
     {
       "id": "q_0436",
-      "text": "Siapa yang paling mungkin jadi teman curhat terbaik?",
+      "text": "Menurut kalian, siapa yang jadi teman curhat terbaik?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12495,11 +11990,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12513,7 +12005,7 @@
     },
     {
       "id": "q_0437",
-      "text": "Siapa yang paling mungkin mengubah rencana lima menit sebelum berangkat?",
+      "text": "Di antara kalian, siapa yang mengubah rencana lima menit sebelum berangkat?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12524,11 +12016,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12542,7 +12031,7 @@
     },
     {
       "id": "q_0438",
-      "text": "Siapa yang paling mungkin bertahan tanpa media sosial sebulan?",
+      "text": "Siapa di sini yang bertahan tanpa media sosial sebulan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12553,11 +12042,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12571,7 +12057,7 @@
     },
     {
       "id": "q_0439",
-      "text": "Siapa yang paling mungkin menemukan restoran tersembunyi yang enak?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang menemukan restoran tersembunyi yang enak?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12582,11 +12068,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12600,7 +12083,7 @@
     },
     {
       "id": "q_0440",
-      "text": "Siapa yang paling mungkin punya kenalan di mana-mana?",
+      "text": "Menurut kalian, siapa yang punya kenalan di mana-mana?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12611,11 +12094,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12629,7 +12109,7 @@
     },
     {
       "id": "q_0441",
-      "text": "Siapa yang paling mungkin menang lomba karaoke?",
+      "text": "Di antara kalian, siapa yang menang lomba karaoke?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12640,11 +12120,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12658,7 +12135,7 @@
     },
     {
       "id": "q_0442",
-      "text": "Siapa yang paling mungkin jadi orang terakhir yang pulang?",
+      "text": "Siapa di sini yang jadi orang terakhir yang pulang?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12669,11 +12146,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12687,7 +12161,7 @@
     },
     {
       "id": "q_0443",
-      "text": "Siapa yang paling mungkin menyimpan screenshot percakapan lama?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang menyimpan screenshot percakapan lama?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12698,11 +12172,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12716,7 +12187,7 @@
     },
     {
       "id": "q_0444",
-      "text": "Siapa yang paling mungkin mengajak grup mencoba hal baru?",
+      "text": "Menurut kalian, siapa yang mengajak grup mencoba hal baru?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12727,11 +12198,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12745,7 +12213,7 @@
     },
     {
       "id": "q_0445",
-      "text": "Siapa yang paling mungkin punya rumah sendiri duluan?",
+      "text": "Di antara kalian, siapa yang punya rumah sendiri duluan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12756,11 +12224,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12774,7 +12239,7 @@
     },
     {
       "id": "q_0446",
-      "text": "Siapa yang paling mungkin tetap tenang saat semua orang panik?",
+      "text": "Siapa di sini yang tetap tenang saat semua orang panik?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12785,11 +12250,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12803,7 +12265,7 @@
     },
     {
       "id": "q_0447",
-      "text": "Siapa yang paling mungkin terkenal karena alasan tidak sengaja?",
+      "text": "Kalau harus menunjuk satu orang, siapa yang terkenal karena alasan tidak sengaja?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12814,11 +12276,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12832,7 +12291,7 @@
     },
     {
       "id": "q_0448",
-      "text": "Siapa yang paling mungkin membuat keputusan paling spontan?",
+      "text": "Menurut kalian, siapa yang membuat keputusan paling spontan?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12843,11 +12302,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12861,7 +12317,7 @@
     },
     {
       "id": "q_0449",
-      "text": "Siapa yang paling mungkin punya cerita yang belum pernah diceritakan ke grup?",
+      "text": "Di antara kalian, siapa yang punya cerita yang belum pernah diceritakan ke grup?",
       "language": "id-ID",
       "type": "vote",
       "category": "rame_rame",
@@ -12872,11 +12328,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -12901,11 +12354,8 @@
       ],
       "depth": 2,
       "relationships": [
-        "friends",
-        "couple",
-        "pdk_t",
-        "new_people",
         "group",
+        "friends",
         "family"
       ],
       "minPlayers": 2,
@@ -13122,7 +12572,7 @@
     },
     {
       "id": "q_0458",
-      "text": "Dulu kamu paling suka pelajaran apa?",
+      "text": "Pelajaran sekolah apa yang dulu paling kamu tunggu?",
       "language": "id-ID",
       "type": "story",
       "category": "nostalgia",
@@ -13151,7 +12601,7 @@
     },
     {
       "id": "q_0459",
-      "text": "Dulu kamu paling nggak suka pelajaran apa?",
+      "text": "Pelajaran sekolah apa yang dulu paling sering kamu hindari?",
       "language": "id-ID",
       "type": "story",
       "category": "nostalgia",
