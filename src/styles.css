@@ -479,6 +479,14 @@ button {
   line-height: 1;
 }
 
+.heart-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  display: block;
+  color: var(--orange);
+}
+
 .favorite-button.is-active {
   border-color: color-mix(in srgb, var(--orange) 55%, var(--line));
   background: color-mix(in srgb, var(--orange) 12%, transparent);
@@ -542,6 +550,12 @@ button {
   color: var(--orange);
   font-size: 1.25rem;
   cursor: pointer;
+}
+
+.saved-remove .heart-icon {
+  width: 18px;
+  height: 18px;
+  margin: auto;
 }
 
 .saved-remove:hover,

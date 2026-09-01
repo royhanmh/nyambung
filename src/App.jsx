@@ -75,6 +75,26 @@ const depthLabels = {
   5: "Dalam",
 };
 
+function HeartIcon({ filled = false }) {
+  return (
+    <svg
+      className="heart-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M20.4 8.9c0 5.2-8.4 10.2-8.4 10.2S3.6 14.1 3.6 8.9a4.5 4.5 0 0 1 8.4-2.3 4.5 4.5 0 0 1 8.4 2.3Z"
+        fill={filled ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const relationshipAliasMap = {
   friends: ["friends", "family"],
   couple: ["couple", "pdk_t", "pasangan"],
@@ -617,7 +637,7 @@ export default function App() {
                   toggleFavorite();
                 }}
               >
-                <span aria-hidden="true">{isFavorite() ? "♥" : "♡"}</span>
+                <HeartIcon filled={isFavorite()} />
                 {isFavorite() ? "Tersimpan" : "Simpan"}
               </button>
 
@@ -720,7 +740,7 @@ export default function App() {
                       aria-label="Hapus pertanyaan dari tersimpan"
                       onClick={() => toggleFavorite(question)}
                     >
-                      <span aria-hidden="true">♥</span>
+                      <HeartIcon filled />
                     </button>
                   </article>
                 ))}
