@@ -563,7 +563,7 @@ export default function App() {
 
             <button
               type="button"
-              className="primary-button"
+              className="primary-button home-start-button"
               onClick={() => setScreen("setup")}
             >
               MULAI

@@ -333,6 +333,10 @@ button {
   box-shadow: 0 10px 18px rgba(23, 66, 61, 0.14);
 }
 
+.home-start-button {
+  margin-top: 16px;
+}
+
 .primary-button:hover,
 .primary-button:focus-visible {
   background: var(--accent-dark);
