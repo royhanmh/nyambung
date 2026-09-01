@@ -16,6 +16,12 @@
   "prefer_related_applications": false,
   "icons": [
     {
+      "src": "/nyambung-brand-logo.png",
+      "sizes": "1243x1265",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
