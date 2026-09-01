@@ -69,18 +69,25 @@ button {
 }
 
 .topbar {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 9px 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 72px;
+  min-height: 56px;
+  border-radius: 999px;
+  background: rgba(255, 250, 244, 0.76);
 }
 
 .brand-mark {
   display: block;
-  width: min(62vw, 200px);
+  width: min(52vw, 168px);
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 4px 10px rgba(34, 27, 24, 0.06));
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+  filter: saturate(0.82) contrast(0.92);
 }
 
 .hero {
@@ -107,36 +114,65 @@ button {
 }
 
 .choice-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
 }
 
 .option-card {
+  position: relative;
   width: 100%;
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  min-height: 116px;
-  padding: 15px 16px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  min-height: 58px;
+  padding: 9px 4px;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
   gap: 12px;
   color: var(--ink);
   text-align: left;
+  cursor: pointer;
+  transition: background 0.18s ease, padding 0.18s ease;
 }
 
 .option-card.is-active {
-  background: var(--green-soft);
-  border-color: rgba(0, 159, 143, 0.45);
+  padding-left: 12px;
+  background: linear-gradient(90deg, rgba(225, 242, 237, 0.82), transparent 78%);
+}
+
+.option-card.is-active::before {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--green);
+  content: "";
+}
+
+.option-card:hover,
+.option-card:focus-visible {
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.option-number {
+  width: 24px;
+  flex: 0 0 24px;
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
 }
 
 .option-copy {
+  min-width: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 2px;
 }
 
 .option-label {
@@ -148,13 +184,14 @@ button {
 
 .option-desc {
   color: var(--muted);
-  font-size: 0.72rem;
-  line-height: 1.4;
+  font-size: 0.68rem;
+  line-height: 1.35;
 }
 
 .dot {
   width: 10px;
   height: 10px;
+  flex: 0 0 10px;
   border-radius: 999px;
   background: transparent;
   border: 1.5px solid rgba(34, 27, 24, 0.45);

@@ -339,6 +339,9 @@ export default function App() {
                     aria-pressed={active}
                     onClick={() => setRelationship(option.id)}
                   >
+                    <span className="option-number" aria-hidden="true">
+                      {String(relationshipOptions.indexOf(option) + 1).padStart(2, "0")}
+                    </span>
                     <div className="option-copy">
                       <span className="option-label">{option.label}</span>
                       <span className="option-desc">{option.desc}</span>
