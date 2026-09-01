@@ -477,7 +477,7 @@ export default function App() {
 
     const deltaX = event.clientX - touchStartRef.current.x;
     const deltaY = event.clientY - touchStartRef.current.y;
-    const threshold = 72;
+    const threshold = 48;
     touchStartRef.current = null;
 
     if (Math.abs(deltaX) < threshold || Math.abs(deltaX) < Math.abs(deltaY)) {
