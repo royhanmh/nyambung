@@ -1,6 +1,45 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
+import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
 import questionDataset from "./data/nyambung-500-questions-id-ID.json";
+
+const STORAGE_KEYS = {
+  favorites: "nyambung.favoriteQuestions",
+  settings: "nyambung.settings",
+};
+
+const defaultSettings = {
+  vibration: true,
+  darkMode: false,
+};
+
+const readStorage = (key, fallback) => {
+  if (typeof window === "undefined") return fallback;
+
+  try {
+    const stored = window.localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const writeStorage = (key, value) => {
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+  }
+};
+
+const readSavedQuestions = () => {
+  const saved = readStorage(STORAGE_KEYS.favorites, []);
+  return Array.isArray(saved) ? saved : [];
+};
+
+const readSettings = () => ({
+  ...defaultSettings,
+  ...(readStorage(STORAGE_KEYS.settings, defaultSettings) ?? {}),
+});
 
 const relationshipOptions = [
   { id: "friends", label: "Teman", desc: "Sering nongkrong & seru-seruan" },
@@ -27,6 +66,14 @@ const vibeOptions = [
 
 const getOptionLabel = (options, id) =>
   options.find((option) => option.id === id)?.label ?? id;
+
+const depthLabels = {
+  1: "Ringan",
+  2: "Santai",
+  3: "Penasaran",
+  4: "Personal",
+  5: "Dalam",
+};
 
 const relationshipAliasMap = {
   friends: ["friends", "family"],
@@ -178,6 +225,7 @@ const buildQuestionBank = ({
 
 export default function App() {
   const [screen, setScreen] = useState("home");
+  const [returnScreen, setReturnScreen] = useState("home");
   const [relationship, setRelationship] = useState("friends");
   const [playerCount, setPlayerCount] = useState("1-1");
   const [selectedVibes, setSelectedVibes] = useState(["funny"]);
@@ -191,7 +239,25 @@ export default function App() {
     "Biar obrolan tetap santai tapi nyambung.",
   );
   const [reportOpen, setReportOpen] = useState(false);
+  const [savedQuestions, setSavedQuestions] = useState(readSavedQuestions);
+  const [settings, setSettings] = useState(readSettings);
   const touchStartRef = useRef(null);
+  const brandWordmarkForTheme = settings.darkMode ? brandWordmarkDark : brandWordmark;
+
+  useEffect(() => {
+    writeStorage(STORAGE_KEYS.favorites, savedQuestions);
+  }, [savedQuestions]);
+
+  useEffect(() => {
+    writeStorage(STORAGE_KEYS.settings, settings);
+  }, [settings]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = settings.darkMode ? "dark" : "light";
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", settings.darkMode ? "#172c2a" : "#f5efe8");
+  }, [settings.darkMode]);
 
   const usedQuestions = useMemo(
     () => new Set(questionHistory.map((item) => item.id)),
@@ -238,6 +304,46 @@ export default function App() {
     setSelectedVibes((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
+  };
+
+  const openSecondaryScreen = (nextScreen) => {
+    setReturnScreen(screen);
+    setScreen(nextScreen);
+  };
+
+  const toggleFavorite = (question = currentQuestion) => {
+    if (!question?.id || !question?.text) return;
+
+    setSavedQuestions((previous) => {
+      const alreadySaved = previous.some((item) => item.id === question.id);
+      return alreadySaved
+        ? previous.filter((item) => item.id !== question.id)
+        : [...previous, { id: question.id, text: question.text }];
+    });
+  };
+
+  const isFavorite = (question = currentQuestion) =>
+    Boolean(question?.id && savedQuestions.some((item) => item.id === question.id));
+
+  const updateSetting = (key, value) => {
+    setSettings((previous) => ({ ...previous, [key]: value }));
+  };
+
+  const handleVibrationToggle = () => {
+    const nextValue = !settings.vibration;
+    updateSetting("vibration", nextValue);
+    if (nextValue && "vibrate" in navigator) navigator.vibrate(12);
+  };
+
+  const handleResetData = () => {
+    if (!window.confirm("Hapus semua pertanyaan favorit dan pengaturan?")) return;
+
+    setSavedQuestions([]);
+    setSettings(defaultSettings);
+    setSelectedVibes(["funny"]);
+    setDepth(2);
+    setPlayerCount("1-1");
+    setRelationship("friends");
   };
 
   const startSession = () => {
@@ -333,9 +439,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <div className={"app-shell" + (settings.darkMode ? " theme-dark" : "")}>
       <section className="mobile-only-notice" aria-labelledby="mobile-notice-title">
-        <img className="mobile-only-notice__mark" src={brandWordmark} alt="nyambung" />
+        <img className="mobile-only-notice__mark" src={brandWordmarkForTheme} alt="nyambung" />
         <p className="eyebrow">Untuk layar kecil</p>
         <h1 id="mobile-notice-title">Buka lewat handphone, ya.</h1>
         <p>Nyambung dibuat untuk obrolan yang terasa dekat di layar handphone.</p>
@@ -344,7 +450,7 @@ export default function App() {
       <main className="page-shell">
         <div className="phone-frame">
         <header className="topbar">
-          <img className="brand-mark" src={brandWordmark} alt="nyambung" />
+          <img className="brand-mark" src={brandWordmarkForTheme} alt="nyambung" />
         </header>
 
         {screen === "home" && (
@@ -390,8 +496,12 @@ export default function App() {
             </button>
 
             <nav className="meta-links" aria-label="Navigasi tambahan">
-              <button type="button">Tersimpan</button>
-              <button type="button">Pengaturan</button>
+              <button type="button" onClick={() => openSecondaryScreen("saved")}>
+                Tersimpan
+              </button>
+              <button type="button" onClick={() => openSecondaryScreen("settings")}>
+                Pengaturan
+              </button>
             </nav>
           </>
         )}
@@ -449,7 +559,9 @@ export default function App() {
                 className="depth-slider"
                 aria-label="Tingkat kedalaman obrolan"
               />
-              <div className="depth-readout">Tingkat {depth}</div>
+              <div className="depth-readout">
+                {depthLabels[depth]} · tingkat {depth}
+              </div>
             </section>
 
             <div className="spacer" />
@@ -487,8 +599,23 @@ export default function App() {
                       ?.label
                   }
                 </span>
-                <span>Tingkat {depth}</span>
+                <span>{depthLabels[depth]}</span>
               </div>
+
+              <button
+                type="button"
+                className={"favorite-button" + (isFavorite() ? " is-active" : "")}
+                aria-label={isFavorite() ? "Hapus dari tersimpan" : "Simpan pertanyaan"}
+                aria-pressed={isFavorite()}
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  toggleFavorite();
+                }}
+              >
+                <span aria-hidden="true">{isFavorite() ? "♥" : "♡"}</span>
+                {isFavorite() ? "Tersimpan" : "Simpan"}
+              </button>
 
               <h2>{currentQuestion?.text ?? currentQuestion}</h2>
             </section>
@@ -535,14 +662,18 @@ export default function App() {
           <>
             <section className="summary-card">
               <p className="eyebrow">Sesi selesai</p>
-              <h2>Obrolan kamu udah jalan.</h2>
+              <h2>Udah mulai nyambung.</h2>
+              <p className="summary-lede">
+                Kalian sudah membuka {answers.length} topik. Simpan yang ingin
+                dibawa ke obrolan berikutnya.
+              </p>
               <ul>
                 <li>
-                  Hubungan:{" "}
+                  Untuk:{" "}
                   {getOptionLabel(relationshipOptions, relationship)}
                 </li>
                 <li>
-                  Jumlah: {getOptionLabel(playerCountOptions, playerCount)}
+                  Mode: {getOptionLabel(playerCountOptions, playerCount)}
                 </li>
                 <li>
                   Suasana:{" "}
@@ -550,16 +681,7 @@ export default function App() {
                     .map((vibeId) => getOptionLabel(vibeOptions, vibeId))
                     .join(", ") || "Campur"}
                 </li>
-                <li>Jawaban: {answers.length}</li>
-                <li>
-                  Konteks:{" "}
-                  {getOptionLabel(
-                    relationshipOptions,
-                    conversationContext.relationship,
-                  )}{" "}
-                  /{" "}
-                  {conversationContext.depth}
-                </li>
+                <li>Terjawab: {answers.length} pertanyaan</li>
               </ul>
             </section>
 
@@ -574,8 +696,104 @@ export default function App() {
             </button>
           </>
         )}
+
+        {screen === "saved" && (
+          <>
+            <section className="secondary-page-heading">
+              <p className="eyebrow">Koleksi kamu</p>
+              <h1>Pertanyaan tersimpan</h1>
+              <p>Balik lagi ke pertanyaan yang rasanya pas.</p>
+            </section>
+
+            {savedQuestions.length > 0 ? (
+              <section className="saved-list" aria-label="Pertanyaan tersimpan">
+                {savedQuestions.map((question) => (
+                  <article className="saved-item" key={question.id}>
+                    <p>{question.text}</p>
+                    <button
+                      type="button"
+                      className="saved-remove"
+                      aria-label="Hapus pertanyaan dari tersimpan"
+                      onClick={() => toggleFavorite(question)}
+                    >
+                      <span aria-hidden="true">♥</span>
+                    </button>
+                  </article>
+                ))}
+              </section>
+            ) : (
+              <section className="empty-state">
+                <h2>Belum ada yang disimpan.</h2>
+                <p>Kalau ada pertanyaan yang terasa pas, tekan hati.</p>
+              </section>
+            )}
+
+            <div className="spacer" />
+            <button
+              type="button"
+              className="ghost-button"
+              onClick={() => setScreen(returnScreen)}
+            >
+              KEMBALI
+            </button>
+          </>
+        )}
+
+        {screen === "settings" && (
+          <>
+            <section className="secondary-page-heading">
+              <p className="eyebrow">Atur seperlunya</p>
+              <h1>Pengaturan</h1>
+              <p>Beberapa pilihan kecil biar Nyambung terasa pas.</p>
+            </section>
+
+            <section className="settings-list" aria-label="Pengaturan aplikasi">
+              <div className="setting-row">
+                <div>
+                  <h2>Getaran</h2>
+                  <p>Sentuhan kecil saat kamu menyalakannya.</p>
+                </div>
+                <button
+                  type="button"
+                  className={"toggle" + (settings.vibration ? " is-active" : "")}
+                  aria-pressed={settings.vibration}
+                  onClick={handleVibrationToggle}
+                >
+                  {settings.vibration ? "Nyala" : "Mati"}
+                </button>
+              </div>
+              <div className="setting-row">
+                <div>
+                  <h2>Mode gelap</h2>
+                  <p>Ganti tampilan saat layar terasa terlalu terang.</p>
+                </div>
+                <button
+                  type="button"
+                  className={"toggle" + (settings.darkMode ? " is-active" : "")}
+                  aria-pressed={settings.darkMode}
+                  onClick={() => updateSetting("darkMode", !settings.darkMode)}
+                >
+                  {settings.darkMode ? "Nyala" : "Mati"}
+                </button>
+              </div>
+            </section>
+
+            <button type="button" className="reset-button" onClick={handleResetData}>
+              HAPUS DATA LOKAL
+            </button>
+
+            <div className="spacer" />
+            <button
+              type="button"
+              className="ghost-button"
+              onClick={() => setScreen(returnScreen)}
+            >
+              KEMBALI
+            </button>
+          </>
+        )}
         </div>
       </main>
-    </>
+    </div>
   );
 }

@@ -21,6 +21,18 @@
   --font-body: "Plus Jakarta Sans", "Segoe UI", sans-serif;
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #172c2a;
+  --panel: #203a36;
+  --panel-strong: #2a4843;
+  --ink: #f5efe8;
+  --muted: #b8c9c4;
+  --line: rgba(245, 239, 232, 0.18);
+  --accent-soft: #31514a;
+  --shadow: 0 18px 36px rgba(0, 0, 0, 0.2);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -32,6 +44,12 @@ body,
   min-height: 100%;
   height: 100%;
   font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.app-shell {
+  min-height: 100%;
   background: var(--bg);
   color: var(--ink);
 }
@@ -112,8 +130,8 @@ button {
   height: 100%;
   min-height: 0;
   max-height: 860px;
-  background: rgba(255, 253, 251, 0.75);
-  border: 1px solid rgba(34, 27, 24, 0.06);
+  background: color-mix(in srgb, var(--panel) 76%, transparent);
+  border: 1px solid var(--line);
   border-radius: 28px;
   box-shadow: var(--shadow);
   padding: 20px 18px 18px;
@@ -125,13 +143,10 @@ button {
 .topbar {
   width: fit-content;
   margin: 0 auto;
-  padding: 9px 16px;
+  padding: 4px 0 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 56px;
-  border-radius: 999px;
-  background: rgba(255, 250, 244, 0.76);
 }
 
 .brand-mark {
@@ -140,7 +155,6 @@ button {
   height: auto;
   object-fit: contain;
   opacity: 1;
-  mix-blend-mode: multiply;
 }
 
 .hero {
@@ -179,7 +193,7 @@ button {
 
 .option-card {
   width: 100%;
-  background: rgba(255, 255, 255, 0.4);
+  background: color-mix(in srgb, var(--panel) 48%, transparent);
   border: 1px solid var(--line);
   border-radius: 14px;
   min-height: 76px;
@@ -257,7 +271,7 @@ button {
 .ghost-button {
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.45);
+  background: color-mix(in srgb, var(--panel) 52%, transparent);
   color: var(--ink);
 }
 
@@ -324,7 +338,7 @@ button {
 }
 
 .ghost-button {
-  background: rgba(255, 255, 255, 0.45);
+  background: color-mix(in srgb, var(--panel) 52%, transparent);
   border: 1px solid var(--line);
   color: var(--ink);
 }
@@ -340,7 +354,7 @@ button {
   padding: 18px 16px;
   border-radius: 22px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.35);
+  background: color-mix(in srgb, var(--panel) 56%, transparent);
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
@@ -367,7 +381,7 @@ button {
   margin-top: 14px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.55);
+  background: color-mix(in srgb, var(--panel) 65%, transparent);
   border: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.78rem;
@@ -406,7 +420,7 @@ button {
   min-height: 46px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.55);
+  background: color-mix(in srgb, var(--panel) 65%, transparent);
   color: var(--ink);
   font-family: var(--font-display);
   font-weight: 800;
@@ -434,6 +448,191 @@ button {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
+  min-height: 44px;
+  padding: 8px 4px;
+}
+
+.meta-links button:hover,
+.meta-links button:focus-visible {
+  color: var(--ink);
+}
+
+.favorite-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 0 14px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.favorite-button span {
+  color: var(--orange);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.favorite-button.is-active {
+  border-color: color-mix(in srgb, var(--orange) 55%, var(--line));
+  background: color-mix(in srgb, var(--orange) 12%, transparent);
+  color: var(--ink);
+}
+
+.secondary-page-heading {
+  padding: 18px 4px 24px;
+}
+
+.secondary-page-heading h1 {
+  max-width: 320px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  letter-spacing: -0.07em;
+  line-height: 0.98;
+}
+
+.secondary-page-heading > p:last-child {
+  max-width: 300px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.saved-list,
+.settings-list {
+  display: grid;
+  gap: 10px;
+  overflow-y: auto;
+  min-height: 0;
+  max-height: 58dvh;
+  overscroll-behavior: contain;
+}
+
+.saved-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 12px 13px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.saved-item p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.saved-remove {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--orange);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.saved-remove:hover,
+.saved-remove:focus-visible {
+  background: color-mix(in srgb, var(--orange) 12%, transparent);
+}
+
+.empty-state {
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
+}
+
+.empty-state p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.setting-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.setting-row h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: -0.03em;
+}
+
+.setting-row p {
+  max-width: 220px;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.toggle {
+  min-width: 64px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.toggle.is-active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fffdfb;
+}
+
+.reset-button {
+  min-height: 44px;
+  margin-top: 22px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--orange) 55%, var(--line));
+  border-radius: 12px;
+  background: transparent;
+  color: var(--orange-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.theme-dark .reset-button {
+  color: #ff988d;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--orange) 70%, white);
+  outline-offset: 3px;
 }
 
 .report-overlay {
