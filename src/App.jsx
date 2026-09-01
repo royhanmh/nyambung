@@ -708,6 +708,7 @@ export default function App() {
 
             <div className="gesture-hint" aria-label="Petunjuk gesture">
               <span>← Lewati</span>
+              <span>Swipe</span>
               <span>Lanjut →</span>
             </div>
 
