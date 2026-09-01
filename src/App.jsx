@@ -10,6 +10,7 @@ const STORAGE_KEYS = {
 
 const defaultSettings = {
   vibration: true,
+  sound: true,
   darkMode: false,
 };
 
@@ -270,6 +271,7 @@ export default function App() {
   const [settings, setSettings] = useState(readSettings);
   const touchStartRef = useRef(null);
   const swipeExitTimerRef = useRef(null);
+  const audioContextRef = useRef(null);
   const [swipeState, setSwipeState] = useState({
     x: 0,
     y: 0,
@@ -277,7 +279,13 @@ export default function App() {
   });
   const brandWordmarkForTheme = settings.darkMode ? brandWordmarkDark : brandWordmark;
 
-  useEffect(() => () => window.clearTimeout(swipeExitTimerRef.current), []);
+  useEffect(
+    () => () => {
+      window.clearTimeout(swipeExitTimerRef.current);
+      audioContextRef.current?.close();
+    },
+    [],
+  );
 
   useEffect(() => {
     writeStorage(STORAGE_KEYS.favorites, savedQuestions);
@@ -369,10 +377,51 @@ export default function App() {
     if (typeof navigator.vibrate === "function") navigator.vibrate(duration);
   };
 
+  const triggerTone = (frequency = 560, duration = 0.055, enabled = settings.sound) => {
+    if (!enabled || typeof window === "undefined") return;
+
+    const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextConstructor) return;
+
+    if (!audioContextRef.current || audioContextRef.current.state === "closed") {
+      audioContextRef.current = new AudioContextConstructor();
+    }
+
+    const audioContext = audioContextRef.current;
+    const playTone = () => {
+      const now = audioContext.currentTime;
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(frequency, now);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.035, now + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start(now);
+      oscillator.stop(now + duration);
+    };
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume().then(playTone).catch(() => {});
+      return;
+    }
+
+    playTone();
+  };
+
   const handleVibrationToggle = () => {
     const nextValue = !settings.vibration;
     updateSetting("vibration", nextValue);
     if (nextValue) triggerVibration(20, nextValue);
+  };
+
+  const handleSoundToggle = () => {
+    const nextValue = !settings.sound;
+    updateSetting("sound", nextValue);
+    if (nextValue) triggerTone(660, 0.06, nextValue);
   };
 
   const handleResetData = () => {
@@ -470,6 +519,7 @@ export default function App() {
     if (swipeState.phase === "exiting") return;
 
     triggerVibration();
+    triggerTone(answerValue === "skip" ? 440 : 620);
     setSwipeState({ x: exitX, y: exitY, phase: "exiting" });
     window.clearTimeout(swipeExitTimerRef.current);
     swipeExitTimerRef.current = window.setTimeout(() => {
@@ -849,6 +899,20 @@ export default function App() {
                   onClick={handleVibrationToggle}
                 >
                   {settings.vibration ? "Nyala" : "Mati"}
+                </button>
+              </div>
+              <div className="setting-row">
+                <div>
+                  <h2>Suara</h2>
+                  <p>Tone pendek saat kamu memilih atau menggeser pertanyaan.</p>
+                </div>
+                <button
+                  type="button"
+                  className={"toggle" + (settings.sound ? " is-active" : "")}
+                  aria-pressed={settings.sound}
+                  onClick={handleSoundToggle}
+                >
+                  {settings.sound ? "Nyala" : "Mati"}
                 </button>
               </div>
               <div className="setting-row">
