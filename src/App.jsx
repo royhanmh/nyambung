@@ -68,6 +68,20 @@ const fallbackQuestionBank = {
   ],
 };
 
+function NotFoundPage() {
+  return (
+    <main className="not-found-page">
+      <img className="not-found-mark" src={brandWordmark} alt="nyambung" />
+      <p className="eyebrow">Halaman tidak ditemukan</p>
+      <h1>Obrolan ini nyasar.</h1>
+      <p>Alamatnya tidak ada. Balik ke awal, lalu mulai lagi.</p>
+      <a className="primary-button not-found-button" href="/">
+        KEMBALI KE AWAL
+      </a>
+    </main>
+  );
+}
+
 const shuffleArray = (items) => {
   const copy = [...items];
 
@@ -313,9 +327,23 @@ export default function App() {
     setScreen("summary");
   };
 
+  const isKnownPath = ["/", "/index.html"].includes(window.location.pathname);
+
+  if (!isKnownPath) {
+    return <NotFoundPage />;
+  }
+
   return (
-    <main className="page-shell">
-      <div className="phone-frame">
+    <>
+      <section className="mobile-only-notice" aria-labelledby="mobile-notice-title">
+        <img className="mobile-only-notice__mark" src={brandWordmark} alt="nyambung" />
+        <p className="eyebrow">Untuk layar kecil</p>
+        <h1 id="mobile-notice-title">Buka lewat handphone, ya.</h1>
+        <p>Nyambung dibuat untuk obrolan yang terasa dekat di layar handphone.</p>
+      </section>
+
+      <main className="page-shell">
+        <div className="phone-frame">
         <header className="topbar">
           <img className="brand-mark" src={brandWordmark} alt="nyambung" />
         </header>
@@ -339,9 +367,6 @@ export default function App() {
                     aria-pressed={active}
                     onClick={() => setRelationship(option.id)}
                   >
-                    <span className="option-number" aria-hidden="true">
-                      {String(relationshipOptions.indexOf(option) + 1).padStart(2, "0")}
-                    </span>
                     <div className="option-copy">
                       <span className="option-label">{option.label}</span>
                       <span className="option-desc">{option.desc}</span>
@@ -543,7 +568,8 @@ export default function App() {
             </button>
           </>
         )}
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 }
