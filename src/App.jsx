@@ -364,10 +364,15 @@ export default function App() {
     setSettings((previous) => ({ ...previous, [key]: value }));
   };
 
+  const triggerVibration = (duration = 20, enabled = settings.vibration) => {
+    if (!enabled || typeof navigator === "undefined") return;
+    if (typeof navigator.vibrate === "function") navigator.vibrate(duration);
+  };
+
   const handleVibrationToggle = () => {
     const nextValue = !settings.vibration;
     updateSetting("vibration", nextValue);
-    if (nextValue && "vibrate" in navigator) navigator.vibrate(12);
+    if (nextValue) triggerVibration(20, nextValue);
   };
 
   const handleResetData = () => {
@@ -464,6 +469,7 @@ export default function App() {
   const animateAnswer = (answerValue, exitX = answerValue === "skip" ? -460 : 460, exitY = 0) => {
     if (swipeState.phase === "exiting") return;
 
+    triggerVibration();
     setSwipeState({ x: exitX, y: exitY, phase: "exiting" });
     window.clearTimeout(swipeExitTimerRef.current);
     swipeExitTimerRef.current = window.setTimeout(() => {
@@ -834,7 +840,7 @@ export default function App() {
               <div className="setting-row">
                 <div>
                   <h2>Getaran</h2>
-                  <p>Sentuhan kecil saat kamu menyalakannya.</p>
+                  <p>Getar kecil saat kamu memilih atau menggeser pertanyaan.</p>
                 </div>
                 <button
                   type="button"
