@@ -78,17 +78,17 @@ body {
   width: min(58vw, 210px);
   height: auto;
   margin-bottom: 72px;
-  mix-blend-mode: multiply;
   opacity: 1;
 }
 
-.not-found-page h1 {
+.not-found-page h1,
+.mobile-only-notice h1 {
   max-width: 360px;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 12vw, 4.5rem);
-  letter-spacing: -0.08em;
-  line-height: 0.96;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.06em;
+  line-height: 1;
 }
 
 .not-found-page > p:not(.eyebrow) {
@@ -236,7 +236,7 @@ button {
   flex: 0 0 10px;
   border-radius: 999px;
   background: transparent;
-  border: 1.5px solid rgba(34, 27, 24, 0.45);
+  border: 1.5px solid color-mix(in srgb, var(--ink) 42%, transparent);
 }
 
 .dot.show {
@@ -638,7 +638,7 @@ a:focus-visible {
 .report-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(29, 47, 70, 0.22);
+  background: color-mix(in srgb, var(--accent-dark) 28%, transparent);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: flex-end;
@@ -649,7 +649,7 @@ a:focus-visible {
 
 .report-card {
   width: min(100%, 420px);
-  background: rgba(255, 253, 251, 0.96);
+  background: color-mix(in srgb, var(--panel) 96%, transparent);
   border: 1px solid var(--line);
   border-radius: 24px 24px 18px 18px;
   box-shadow: var(--shadow);
@@ -674,7 +674,7 @@ a:focus-visible {
   min-height: 46px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.45);
+  background: color-mix(in srgb, var(--panel-strong) 45%, transparent);
   color: var(--ink);
   font-family: var(--font-display);
   font-weight: 800;
@@ -720,17 +720,7 @@ a:focus-visible {
     width: min(58vw, 210px);
     height: auto;
     margin-bottom: 36px;
-    mix-blend-mode: multiply;
     opacity: 1;
-  }
-
-  .mobile-only-notice h1 {
-    max-width: 360px;
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3rem);
-    letter-spacing: -0.06em;
-    line-height: 1;
   }
 
   .mobile-only-notice > p:last-child {

@@ -119,9 +119,13 @@ const fallbackQuestionBank = {
 };
 
 function NotFoundPage() {
+  const notFoundWordmark = readSettings().darkMode
+    ? brandWordmarkDark
+    : brandWordmark;
+
   return (
     <main className="not-found-page">
-      <img className="not-found-mark" src={brandWordmark} alt="nyambung" />
+      <img className="not-found-mark" src={notFoundWordmark} alt="nyambung" />
       <p className="eyebrow">Halaman tidak ditemukan</p>
       <h1>Obrolan ini nyasar.</h1>
       <p>Alamatnya tidak ada. Balik ke awal, lalu mulai lagi.</p>
