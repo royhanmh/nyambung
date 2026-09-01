@@ -183,6 +183,7 @@ export default function App() {
   const [selectedVibes, setSelectedVibes] = useState(["funny"]);
   const [depth, setDepth] = useState(2);
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [sessionQuestions, setSessionQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [questionHistory, setQuestionHistory] = useState([]);
   const [lastAnswer, setLastAnswer] = useState(null);
@@ -226,31 +227,11 @@ export default function App() {
     ],
   );
 
-  const currentQuestions = useMemo(
-    () =>
-      buildQuestionBank({
-        relationshipId: relationship,
-        selectedVibes,
-        depth,
-        usedQuestions,
-        previousQuestions,
-        recentAnswers: answers,
-      }),
-    [
-      relationship,
-      selectedVibes,
-      depth,
-      usedQuestions,
-      previousQuestions,
-      answers,
-    ],
-  );
-
   const currentQuestion =
-    currentQuestions[questionIndex] ?? currentQuestions[0];
+    sessionQuestions[questionIndex] ?? sessionQuestions[0];
   const sessionProgress = Math.min(
     questionHistory.length + (screen === "game" && currentQuestion ? 1 : 0),
-    Math.max(currentQuestions.length, 1),
+    Math.max(sessionQuestions.length, 1),
   );
 
   const toggleVibe = (id) => {
@@ -260,7 +241,17 @@ export default function App() {
   };
 
   const startSession = () => {
+    const initialQuestions = buildQuestionBank({
+      relationshipId: relationship,
+      selectedVibes,
+      depth,
+      usedQuestions: new Set(),
+      previousQuestions: [],
+      recentAnswers: [],
+    });
+
     setQuestionIndex(0);
+    setSessionQuestions(initialQuestions);
     setAnswers([]);
     setQuestionHistory([]);
     setLastAnswer(null);
@@ -270,11 +261,13 @@ export default function App() {
 
   const nextQuestion = () => {
     const preparedQuestion = currentQuestion;
+    if (!preparedQuestion) return;
+
     setQuestionHistory((prev) => [...prev, preparedQuestion]);
 
     const nextIndex = questionIndex + 1;
 
-    if (nextIndex >= currentQuestions.length) {
+    if (nextIndex >= sessionQuestions.length) {
       setScreen("summary");
       return;
     }
@@ -283,15 +276,16 @@ export default function App() {
   };
 
   const handleAnswer = (answerValue) => {
-    const answerText = answerValue === "nyambung" ? "Nyambung" : "Lewati";
+    const answerText = answerValue === "skip" ? "Lewati" : "Lanjut";
     const moodText =
-      answerValue === "nyambung"
-        ? "Kamu nyambung, jadi gue arahkan ke detail yang lebih dekat."
-        : "Kamu mau santai dulu, jadi gue bikin pertanyaan yang lebih ringan.";
+      answerValue === "skip"
+        ? "Kita lewati dulu. Cari pertanyaan yang lebih pas."
+        : "Oke, lanjut ke pertanyaan berikutnya.";
 
     setLastAnswer(answerText);
     setSessionNote(moodText);
     setAnswers((prev) => [...prev, answerValue]);
+
     nextQuestion();
   };
 
@@ -315,7 +309,9 @@ export default function App() {
     }
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      handleAnswer(deltaX < 0 ? "nyambung" : "skip");
+      handleAnswer(deltaX < 0 ? "skip" : "next");
+    } else {
+      handleAnswer(deltaY < 0 ? "deeper" : "lighter");
     }
 
     touchStartRef.current = null;
@@ -483,8 +479,6 @@ export default function App() {
               className="question-card"
               onPointerDown={handleGestureStart}
               onPointerUp={handleGestureEnd}
-              onTouchStart={(event) => handleGestureStart(event.touches[0])}
-              onTouchEnd={(event) => handleGestureEnd(event.changedTouches[0])}
             >
               <div className="question-meta">
                 <span>
@@ -519,9 +513,9 @@ export default function App() {
               <button
                 type="button"
                 className="secondary-button"
-                onClick={() => handleAnswer("nyambung")}
+                onClick={() => handleAnswer("next")}
               >
-                Nyambung
+                Lanjut
               </button>
             </div>
 

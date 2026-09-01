@@ -704,30 +704,6 @@ Move to the next question.
 
 ---
 
-## Swipe Up
-
-### Lebih Dalam
-
-```text
-↑ LEBIH DALAM
-```
-
-Generate a deeper follow-up.
-
----
-
-## Swipe Down
-
-### Santai Dulu
-
-```text
-↓ SANTAI DULU
-```
-
-Reduce intensity.
-
----
-
 ## Long Press
 
 ### Tanya Lagi
@@ -758,12 +734,6 @@ During the first few interactions, show:
 
 ```text
 ← Lewati       Lanjut →
-
-       ↑
-  Lebih dalam
-
-       ↓
- Santai dulu
 ```
 
 After the user demonstrates understanding, hide the hints.
@@ -790,8 +760,6 @@ Example:
 │                          │
 │                          │
 │                          │
-│       ↑ lebih dalam      │
-│       ↓ santai dulu      │
 │                          │
 └──────────────────────────┘
 ```
@@ -964,7 +932,7 @@ Examples:
 
 > "Nah, yang ini agak susah."
 
-> "Kita bikin sedikit lebih dalam."
+> "Oke, kita cari yang pas berikutnya."
 
 > "Udah terlalu serius 😂"
 
@@ -1615,8 +1583,6 @@ The team should optimize for meaningful conversations, not raw question count.
 
 - Swipe left
 - Swipe right
-- Swipe up
-- Swipe down
 - Responsive touch interactions
 - Mobile-safe areas
 - Smooth card animation
@@ -1800,7 +1766,7 @@ Good:
 
 > "Oke, yang ini menarik."
 
-> "Kita bikin agak lebih dalam."
+> "Oke, kita cari yang pas berikutnya."
 
 > "Udah terlalu serius 😂"
 
@@ -1862,17 +1828,15 @@ The MVP is considered complete when:
 6. Questions sound naturally Indonesian.
 7. The AI remembers relevant context within the session.
 8. Users can swipe to control the conversation.
-9. Swipe up creates deeper questions.
-10. Swipe down creates lighter questions.
-11. Swipe left skips questions.
-12. The system prevents obvious repetition.
-13. AI failures fall back to curated questions.
-14. The interface works without a desktop sidebar.
-15. The app is responsive from smartphone through desktop.
-16. The app can be installed as a PWA.
-17. Offline fallback questions remain playable.
-18. All frontend code is **JavaScript/JSX only**.
-19. **No `.ts` or `.tsx` files exist anywhere in the frontend.**
+9. Swipe left skips questions.
+10. The system prevents obvious repetition.
+11. AI failures fall back to curated questions.
+12. The interface works without a desktop sidebar.
+13. The app is responsive from smartphone through desktop.
+14. The app can be installed as a PWA.
+15. Offline fallback questions remain playable.
+16. All frontend code is **JavaScript/JSX only**.
+17. **No `.ts` or `.tsx` files exist anywhere in the frontend.**
 20. The visual language follows the nyambung brand guidelines.
 
 ---
