@@ -1,4 +1,4 @@
-const CACHE_NAME = "nyambung-shell-v3";
+const CACHE_NAME = "nyambung-shell-v4";
 const APP_SHELL = [
   "/",
   "/index.html",

@@ -44,21 +44,6 @@ body {
   display: none;
 }
 
-.splash-screen {
-  min-height: 100dvh;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  background: var(--bg);
-}
-
-.splash-screen img {
-  display: block;
-  width: min(72vw, 320px);
-  height: auto;
-  mix-blend-mode: multiply;
-}
-
 .not-found-page {
   min-height: 100dvh;
   padding: 32px 24px;
@@ -264,7 +249,7 @@ button {
 .segmented-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 6px;
 }
 
 .segment,
@@ -277,9 +262,9 @@ button {
 }
 
 .segment {
-  min-height: 62px;
+  min-height: 46px;
   font-weight: 700;
-  padding: 8px 10px;
+  padding: 4px 10px;
 }
 
 .segment.is-active,
