@@ -360,11 +360,34 @@ button {
     transform 0.18s ease,
     box-shadow 0.18s ease,
     opacity 0.18s ease;
-  touch-action: pan-y;
 }
 
-.question-card:active {
-  transform: scale(0.995);
+.question-card {
+  --swipe-x: 0px;
+  --swipe-y: 0px;
+  --swipe-rotate: 0deg;
+  --swipe-opacity: 1;
+  transform: translate3d(var(--swipe-x), var(--swipe-y), 0)
+    rotate(var(--swipe-rotate));
+  opacity: var(--swipe-opacity);
+  touch-action: pan-y;
+  cursor: grab;
+  will-change: transform, opacity;
+}
+
+.question-card.is-dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+.question-card.is-settling,
+.question-card.is-exiting {
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
+}
+
+.question-card.is-dragging:active {
   box-shadow: 0 8px 16px rgba(29, 47, 70, 0.05);
 }
 
@@ -703,6 +726,14 @@ a:focus-visible {
 
 .report-button.ghost {
   background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question-card,
+  .question-card.is-settling,
+  .question-card.is-exiting {
+    transition-duration: 0.01ms;
+  }
 }
 
 @media (max-width: 420px) {

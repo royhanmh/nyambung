@@ -75,6 +75,9 @@ const depthLabels = {
   5: "Dalam",
 };
 
+const clamp = (value, minimum, maximum) =>
+  Math.min(Math.max(value, minimum), maximum);
+
 function HeartIcon({ filled = false }) {
   return (
     <svg
@@ -266,7 +269,15 @@ export default function App() {
   const [savedQuestions, setSavedQuestions] = useState(readSavedQuestions);
   const [settings, setSettings] = useState(readSettings);
   const touchStartRef = useRef(null);
+  const swipeExitTimerRef = useRef(null);
+  const [swipeState, setSwipeState] = useState({
+    x: 0,
+    y: 0,
+    phase: "idle",
+  });
   const brandWordmarkForTheme = settings.darkMode ? brandWordmarkDark : brandWordmark;
+
+  useEffect(() => () => window.clearTimeout(swipeExitTimerRef.current), []);
 
   useEffect(() => {
     writeStorage(STORAGE_KEYS.favorites, savedQuestions);
@@ -420,31 +431,70 @@ export default function App() {
   };
 
   const handleGestureStart = (event) => {
+    if (swipeState.phase === "exiting") return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    event.currentTarget.setPointerCapture?.(event.pointerId);
     touchStartRef.current = {
       x: event.clientX,
       y: event.clientY,
     };
+    setSwipeState({ x: 0, y: 0, phase: "dragging" });
   };
 
-  const handleGestureEnd = (event) => {
+  const handleGestureMove = (event) => {
     if (!touchStartRef.current) return;
 
     const deltaX = event.clientX - touchStartRef.current.x;
-    const deltaY = event.clientY - touchStartRef.current.y;
-    const threshold = 45;
+    setSwipeState({
+      x: clamp(deltaX, -150, 150),
+      y: 0,
+      phase: "dragging",
+    });
+  };
 
-    if (Math.abs(deltaX) < threshold && Math.abs(deltaY) < threshold) {
-      touchStartRef.current = null;
+  const settleCard = () => {
+    setSwipeState({ x: 0, y: 0, phase: "settling" });
+    window.clearTimeout(swipeExitTimerRef.current);
+    swipeExitTimerRef.current = window.setTimeout(() => {
+      setSwipeState({ x: 0, y: 0, phase: "idle" });
+    }, 260);
+  };
+
+  const animateAnswer = (answerValue, exitX = answerValue === "skip" ? -460 : 460, exitY = 0) => {
+    if (swipeState.phase === "exiting") return;
+
+    setSwipeState({ x: exitX, y: exitY, phase: "exiting" });
+    window.clearTimeout(swipeExitTimerRef.current);
+    swipeExitTimerRef.current = window.setTimeout(() => {
+      setSwipeState({ x: 0, y: 0, phase: "idle" });
+      handleAnswer(answerValue);
+    }, 230);
+  };
+
+  const handleGestureEnd = (event) => {
+    if (!touchStartRef.current || swipeState.phase === "exiting") return;
+
+    const deltaX = event.clientX - touchStartRef.current.x;
+    const deltaY = event.clientY - touchStartRef.current.y;
+    const threshold = 72;
+    touchStartRef.current = null;
+
+    if (Math.abs(deltaX) < threshold || Math.abs(deltaX) < Math.abs(deltaY)) {
+      settleCard();
       return;
     }
 
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      handleAnswer(deltaX < 0 ? "skip" : "next");
-    } else {
-      handleAnswer(deltaY < 0 ? "deeper" : "lighter");
-    }
+    const answerValue = deltaX < 0 ? "skip" : "next";
+    const exitX = deltaX < 0 ? -460 : 460;
 
+    animateAnswer(answerValue, exitX, 0);
+  };
+
+  const handleGestureCancel = () => {
+    if (!touchStartRef.current) return;
     touchStartRef.current = null;
+    settleCard();
   };
 
   const handleStopSession = () => {
@@ -612,9 +662,17 @@ export default function App() {
         {screen === "game" && (
           <>
             <section
-              className="question-card"
+              className={`question-card is-${swipeState.phase}`}
+              style={{
+                "--swipe-x": `${swipeState.x}px`,
+                "--swipe-y": `${swipeState.y}px`,
+                "--swipe-rotate": `${clamp(swipeState.x / 18, -8, 8)}deg`,
+                "--swipe-opacity": `${1 - clamp(Math.hypot(swipeState.x, swipeState.y) / 620, 0, 0.28)}`,
+              }}
               onPointerDown={handleGestureStart}
+              onPointerMove={handleGestureMove}
               onPointerUp={handleGestureEnd}
+              onPointerCancel={handleGestureCancel}
             >
               <div className="question-meta">
                 <span>
@@ -657,14 +715,14 @@ export default function App() {
               <button
                 type="button"
                 className="secondary-button"
-                onClick={() => handleAnswer("skip")}
+                onClick={() => animateAnswer("skip")}
               >
                 Lewati
               </button>
               <button
                 type="button"
                 className="secondary-button"
-                onClick={() => handleAnswer("next")}
+                onClick={() => animateAnswer("next")}
               >
                 Lanjut
               </button>
