@@ -28,8 +28,7 @@ const readStorage = (key, fallback) => {
 const writeStorage = (key, value) => {
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-  }
+  } catch {}
 };
 
 const readSavedQuestions = () => {
@@ -277,7 +276,9 @@ export default function App() {
     y: 0,
     phase: "idle",
   });
-  const brandWordmarkForTheme = settings.darkMode ? brandWordmarkDark : brandWordmark;
+  const brandWordmarkForTheme = settings.darkMode
+    ? brandWordmarkDark
+    : brandWordmark;
 
   useEffect(
     () => () => {
@@ -296,7 +297,9 @@ export default function App() {
   }, [settings]);
 
   useEffect(() => {
-    document.documentElement.dataset.theme = settings.darkMode ? "dark" : "light";
+    document.documentElement.dataset.theme = settings.darkMode
+      ? "dark"
+      : "light";
     document
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", settings.darkMode ? "#172c2a" : "#f5efe8");
@@ -366,7 +369,9 @@ export default function App() {
   };
 
   const isFavorite = (question = currentQuestion) =>
-    Boolean(question?.id && savedQuestions.some((item) => item.id === question.id));
+    Boolean(
+      question?.id && savedQuestions.some((item) => item.id === question.id),
+    );
 
   const updateSetting = (key, value) => {
     setSettings((previous) => ({ ...previous, [key]: value }));
@@ -377,13 +382,21 @@ export default function App() {
     if (typeof navigator.vibrate === "function") navigator.vibrate(duration);
   };
 
-  const triggerTone = (frequency = 560, duration = 0.055, enabled = settings.sound) => {
+  const triggerTone = (
+    frequency = 560,
+    duration = 0.055,
+    enabled = settings.sound,
+  ) => {
     if (!enabled || typeof window === "undefined") return;
 
-    const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+    const AudioContextConstructor =
+      window.AudioContext || window.webkitAudioContext;
     if (!AudioContextConstructor) return;
 
-    if (!audioContextRef.current || audioContextRef.current.state === "closed") {
+    if (
+      !audioContextRef.current ||
+      audioContextRef.current.state === "closed"
+    ) {
       audioContextRef.current = new AudioContextConstructor();
     }
 
@@ -405,7 +418,10 @@ export default function App() {
     };
 
     if (audioContext.state === "suspended") {
-      audioContext.resume().then(playTone).catch(() => {});
+      audioContext
+        .resume()
+        .then(playTone)
+        .catch(() => {});
       return;
     }
 
@@ -425,7 +441,8 @@ export default function App() {
   };
 
   const handleResetData = () => {
-    if (!window.confirm("Hapus semua pertanyaan favorit dan pengaturan?")) return;
+    if (!window.confirm("Hapus semua pertanyaan favorit dan pengaturan?"))
+      return;
 
     setSavedQuestions([]);
     setSettings(defaultSettings);
@@ -515,7 +532,11 @@ export default function App() {
     }, 260);
   };
 
-  const animateAnswer = (answerValue, exitX = answerValue === "skip" ? -460 : 460, exitY = 0) => {
+  const animateAnswer = (
+    answerValue,
+    exitX = answerValue === "skip" ? -460 : 460,
+    exitY = 0,
+  ) => {
     if (swipeState.phase === "exiting") return;
 
     triggerVibration();
@@ -570,381 +591,424 @@ export default function App() {
 
   return (
     <div className={"app-shell" + (settings.darkMode ? " theme-dark" : "")}>
-      <section className="mobile-only-notice" aria-labelledby="mobile-notice-title">
-        <img className="mobile-only-notice__mark" src={brandWordmarkForTheme} alt="nyambung" />
+      <section
+        className="mobile-only-notice"
+        aria-labelledby="mobile-notice-title"
+      >
+        <img
+          className="mobile-only-notice__mark"
+          src={brandWordmarkForTheme}
+          alt="nyambung"
+        />
         <p className="eyebrow">Untuk layar kecil</p>
         <h1 id="mobile-notice-title">Buka lewat handphone, ya.</h1>
-        <p>Nyambung dibuat untuk obrolan yang terasa dekat di layar handphone.</p>
+        <p>
+          Nyambung dibuat untuk obrolan yang terasa dekat di layar handphone.
+        </p>
       </section>
 
       <main className="page-shell">
         <div className="phone-frame">
-        <header className="topbar">
-          <img className="brand-mark" src={brandWordmarkForTheme} alt="nyambung" />
-        </header>
+          <header className="topbar">
+            <img
+              className="brand-mark"
+              src={brandWordmarkForTheme}
+              alt="nyambung"
+            />
+          </header>
 
-        {screen === "home" && (
-          <>
-            <section className="hero">
-              <p className="eyebrow">Biar ngobrol tetap nyambung</p>
-              <h1>Mau ngobrol sama siapa?</h1>
-            </section>
+          {screen === "home" && (
+            <>
+              <section className="hero">
+                <p className="eyebrow">Biar ngobrol tetap nyambung</p>
+                <h1>Mau ngobrol sama siapa?</h1>
+              </section>
 
-            <section className="choice-list" aria-label="Pilih hubungan">
-              {relationshipOptions.map((option) => {
-                const active = relationship === option.id;
-
-                return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={`option-card ${active ? "is-active" : ""}`}
-                    aria-pressed={active}
-                    onClick={() => setRelationship(option.id)}
-                  >
-                    <div className="option-copy">
-                      <span className="option-label">{option.label}</span>
-                      <span className="option-desc">{option.desc}</span>
-                    </div>
-                    <span
-                      className={`dot ${active ? "show" : ""}`}
-                      aria-hidden="true"
-                    />
-                  </button>
-                );
-              })}
-            </section>
-
-            <div className="spacer" />
-
-            <button
-              type="button"
-              className="primary-button home-start-button"
-              onClick={() => setScreen("setup")}
-            >
-              MULAI
-            </button>
-
-            <nav className="meta-links" aria-label="Navigasi tambahan">
-              <button type="button" onClick={() => openSecondaryScreen("saved")}>
-                Tersimpan
-              </button>
-              <button type="button" onClick={() => openSecondaryScreen("settings")}>
-                Pengaturan
-              </button>
-            </nav>
-          </>
-        )}
-
-        {screen === "setup" && (
-          <>
-            <section className="section-block first-block">
-              <h2>Siapa aja yang ikut?</h2>
-              <div className="segmented-grid">
-                {playerCountOptions.map((option) => {
-                  const active = playerCount === option.id;
+              <section className="choice-list" aria-label="Pilih hubungan">
+                {relationshipOptions.map((option) => {
+                  const active = relationship === option.id;
 
                   return (
                     <button
                       key={option.id}
                       type="button"
-                      className={`segment ${active ? "is-active" : ""}`}
-                      onClick={() => setPlayerCount(option.id)}
+                      className={`option-card ${active ? "is-active" : ""}`}
+                      aria-pressed={active}
+                      onClick={() => setRelationship(option.id)}
                     >
-                      {option.label}
+                      <div className="option-copy">
+                        <span className="option-label">{option.label}</span>
+                        <span className="option-desc">{option.desc}</span>
+                      </div>
+                      <span
+                        className={`dot ${active ? "show" : ""}`}
+                        aria-hidden="true"
+                      />
                     </button>
                   );
                 })}
-              </div>
-            </section>
+              </section>
 
-            <section className="section-block">
-              <h2>Pilih suasana</h2>
-              <div className="chip-list">
-                {vibeOptions.map((vibe) => {
-                  const active = selectedVibes.includes(vibe.id);
+              <div className="spacer" />
 
-                  return (
-                    <button
-                      key={vibe.id}
-                      type="button"
-                      className={`chip ${active ? "is-active" : ""}`}
-                      onClick={() => toggleVibe(vibe.id)}
-                    >
-                      {vibe.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
-            <section className="section-block">
-              <h2>Sedalam apa obrolannya?</h2>
-              <input
-                type="range"
-                min="1"
-                max="5"
-                value={depth}
-                onChange={(event) => setDepth(Number(event.target.value))}
-                className="depth-slider"
-                aria-label="Tingkat kedalaman obrolan"
-              />
-              <div className="depth-readout">
-                {depthLabels[depth]} · tingkat {depth}
-              </div>
-            </section>
-
-            <div className="spacer" />
-
-            <div className="setup-actions">
               <button
                 type="button"
-                className="primary-button"
-                onClick={startSession}
+                className="primary-button home-start-button"
+                onClick={() => setScreen("setup")}
               >
-                LANJUT
+                MULAI
               </button>
+
+              <nav className="meta-links" aria-label="Navigasi tambahan">
+                <button
+                  type="button"
+                  onClick={() => openSecondaryScreen("saved")}
+                >
+                  Tersimpan
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openSecondaryScreen("settings")}
+                >
+                  Pengaturan
+                </button>
+              </nav>
+            </>
+          )}
+
+          {screen === "setup" && (
+            <>
+              <section className="section-block first-block">
+                <h2>Siapa aja yang ikut?</h2>
+                <div className="segmented-grid">
+                  {playerCountOptions.map((option) => {
+                    const active = playerCount === option.id;
+
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        className={`segment ${active ? "is-active" : ""}`}
+                        onClick={() => setPlayerCount(option.id)}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section className="section-block">
+                <h2>Pilih suasana</h2>
+                <div className="chip-list">
+                  {vibeOptions.map((vibe) => {
+                    const active = selectedVibes.includes(vibe.id);
+
+                    return (
+                      <button
+                        key={vibe.id}
+                        type="button"
+                        className={`chip ${active ? "is-active" : ""}`}
+                        onClick={() => toggleVibe(vibe.id)}
+                      >
+                        {vibe.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section className="section-block">
+                <h2>Sedalam apa obrolannya?</h2>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={depth}
+                  onChange={(event) => setDepth(Number(event.target.value))}
+                  className="depth-slider"
+                  aria-label="Tingkat kedalaman obrolan"
+                />
+                <div className="depth-readout">
+                  {depthLabels[depth]} · tingkat {depth}
+                </div>
+              </section>
+
+              <div className="spacer" />
+
+              <div className="setup-actions">
+                <button
+                  type="button"
+                  className="primary-button"
+                  onClick={startSession}
+                >
+                  LANJUT
+                </button>
+                <button
+                  type="button"
+                  className="ghost-button"
+                  onClick={() => setScreen("home")}
+                >
+                  KEMBALI
+                </button>
+              </div>
+            </>
+          )}
+
+          {screen === "game" && (
+            <>
+              <section
+                className={`question-card is-${swipeState.phase}`}
+                style={{
+                  "--swipe-x": `${swipeState.x}px`,
+                  "--swipe-y": `${swipeState.y}px`,
+                  "--swipe-rotate": `${clamp(swipeState.x / 18, -8, 8)}deg`,
+                  "--swipe-opacity": `${1 - clamp(Math.hypot(swipeState.x, swipeState.y) / 620, 0, 0.28)}`,
+                }}
+                onPointerDown={handleGestureStart}
+                onPointerMove={handleGestureMove}
+                onPointerUp={handleGestureEnd}
+                onPointerCancel={handleGestureCancel}
+              >
+                <div className="question-meta">
+                  <span>
+                    {
+                      relationshipOptions.find(
+                        (item) => item.id === relationship,
+                      )?.label
+                    }
+                  </span>
+                  <span>{depthLabels[depth]}</span>
+                </div>
+
+                <button
+                  type="button"
+                  className={
+                    "favorite-button" + (isFavorite() ? " is-active" : "")
+                  }
+                  aria-label={
+                    isFavorite() ? "Hapus dari tersimpan" : "Simpan pertanyaan"
+                  }
+                  aria-pressed={isFavorite()}
+                  onPointerDown={(event) => event.stopPropagation()}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    toggleFavorite();
+                  }}
+                >
+                  <HeartIcon filled={isFavorite()} />
+                  {isFavorite() ? "Tersimpan" : "Simpan"}
+                </button>
+
+                <h2>{currentQuestion?.text ?? currentQuestion}</h2>
+              </section>
+
+              <div className="prompt-note" aria-live="polite">
+                {lastAnswer ? `${lastAnswer}: ${sessionNote}` : sessionNote}
+              </div>
+
+              <div className="gesture-hint" aria-label="Petunjuk gesture">
+                <span>← Lewati</span>
+                <span>Swipe</span>
+                <span>Lanjut →</span>
+              </div>
+
+              <div className="answer-actions">
+                <button
+                  type="button"
+                  className="secondary-button"
+                  onClick={() => animateAnswer("skip")}
+                >
+                  Lewati
+                </button>
+                <button
+                  type="button"
+                  className="secondary-button"
+                  onClick={() => animateAnswer("next")}
+                >
+                  Lanjut
+                </button>
+              </div>
+
+              <div className="spacer" />
+
               <button
                 type="button"
                 className="ghost-button"
+                onClick={handleStopSession}
+              >
+                Berhenti
+              </button>
+            </>
+          )}
+
+          {screen === "summary" && (
+            <>
+              <section className="summary-card">
+                <p className="eyebrow">Sesi selesai</p>
+                <h2>Udah mulai nyambung.</h2>
+                <p className="summary-lede">
+                  Kalian sudah membuka {answers.length} topik. Simpan yang ingin
+                  dibawa ke obrolan berikutnya.
+                </p>
+                <ul>
+                  <li>
+                    Untuk: {getOptionLabel(relationshipOptions, relationship)}
+                  </li>
+                  <li>
+                    Mode: {getOptionLabel(playerCountOptions, playerCount)}
+                  </li>
+                  <li>
+                    Suasana:{" "}
+                    {selectedVibes
+                      .map((vibeId) => getOptionLabel(vibeOptions, vibeId))
+                      .join(", ") || "Campur"}
+                  </li>
+                  <li>Terjawab: {answers.length} pertanyaan</li>
+                </ul>
+              </section>
+
+              <div className="spacer" />
+
+              <button
+                type="button"
+                className="primary-button"
                 onClick={() => setScreen("home")}
+              >
+                MULAI BARU
+              </button>
+            </>
+          )}
+
+          {screen === "saved" && (
+            <>
+              <section className="secondary-page-heading">
+                <p className="eyebrow">Koleksi kamu</p>
+                <h1>Pertanyaan tersimpan</h1>
+                <p>Balik lagi ke pertanyaan yang rasanya pas.</p>
+              </section>
+
+              {savedQuestions.length > 0 ? (
+                <section
+                  className="saved-list"
+                  aria-label="Pertanyaan tersimpan"
+                >
+                  {savedQuestions.map((question) => (
+                    <article className="saved-item" key={question.id}>
+                      <p>{question.text}</p>
+                      <button
+                        type="button"
+                        className="saved-remove"
+                        aria-label="Hapus pertanyaan dari tersimpan"
+                        onClick={() => toggleFavorite(question)}
+                      >
+                        <HeartIcon filled />
+                      </button>
+                    </article>
+                  ))}
+                </section>
+              ) : (
+                <section className="empty-state">
+                  <h2>Belum ada yang disimpan.</h2>
+                  <p>Kalau ada pertanyaan yang terasa pas, tekan hati.</p>
+                </section>
+              )}
+
+              <div className="spacer" />
+              <button
+                type="button"
+                className="ghost-button"
+                onClick={() => setScreen(returnScreen)}
               >
                 KEMBALI
               </button>
-            </div>
-          </>
-        )}
+            </>
+          )}
 
-        {screen === "game" && (
-          <>
-            <section
-              className={`question-card is-${swipeState.phase}`}
-              style={{
-                "--swipe-x": `${swipeState.x}px`,
-                "--swipe-y": `${swipeState.y}px`,
-                "--swipe-rotate": `${clamp(swipeState.x / 18, -8, 8)}deg`,
-                "--swipe-opacity": `${1 - clamp(Math.hypot(swipeState.x, swipeState.y) / 620, 0, 0.28)}`,
-              }}
-              onPointerDown={handleGestureStart}
-              onPointerMove={handleGestureMove}
-              onPointerUp={handleGestureEnd}
-              onPointerCancel={handleGestureCancel}
-            >
-              <div className="question-meta">
-                <span>
-                  {
-                    relationshipOptions.find((item) => item.id === relationship)
-                      ?.label
-                  }
-                </span>
-                <span>{depthLabels[depth]}</span>
-              </div>
-
-              <button
-                type="button"
-                className={"favorite-button" + (isFavorite() ? " is-active" : "")}
-                aria-label={isFavorite() ? "Hapus dari tersimpan" : "Simpan pertanyaan"}
-                aria-pressed={isFavorite()}
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  toggleFavorite();
-                }}
-              >
-                <HeartIcon filled={isFavorite()} />
-                {isFavorite() ? "Tersimpan" : "Simpan"}
-              </button>
-
-              <h2>{currentQuestion?.text ?? currentQuestion}</h2>
-            </section>
-
-            <div className="prompt-note" aria-live="polite">
-              {lastAnswer ? `${lastAnswer}: ${sessionNote}` : sessionNote}
-            </div>
-
-            <div className="gesture-hint" aria-label="Petunjuk gesture">
-              <span>← Lewati</span>
-              <span>Swipe</span>
-              <span>Lanjut →</span>
-            </div>
-
-            <div className="answer-actions">
-              <button
-                type="button"
-                className="secondary-button"
-                onClick={() => animateAnswer("skip")}
-              >
-                Lewati
-              </button>
-              <button
-                type="button"
-                className="secondary-button"
-                onClick={() => animateAnswer("next")}
-              >
-                Lanjut
-              </button>
-            </div>
-
-            <div className="spacer" />
-
-            <button
-              type="button"
-              className="ghost-button"
-              onClick={handleStopSession}
-            >
-              Berhenti
-            </button>
-          </>
-        )}
-
-        {screen === "summary" && (
-          <>
-            <section className="summary-card">
-              <p className="eyebrow">Sesi selesai</p>
-              <h2>Udah mulai nyambung.</h2>
-              <p className="summary-lede">
-                Kalian sudah membuka {answers.length} topik. Simpan yang ingin
-                dibawa ke obrolan berikutnya.
-              </p>
-              <ul>
-                <li>
-                  Untuk:{" "}
-                  {getOptionLabel(relationshipOptions, relationship)}
-                </li>
-                <li>
-                  Mode: {getOptionLabel(playerCountOptions, playerCount)}
-                </li>
-                <li>
-                  Suasana:{" "}
-                  {selectedVibes
-                    .map((vibeId) => getOptionLabel(vibeOptions, vibeId))
-                    .join(", ") || "Campur"}
-                </li>
-                <li>Terjawab: {answers.length} pertanyaan</li>
-              </ul>
-            </section>
-
-            <div className="spacer" />
-
-            <button
-              type="button"
-              className="primary-button"
-              onClick={() => setScreen("home")}
-            >
-              MULAI BARU
-            </button>
-          </>
-        )}
-
-        {screen === "saved" && (
-          <>
-            <section className="secondary-page-heading">
-              <p className="eyebrow">Koleksi kamu</p>
-              <h1>Pertanyaan tersimpan</h1>
-              <p>Balik lagi ke pertanyaan yang rasanya pas.</p>
-            </section>
-
-            {savedQuestions.length > 0 ? (
-              <section className="saved-list" aria-label="Pertanyaan tersimpan">
-                {savedQuestions.map((question) => (
-                  <article className="saved-item" key={question.id}>
-                    <p>{question.text}</p>
-                    <button
-                      type="button"
-                      className="saved-remove"
-                      aria-label="Hapus pertanyaan dari tersimpan"
-                      onClick={() => toggleFavorite(question)}
-                    >
-                      <HeartIcon filled />
-                    </button>
-                  </article>
-                ))}
+          {screen === "settings" && (
+            <>
+              <section className="secondary-page-heading">
+                <p className="eyebrow">Atur seperlunya</p>
+                <h1>Pengaturan</h1>
+                <p>Beberapa pilihan kecil biar Nyambung terasa pas.</p>
               </section>
-            ) : (
-              <section className="empty-state">
-                <h2>Belum ada yang disimpan.</h2>
-                <p>Kalau ada pertanyaan yang terasa pas, tekan hati.</p>
+
+              <section
+                className="settings-list"
+                aria-label="Pengaturan aplikasi"
+              >
+                <div className="setting-row">
+                  <div>
+                    <h2>Getaran</h2>
+                    <p>
+                      Getar kecil saat kamu memilih atau menggeser pertanyaan.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className={
+                      "toggle" + (settings.vibration ? " is-active" : "")
+                    }
+                    aria-pressed={settings.vibration}
+                    onClick={handleVibrationToggle}
+                  >
+                    {settings.vibration ? "Nyala" : "Mati"}
+                  </button>
+                </div>
+                <div className="setting-row">
+                  <div>
+                    <h2>Suara</h2>
+                    <p>
+                      Tone pendek saat kamu memilih atau menggeser pertanyaan.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className={"toggle" + (settings.sound ? " is-active" : "")}
+                    aria-pressed={settings.sound}
+                    onClick={handleSoundToggle}
+                  >
+                    {settings.sound ? "Nyala" : "Mati"}
+                  </button>
+                </div>
+                <div className="setting-row">
+                  <div>
+                    <h2>Mode gelap</h2>
+                    <p>Ganti tampilan saat layar terasa terlalu terang.</p>
+                  </div>
+                  <button
+                    type="button"
+                    className={
+                      "toggle" + (settings.darkMode ? " is-active" : "")
+                    }
+                    aria-pressed={settings.darkMode}
+                    onClick={() =>
+                      updateSetting("darkMode", !settings.darkMode)
+                    }
+                  >
+                    {settings.darkMode ? "Nyala" : "Mati"}
+                  </button>
+                </div>
               </section>
-            )}
 
-            <div className="spacer" />
-            <button
-              type="button"
-              className="ghost-button"
-              onClick={() => setScreen(returnScreen)}
-            >
-              KEMBALI
-            </button>
-          </>
-        )}
+              <button
+                type="button"
+                className="reset-button"
+                onClick={handleResetData}
+              >
+                RESET APLIKASI
+              </button>
 
-        {screen === "settings" && (
-          <>
-            <section className="secondary-page-heading">
-              <p className="eyebrow">Atur seperlunya</p>
-              <h1>Pengaturan</h1>
-              <p>Beberapa pilihan kecil biar Nyambung terasa pas.</p>
-            </section>
-
-            <section className="settings-list" aria-label="Pengaturan aplikasi">
-              <div className="setting-row">
-                <div>
-                  <h2>Getaran</h2>
-                  <p>Getar kecil saat kamu memilih atau menggeser pertanyaan.</p>
-                </div>
-                <button
-                  type="button"
-                  className={"toggle" + (settings.vibration ? " is-active" : "")}
-                  aria-pressed={settings.vibration}
-                  onClick={handleVibrationToggle}
-                >
-                  {settings.vibration ? "Nyala" : "Mati"}
-                </button>
-              </div>
-              <div className="setting-row">
-                <div>
-                  <h2>Suara</h2>
-                  <p>Tone pendek saat kamu memilih atau menggeser pertanyaan.</p>
-                </div>
-                <button
-                  type="button"
-                  className={"toggle" + (settings.sound ? " is-active" : "")}
-                  aria-pressed={settings.sound}
-                  onClick={handleSoundToggle}
-                >
-                  {settings.sound ? "Nyala" : "Mati"}
-                </button>
-              </div>
-              <div className="setting-row">
-                <div>
-                  <h2>Mode gelap</h2>
-                  <p>Ganti tampilan saat layar terasa terlalu terang.</p>
-                </div>
-                <button
-                  type="button"
-                  className={"toggle" + (settings.darkMode ? " is-active" : "")}
-                  aria-pressed={settings.darkMode}
-                  onClick={() => updateSetting("darkMode", !settings.darkMode)}
-                >
-                  {settings.darkMode ? "Nyala" : "Mati"}
-                </button>
-              </div>
-            </section>
-
-            <button type="button" className="reset-button" onClick={handleResetData}>
-              HAPUS DATA LOKAL
-            </button>
-
-            <div className="spacer" />
-            <button
-              type="button"
-              className="ghost-button"
-              onClick={() => setScreen(returnScreen)}
-            >
-              KEMBALI
-            </button>
-          </>
-        )}
+              <div className="spacer" />
+              <button
+                type="button"
+                className="ghost-button"
+                onClick={() => setScreen(returnScreen)}
+              >
+                KEMBALI
+              </button>
+            </>
+          )}
         </div>
       </main>
     </div>
