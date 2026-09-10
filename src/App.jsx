@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   FiArrowLeft,
+  FiArrowRight,
   FiChevronDown,
   FiChevronRight,
   FiChevronUp,
@@ -664,6 +665,7 @@ export default function App() {
     touchStartRef.current = {
       x: event.clientX,
       y: event.clientY,
+      t: event.timeStamp ?? Date.now(),
     };
     setSwipeState({ x: 0, y: 0, phase: "dragging" });
   };
@@ -701,9 +703,9 @@ export default function App() {
     setSwipeState({ x: exitX, y: exitY, phase: "exiting" });
     window.clearTimeout(swipeExitTimerRef.current);
     swipeExitTimerRef.current = window.setTimeout(() => {
-      setSwipeState({ x: 0, y: 0, phase: "idle" });
       handleAnswer(answerValue);
-    }, 230);
+      setSwipeState({ x: 0, y: 0, phase: "idle" });
+    }, 240);
   };
 
   const animateDepth = (direction) => {
@@ -727,10 +729,13 @@ export default function App() {
   };
 
   const handleGestureEnd = (event) => {
-    if (!touchStartRef.current || swipeState.phase === "exiting") return;
+    if (!touchStartRef.current || swipeState.phase === "exiting" || swipeState.phase === "entering") return;
 
-    const deltaX = event.clientX - touchStartRef.current.x;
-    const deltaY = event.clientY - touchStartRef.current.y;
+    const start = touchStartRef.current;
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+    const dt = Math.max(16, (event.timeStamp ?? Date.now()) - (start.t ?? event.timeStamp ?? Date.now()));
+    const velocityX = deltaX / dt;
     const threshold = 48;
     touchStartRef.current = null;
 
@@ -745,7 +750,9 @@ export default function App() {
     }
 
     const answerValue = deltaX < 0 ? "skip" : "next";
-    const exitX = deltaX < 0 ? -460 : 460;
+    const baseExit = 460;
+    const velocityExit = Math.round(Math.min(560, Math.max(380, Math.abs(velocityX) * 320)));
+    const exitX = deltaX < 0 ? -velocityExit : velocityExit;
 
     animateAnswer(answerValue, exitX, 0);
   };
@@ -1004,19 +1011,53 @@ export default function App() {
 
           {screen === "game" && (
             <>
-              <section
-                className={`question-card is-${swipeState.phase}`}
-                style={{
-                  "--swipe-x": `${swipeState.x}px`,
-                  "--swipe-y": `${swipeState.y}px`,
-                  "--swipe-rotate": `${clamp(swipeState.x / 18, -8, 8)}deg`,
-                  "--swipe-opacity": `${1 - clamp(Math.hypot(swipeState.x, swipeState.y) / 620, 0, 0.28)}`,
-                }}
-                onPointerDown={handleGestureStart}
-                onPointerMove={handleGestureMove}
-                onPointerUp={handleGestureEnd}
-                onPointerCancel={handleGestureCancel}
-              >
+              <div className={`question-stack is-${swipeState.phase}`}>
+                <div className="stack-card stack-2" aria-hidden="true">
+                  <button
+                    type="button"
+                    className={"favorite-button" + (isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]) ? " is-active" : "")}
+                    aria-label={isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]) ? "Hapus dari tersimpan" : "Simpan pertanyaan"}
+                    aria-pressed={isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1])}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]);
+                    }}
+                  >
+                    <HeartIcon filled={isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1])} />
+                    {isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]) ? "Tersimpan" : "Simpan"}
+                  </button>
+                  <p>{sessionQuestions[questionIndex + 2]?.text ?? sessionQuestions[questionIndex + 1]?.text ?? ""}</p>
+                </div>
+                <div className="stack-card stack-1" aria-hidden="true">
+                  <button
+                    type="button"
+                    className={"favorite-button" + (isFavorite(sessionQuestions[questionIndex + 1]) ? " is-active" : "")}
+                    aria-label={isFavorite(sessionQuestions[questionIndex + 1]) ? "Hapus dari tersimpan" : "Simpan pertanyaan"}
+                    aria-pressed={isFavorite(sessionQuestions[questionIndex + 1])}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(sessionQuestions[questionIndex + 1]);
+                    }}
+                  >
+                    <HeartIcon filled={isFavorite(sessionQuestions[questionIndex + 1])} />
+                    {isFavorite(sessionQuestions[questionIndex + 1]) ? "Tersimpan" : "Simpan"}
+                  </button>
+                  <p>{sessionQuestions[questionIndex + 1]?.text ?? ""}</p>
+                </div>
+                <section
+                  key={currentQuestion?.id ?? `q-${questionIndex}`}
+                  className={`question-card is-${swipeState.phase}`}
+                  style={{
+                    "--swipe-x": `${swipeState.x}px`,
+                    "--swipe-y": `${swipeState.y}px`,
+                    "--swipe-rotate": `${clamp(swipeState.x / 18, -8, 8)}deg`,
+                    "--swipe-opacity": "1",
+                  }}
+                  onPointerDown={handleGestureStart}
+                  onPointerMove={handleGestureMove}
+                  onPointerUp={handleGestureEnd}
+                  onPointerCancel={handleGestureCancel}
+                >
                 <button
                   type="button"
                   className={
@@ -1037,33 +1078,13 @@ export default function App() {
                 </button>
 
                 <h2>{currentQuestion?.text ?? currentQuestion}</h2>
-              </section>
-
-              <div className="prompt-note" aria-live="polite">
-                {lastAnswer ? `${lastAnswer}: ${sessionNote}` : sessionNote}
+                </section>
               </div>
 
               <div className="gesture-hint" aria-label="Petunjuk gesture">
-                <span>← Lewati</span>
+                <FiArrowLeft aria-hidden="true" />
                 <span>Swipe</span>
-                <span>Lanjut →</span>
-              </div>
-
-              <div className="answer-actions">
-                <button
-                  type="button"
-                  className="secondary-button"
-                  onClick={() => animateAnswer("skip")}
-                >
-                  Lewati
-                </button>
-                <button
-                  type="button"
-                  className="secondary-button"
-                  onClick={() => animateAnswer("next")}
-                >
-                  Lanjut
-                </button>
+                <FiArrowRight aria-hidden="true" />
               </div>
 
               <div className="spacer" />
