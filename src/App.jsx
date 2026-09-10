@@ -401,6 +401,71 @@ export default function App() {
     setIsKebabOpen(false);
   }, [screen]);
 
+  const screenRef = useRef(screen);
+  const returnScreenRef = useRef(returnScreen);
+  useEffect(() => {
+    screenRef.current = screen;
+  }, [screen]);
+  useEffect(() => {
+    returnScreenRef.current = returnScreen;
+  }, [returnScreen]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.history) return;
+    window.history.replaceState({ screen: "home", returnScreen: "home" }, "", window.location.href);
+    const handlePopState = (event) => {
+      const state = event.state;
+      const current = screenRef.current;
+      const ret = returnScreenRef.current;
+      if (current === "game") {
+        setSessionNote("Sesi kamu berhenti di sini. Kamu bisa mulai lagi kapan aja.");
+        setLastAnswer("Sesi selesai");
+        setScreen("summary");
+        window.history.pushState({ screen: "summary", returnScreen: ret }, "", "#summary");
+        return;
+      }
+      if (current === "summary") {
+        setScreen("home");
+        window.history.pushState({ screen: "home", returnScreen: "home" }, "", "#home");
+        return;
+      }
+      if (current === "setup") {
+        setScreen("home");
+        return;
+      }
+      if (current === "saved" || current === "settings") {
+        const prev = state?.returnScreen ?? ret ?? "home";
+        setScreen(prev);
+        return;
+      }
+      if (current === "home") {
+        if (!state || !state.screen) {
+          window.history.pushState({ screen: "home", returnScreen: "home" }, "", "#home");
+        } else {
+          setScreen(state.screen);
+          if (state.returnScreen) setReturnScreen(state.returnScreen);
+        }
+        return;
+      }
+      if (state?.screen) {
+        setScreen(state.screen);
+        if (state.returnScreen) setReturnScreen(state.returnScreen);
+      } else {
+        setScreen("home");
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.history) return;
+    const currentState = window.history.state;
+    if (currentState?.screen === screen) return;
+    if (screen === "home" && !currentState) return;
+    window.history.pushState({ screen, returnScreen }, "", `#${screen}`);
+  }, [screen, returnScreen]);
+
   const usedQuestions = useMemo(
     () => new Set(questionHistory.map((item) => item.id)),
     [questionHistory],
@@ -773,11 +838,14 @@ export default function App() {
   };
 
   const handleBackNavigation = () => {
+    if (typeof window !== "undefined" && window.history && window.history.length > 1) {
+      window.history.back();
+      return;
+    }
     if (screen === "setup") {
       setScreen("home");
       return;
     }
-
     if (screen === "saved" || screen === "settings") {
       setScreen(returnScreen);
     }
