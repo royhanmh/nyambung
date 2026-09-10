@@ -5,6 +5,8 @@ import {
   FiChevronRight,
   FiChevronUp,
   FiHeart,
+  FiMoreVertical,
+  FiSettings,
 } from "react-icons/fi";
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
 import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
@@ -31,7 +33,15 @@ const getDefaultMode = ({ playMode, relationship, playerCount, situation }) => {
   if (relationship === "couple") {
     return situation === "malam" ? "future_us" : "soft_spot";
   }
-  return playerCount !== "1-1" ? "worm_mode" : "easy_mode";
+  if (playerCount !== "1-1") return "worm_mode";
+  const nyambungPools = {
+    friends: ["easy_mode", "worm_mode", "pop_quiz", "red_flags"],
+    new: ["easy_mode", "spill", "lore"],
+    family: ["lore", "family", "spill", "easy_mode"],
+    default: ["easy_mode", "worm_mode", "spill"],
+  };
+  const pool = nyambungPools[relationship] ?? nyambungPools.default;
+  return pool[Math.floor(Math.random() * pool.length)];
 };
 
 const STORAGE_KEYS = {
@@ -320,13 +330,15 @@ export default function App() {
   const [questionHistory, setQuestionHistory] = useState([]);
   const [lastAnswer, setLastAnswer] = useState(null);
   const [conversationMove, setConversationMove] = useState("ask");
-  const [groupActionCount, setGroupActionCount] = useState(0);
   const [sessionNote, setSessionNote] = useState(
     "Biar obrolan tetap santai tapi nyambung.",
   );
   const [reportOpen, setReportOpen] = useState(false);
   const [savedQuestions, setSavedQuestions] = useState(readSavedQuestions);
   const [settings, setSettings] = useState(readSettings);
+  const [isKebabOpen, setIsKebabOpen] = useState(false);
+  const kebabRef = useRef(null);
+  const [sessionMeta, setSessionMeta] = useState(null);
   const touchStartRef = useRef(null);
   const swipeExitTimerRef = useRef(null);
   const audioContextRef = useRef(null);
@@ -363,6 +375,30 @@ export default function App() {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", settings.darkMode ? "#172c2a" : "#f5efe8");
   }, [settings.darkMode]);
+
+  useEffect(() => {
+    if (!isKebabOpen) return;
+    const handleClick = (event) => {
+      if (kebabRef.current && !kebabRef.current.contains(event.target)) {
+        setIsKebabOpen(false);
+      }
+    };
+    const handleKey = (event) => {
+      if (event.key === "Escape") setIsKebabOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("touchstart", handleClick, { passive: true });
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("touchstart", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [isKebabOpen]);
+
+  useEffect(() => {
+    setIsKebabOpen(false);
+  }, [screen]);
 
   const usedQuestions = useMemo(
     () => new Set(questionHistory.map((item) => item.id)),
@@ -564,11 +600,17 @@ export default function App() {
     setQuestionIndex(0);
     setSessionQuestions(initialQuestions);
     setMode(sessionMode);
+    setSessionMeta({
+      relationship,
+      situation,
+      mode: sessionMode,
+      playerCount,
+      selectedVibes: [...selectedVibes],
+    });
     setAnswers([]);
     setQuestionHistory([]);
     setLastAnswer(null);
     setConversationMove("ask");
-    setGroupActionCount(0);
     setSessionNote("Biar obrolan tetap santai tapi nyambung.");
     setScreen("game");
   };
@@ -612,21 +654,6 @@ export default function App() {
     setAnswers((prev) => [...prev, answerValue]);
 
     nextQuestion();
-  };
-
-  const handleModeAction = () => {
-    const action = modeConfig[mode]?.moves?.[0] ?? "reaction";
-    setGroupActionCount((count) => count + 1);
-    setConversationMove(action);
-    setSessionNote(
-      mode === "pass_the_phone"
-        ? "Oper ke orang berikutnya. Jangan intip jawabannya."
-        : action === "point"
-          ? "Tunjuk orangnya. Jangan kebanyakan mikir."
-          : action === "vote"
-            ? "Pilih satu. Alasan belakangan."
-            : "Oke, sekarang giliran kalian bereaksi.",
-    );
   };
 
   const handleGestureStart = (event) => {
@@ -791,6 +818,46 @@ export default function App() {
               src={brandWordmarkForTheme}
               alt="nyambung"
             />
+            <div className="topbar-actions" ref={kebabRef} aria-label="Aksi atas">
+              <button
+                type="button"
+                className="topbar-kebab"
+                aria-label="Menu"
+                aria-expanded={isKebabOpen}
+                aria-haspopup="menu"
+                onClick={() => setIsKebabOpen((open) => !open)}
+              >
+                <FiMoreVertical aria-hidden="true" />
+              </button>
+              {isKebabOpen && (
+                <div className="kebab-menu" role="menu" aria-label="Menu pengaturan">
+                  <button
+                    type="button"
+                    className="kebab-item"
+                    role="menuitem"
+                    onClick={() => {
+                      setIsKebabOpen(false);
+                      openSecondaryScreen("saved");
+                    }}
+                  >
+                    <FiHeart aria-hidden="true" />
+                    Tersimpan
+                  </button>
+                  <button
+                    type="button"
+                    className="kebab-item"
+                    role="menuitem"
+                    onClick={() => {
+                      setIsKebabOpen(false);
+                      openSecondaryScreen("settings");
+                    }}
+                  >
+                    <FiSettings aria-hidden="true" />
+                    Pengaturan
+                  </button>
+                </div>
+              )}
+            </div>
           </header>
 
           {screen === "home" && (
@@ -819,20 +886,7 @@ export default function App() {
                 })}
               </section>
 
-              <nav className="meta-links" aria-label="Navigasi tambahan">
-                <button
-                  type="button"
-                  onClick={() => openSecondaryScreen("saved")}
-                >
-                  Tersimpan
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openSecondaryScreen("settings")}
-                >
-                  Pengaturan
-                </button>
-              </nav>
+
             </>
           )}
 
@@ -1012,18 +1066,6 @@ export default function App() {
                 </button>
               </div>
 
-              {(modeConfig[mode]?.group === "rame" ||
-                ["point", "vote", "guess", "reveal"].includes(currentQuestion?.metadata?.archetype)) && (
-                <button type="button" className="mode-action" onClick={handleModeAction}>
-                  {mode === "pass_the_phone"
-                    ? "Oper ke orang berikutnya"
-                    : currentQuestion?.metadata?.archetype === "point"
-                      ? "Tunjuk orangnya"
-                      : "Mulai reaksinya"}
-                  {groupActionCount > 0 ? ` · ${groupActionCount}` : ""}
-                </button>
-              )}
-
               <div className="spacer" />
 
               <button
@@ -1038,32 +1080,14 @@ export default function App() {
 
           {screen === "summary" && (
             <>
-              <section className="summary-card">
+              <section className="summary-card thank-you">
                 <p className="eyebrow">Sesi selesai</p>
-                <h2>Udah mulai nyambung.</h2>
-                <p className="summary-lede">
-                  Kalian sudah membuka {answers.length} topik. Simpan yang ingin
-                  dibawa ke obrolan berikutnya.
+                <h2>Udah nyambung.</h2>
+                <p className="thank-lede">
+                  {answers.length > 0
+                    ? `Kalian buka ${answers.length} topik hari ini. Yang mau diingat, simpan aja.`
+                    : "Gak apa. Ngobrolnya udah cukup buat hari ini."}
                 </p>
-                <ul>
-                  <li>
-                    Untuk: {getOptionLabel(relationshipOptions, relationship)}
-                  </li>
-                  <li>
-                    Lagi: {situationOptions.find((item) => item.id === situation)?.label}
-                  </li>
-                  <li>Gaya: {modeConfig[mode]?.label ?? "Tanya santai"}</li>
-                  <li>
-                    Mode: {getOptionLabel(playerCountOptions, playerCount)}
-                  </li>
-                  <li>
-                    Suasana:{" "}
-                    {selectedVibes
-                      .map((vibeId) => getOptionLabel(vibeOptions, vibeId))
-                      .join(", ") || "Campur"}
-                  </li>
-                  <li>Terjawab: {answers.length} pertanyaan</li>
-                </ul>
               </section>
 
               <div className="spacer" />
