@@ -12,10 +12,7 @@ import {
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
 import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
 import questionDataset from "./data/nyambung-1000-questions-id-ID.json";
-import {
-  modeConfig,
-  situationOptions,
-} from "./data/conversation-config";
+import { modeConfig, situationOptions } from "./data/conversation-config";
 import {
   getFallbackFollowUp,
   getNextMove,
@@ -24,12 +21,17 @@ import {
 
 const primaryModeOptions = [
   { id: "nyambung", label: "NYAMBUNG", description: "Biar ngobrol ngalir." },
-  { id: "rage_bait", label: "RAGE BAIT", description: "Bikin pengen nyanggah." },
+  {
+    id: "rage_bait",
+    label: "RAGE BAIT",
+    description: "Bikin pengen nyanggah.",
+  },
 ];
 
 const getDefaultMode = ({ playMode, relationship, playerCount, situation }) => {
   if (playMode === "rage_bait") return "rage_bait";
-  if (relationship === "group" || playerCount !== "1-1") return "most_likely_to";
+  if (relationship === "group" || playerCount !== "1-1")
+    return "most_likely_to";
   if (relationship === "pdk_t") return "soft_spot";
   if (relationship === "couple") {
     return situation === "malam" ? "future_us" : "soft_spot";
@@ -296,15 +298,27 @@ const buildConversationQuestions = ({
   const config = modeConfig[mode] ?? modeConfig.easy_mode;
   const state = {
     relationship,
-    playerCount: playerCount === "1-1" ? 2 : playerCount === "3-4" ? 4 : playerCount === "5-8" ? 8 : 10,
+    playerCount:
+      playerCount === "1-1"
+        ? 2
+        : playerCount === "3-4"
+          ? 4
+          : playerCount === "5-8"
+            ? 8
+            : 10,
     situation,
     mode,
     depth,
     rageIntensity,
     selectedVibes,
     activeTopic: questionHistory.at(-1)?.metadata?.topics?.[0],
-    recentTopics: questionHistory.slice(-4).flatMap((item) => item.metadata?.topics ?? []),
-    recentArchetypes: questionHistory.slice(-3).map((item) => item.metadata?.archetype).filter(Boolean),
+    recentTopics: questionHistory
+      .slice(-4)
+      .flatMap((item) => item.metadata?.topics ?? []),
+    recentArchetypes: questionHistory
+      .slice(-3)
+      .map((item) => item.metadata?.archetype)
+      .filter(Boolean),
     usedQuestionIds: questionHistory.map((item) => item.id),
   };
 
@@ -412,21 +426,35 @@ export default function App() {
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.history) return;
-    window.history.replaceState({ screen: "home", returnScreen: "home" }, "", window.location.href);
+    window.history.replaceState(
+      { screen: "home", returnScreen: "home" },
+      "",
+      window.location.href,
+    );
     const handlePopState = (event) => {
       const state = event.state;
       const current = screenRef.current;
       const ret = returnScreenRef.current;
       if (current === "game") {
-        setSessionNote("Sesi kamu berhenti di sini. Kamu bisa mulai lagi kapan aja.");
+        setSessionNote(
+          "Sesi kamu berhenti di sini. Kamu bisa mulai lagi kapan aja.",
+        );
         setLastAnswer("Sesi selesai");
         setScreen("summary");
-        window.history.pushState({ screen: "summary", returnScreen: ret }, "", "#summary");
+        window.history.pushState(
+          { screen: "summary", returnScreen: ret },
+          "",
+          "#summary",
+        );
         return;
       }
       if (current === "summary") {
         setScreen("home");
-        window.history.pushState({ screen: "home", returnScreen: "home" }, "", "#home");
+        window.history.pushState(
+          { screen: "home", returnScreen: "home" },
+          "",
+          "#home",
+        );
         return;
       }
       if (current === "setup") {
@@ -440,7 +468,11 @@ export default function App() {
       }
       if (current === "home") {
         if (!state || !state.screen) {
-          window.history.pushState({ screen: "home", returnScreen: "home" }, "", "#home");
+          window.history.pushState(
+            { screen: "home", returnScreen: "home" },
+            "",
+            "#home",
+          );
         } else {
           setScreen(state.screen);
           if (state.returnScreen) setReturnScreen(state.returnScreen);
@@ -536,6 +568,33 @@ export default function App() {
   const handleParticipantMode = (nextMode) => {
     setParticipantMode(nextMode);
     setPlayerCount(nextMode === "pair" ? "1-1" : "3-4");
+  };
+
+  const startBebas = () => {
+    const shuffled = shuffleArray(questionDataset.questions).map((q) => ({
+      id: q.id,
+      text: q.text,
+      metadata: q,
+    }));
+    setRelationship("bebas");
+    setSituation("acak");
+    setMode("bebas");
+    setPlayMode("nyambung");
+    setSessionMeta({
+      relationship: "bebas",
+      situation: "acak",
+      mode: "bebas",
+      playerCount: "1-1",
+      selectedVibes: [],
+    });
+    setQuestionIndex(0);
+    setSessionQuestions(shuffled);
+    setAnswers([]);
+    setQuestionHistory([]);
+    setLastAnswer(null);
+    setConversationMove("ask");
+    setSessionNote("Mode bebas. Semua soal diacak.");
+    setScreen("game");
   };
 
   const openSecondaryScreen = (nextScreen) => {
@@ -699,20 +758,20 @@ export default function App() {
 
   const handleAnswer = (answerValue) => {
     const answerText = answerValue === "skip" ? "Lewati" : "Lanjut";
-    const nextMove = answerValue === "skip"
-      ? "new_topic"
-      : getNextMove(
-          { allowedMoves: modeConfig[mode]?.moves, recentMoves: [conversationMove] },
-          currentQuestion?.metadata,
-        );
+    const nextMove =
+      answerValue === "skip"
+        ? "new_topic"
+        : getNextMove(
+            {
+              allowedMoves: modeConfig[mode]?.moves,
+              recentMoves: [conversationMove],
+            },
+            currentQuestion?.metadata,
+          );
     const moodText =
       answerValue === "skip"
         ? "Kita lewati dulu. Cari pertanyaan yang lebih pas."
-        : getFallbackFollowUp(
-            currentQuestion?.metadata,
-            answerValue,
-            nextMove,
-          );
+        : getFallbackFollowUp(currentQuestion?.metadata, answerValue, nextMove);
 
     setLastAnswer(answerText);
     setConversationMove(nextMove);
@@ -788,18 +847,31 @@ export default function App() {
     window.clearTimeout(swipeExitTimerRef.current);
     swipeExitTimerRef.current = window.setTimeout(() => {
       setDepth(nextDepth);
-      setSessionNote(direction > 0 ? "Kita masuk sedikit lebih dalam." : "Santai dulu. Cari yang lebih ringan.");
+      setSessionNote(
+        direction > 0
+          ? "Kita masuk sedikit lebih dalam."
+          : "Santai dulu. Cari yang lebih ringan.",
+      );
       setSwipeState({ x: 0, y: 0, phase: "idle" });
     }, 230);
   };
 
   const handleGestureEnd = (event) => {
-    if (!touchStartRef.current || swipeState.phase === "exiting" || swipeState.phase === "entering") return;
+    if (
+      !touchStartRef.current ||
+      swipeState.phase === "exiting" ||
+      swipeState.phase === "entering"
+    )
+      return;
 
     const start = touchStartRef.current;
     const deltaX = event.clientX - start.x;
     const deltaY = event.clientY - start.y;
-    const dt = Math.max(16, (event.timeStamp ?? Date.now()) - (start.t ?? event.timeStamp ?? Date.now()));
+    const dt = Math.max(
+      16,
+      (event.timeStamp ?? Date.now()) -
+        (start.t ?? event.timeStamp ?? Date.now()),
+    );
     const velocityX = deltaX / dt;
     const threshold = 48;
     touchStartRef.current = null;
@@ -816,7 +888,9 @@ export default function App() {
 
     const answerValue = deltaX < 0 ? "skip" : "next";
     const baseExit = 460;
-    const velocityExit = Math.round(Math.min(560, Math.max(380, Math.abs(velocityX) * 320)));
+    const velocityExit = Math.round(
+      Math.min(560, Math.max(380, Math.abs(velocityX) * 320)),
+    );
     const exitX = deltaX < 0 ? -velocityExit : velocityExit;
 
     animateAnswer(answerValue, exitX, 0);
@@ -838,7 +912,11 @@ export default function App() {
   };
 
   const handleBackNavigation = () => {
-    if (typeof window !== "undefined" && window.history && window.history.length > 1) {
+    if (
+      typeof window !== "undefined" &&
+      window.history &&
+      window.history.length > 1
+    ) {
       window.history.back();
       return;
     }
@@ -893,7 +971,11 @@ export default function App() {
               src={brandWordmarkForTheme}
               alt="nyambung"
             />
-            <div className="topbar-actions" ref={kebabRef} aria-label="Aksi atas">
+            <div
+              className="topbar-actions"
+              ref={kebabRef}
+              aria-label="Aksi atas"
+            >
               <button
                 type="button"
                 className="topbar-kebab"
@@ -905,7 +987,11 @@ export default function App() {
                 <FiMoreVertical aria-hidden="true" />
               </button>
               {isKebabOpen && (
-                <div className="kebab-menu" role="menu" aria-label="Menu pengaturan">
+                <div
+                  className="kebab-menu"
+                  role="menu"
+                  aria-label="Menu pengaturan"
+                >
                   <button
                     type="button"
                     className="kebab-item"
@@ -955,13 +1041,17 @@ export default function App() {
                         <span className="option-label">{option.label}</span>
                         <span className="option-desc">{option.desc}</span>
                       </div>
-                      <FiChevronRight className="choice-arrow" aria-hidden="true" />
+                      <FiChevronRight
+                        className="choice-arrow"
+                        aria-hidden="true"
+                      />
                     </button>
                   );
                 })}
               </section>
-
-
+              <button type="button" className="bebas-link" onClick={startBebas}>
+                Langsung Ngobrol
+              </button>
             </>
           )}
 
@@ -982,7 +1072,16 @@ export default function App() {
                         onClick={() => {
                           setPlayMode(option.id);
                           setExperience("cair");
-                          setMode(option.id === "rage_bait" ? "rage_bait" : getDefaultMode({ playMode: "nyambung", relationship, playerCount, situation }));
+                          setMode(
+                            option.id === "rage_bait"
+                              ? "rage_bait"
+                              : getDefaultMode({
+                                  playMode: "nyambung",
+                                  relationship,
+                                  playerCount,
+                                  situation,
+                                }),
+                          );
                         }}
                       >
                         <span>
@@ -998,7 +1097,10 @@ export default function App() {
               {relationship === "group" && (
                 <section className="section-block">
                   <h2>Berapa orang?</h2>
-                  <div className="participant-count-list" aria-label="Jumlah orang">
+                  <div
+                    className="participant-count-list"
+                    aria-label="Jumlah orang"
+                  >
                     {playerCountOptions
                       .filter((option) => option.id !== "1-1")
                       .map((option) => {
@@ -1028,7 +1130,13 @@ export default function App() {
                   aria-expanded={isSituationOpen}
                   onClick={() => setIsSituationOpen((open) => !open)}
                 >
-                  <span>{situationOptions.find((item) => item.id === situation)?.label} · ubah</span>
+                  <span>
+                    {
+                      situationOptions.find((item) => item.id === situation)
+                        ?.label
+                    }{" "}
+                    · ubah
+                  </span>
                   {isSituationOpen ? (
                     <FiChevronUp aria-hidden="true" />
                   ) : (
@@ -1060,7 +1168,9 @@ export default function App() {
               </section>
 
               <p className="setup-summary">
-                {getOptionLabel(relationshipOptions, relationship)} · {situationOptions.find((item) => item.id === situation)?.label} · {playMode === "rage_bait" ? "Rage Bait" : "Nyambung"}
+                {getOptionLabel(relationshipOptions, relationship)} ·{" "}
+                {situationOptions.find((item) => item.id === situation)?.label}{" "}
+                · {playMode === "rage_bait" ? "Rage Bait" : "Nyambung"}
               </p>
 
               <div className="spacer" />
@@ -1083,32 +1193,82 @@ export default function App() {
                 <div className="stack-card stack-2" aria-hidden="true">
                   <button
                     type="button"
-                    className={"favorite-button" + (isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]) ? " is-active" : "")}
-                    aria-label={isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]) ? "Hapus dari tersimpan" : "Simpan pertanyaan"}
-                    aria-pressed={isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1])}
+                    className={
+                      "favorite-button" +
+                      (isFavorite(
+                        sessionQuestions[questionIndex + 2] ??
+                          sessionQuestions[questionIndex + 1],
+                      )
+                        ? " is-active"
+                        : "")
+                    }
+                    aria-label={
+                      isFavorite(
+                        sessionQuestions[questionIndex + 2] ??
+                          sessionQuestions[questionIndex + 1],
+                      )
+                        ? "Hapus dari tersimpan"
+                        : "Simpan pertanyaan"
+                    }
+                    aria-pressed={isFavorite(
+                      sessionQuestions[questionIndex + 2] ??
+                        sessionQuestions[questionIndex + 1],
+                    )}
                     onClick={(e) => {
                       e.stopPropagation();
-                      toggleFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]);
+                      toggleFavorite(
+                        sessionQuestions[questionIndex + 2] ??
+                          sessionQuestions[questionIndex + 1],
+                      );
                     }}
                   >
-                    <HeartIcon filled={isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1])} />
-                    {isFavorite(sessionQuestions[questionIndex + 2] ?? sessionQuestions[questionIndex + 1]) ? "Tersimpan" : "Simpan"}
+                    <HeartIcon
+                      filled={isFavorite(
+                        sessionQuestions[questionIndex + 2] ??
+                          sessionQuestions[questionIndex + 1],
+                      )}
+                    />
+                    {isFavorite(
+                      sessionQuestions[questionIndex + 2] ??
+                        sessionQuestions[questionIndex + 1],
+                    )
+                      ? "Tersimpan"
+                      : "Simpan"}
                   </button>
-                  <p>{sessionQuestions[questionIndex + 2]?.text ?? sessionQuestions[questionIndex + 1]?.text ?? ""}</p>
+                  <p>
+                    {sessionQuestions[questionIndex + 2]?.text ??
+                      sessionQuestions[questionIndex + 1]?.text ??
+                      ""}
+                  </p>
                 </div>
                 <div className="stack-card stack-1" aria-hidden="true">
                   <button
                     type="button"
-                    className={"favorite-button" + (isFavorite(sessionQuestions[questionIndex + 1]) ? " is-active" : "")}
-                    aria-label={isFavorite(sessionQuestions[questionIndex + 1]) ? "Hapus dari tersimpan" : "Simpan pertanyaan"}
-                    aria-pressed={isFavorite(sessionQuestions[questionIndex + 1])}
+                    className={
+                      "favorite-button" +
+                      (isFavorite(sessionQuestions[questionIndex + 1])
+                        ? " is-active"
+                        : "")
+                    }
+                    aria-label={
+                      isFavorite(sessionQuestions[questionIndex + 1])
+                        ? "Hapus dari tersimpan"
+                        : "Simpan pertanyaan"
+                    }
+                    aria-pressed={isFavorite(
+                      sessionQuestions[questionIndex + 1],
+                    )}
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleFavorite(sessionQuestions[questionIndex + 1]);
                     }}
                   >
-                    <HeartIcon filled={isFavorite(sessionQuestions[questionIndex + 1])} />
-                    {isFavorite(sessionQuestions[questionIndex + 1]) ? "Tersimpan" : "Simpan"}
+                    <HeartIcon
+                      filled={isFavorite(sessionQuestions[questionIndex + 1])}
+                    />
+                    {isFavorite(sessionQuestions[questionIndex + 1])
+                      ? "Tersimpan"
+                      : "Simpan"}
                   </button>
                   <p>{sessionQuestions[questionIndex + 1]?.text ?? ""}</p>
                 </div>
@@ -1126,26 +1286,28 @@ export default function App() {
                   onPointerUp={handleGestureEnd}
                   onPointerCancel={handleGestureCancel}
                 >
-                <button
-                  type="button"
-                  className={
-                    "favorite-button" + (isFavorite() ? " is-active" : "")
-                  }
-                  aria-label={
-                    isFavorite() ? "Hapus dari tersimpan" : "Simpan pertanyaan"
-                  }
-                  aria-pressed={isFavorite()}
-                  onPointerDown={(event) => event.stopPropagation()}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    toggleFavorite();
-                  }}
-                >
-                  <HeartIcon filled={isFavorite()} />
-                  {isFavorite() ? "Tersimpan" : "Simpan"}
-                </button>
+                  <button
+                    type="button"
+                    className={
+                      "favorite-button" + (isFavorite() ? " is-active" : "")
+                    }
+                    aria-label={
+                      isFavorite()
+                        ? "Hapus dari tersimpan"
+                        : "Simpan pertanyaan"
+                    }
+                    aria-pressed={isFavorite()}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      toggleFavorite();
+                    }}
+                  >
+                    <HeartIcon filled={isFavorite()} />
+                    {isFavorite() ? "Tersimpan" : "Simpan"}
+                  </button>
 
-                <h2>{currentQuestion?.text ?? currentQuestion}</h2>
+                  <h2>{currentQuestion?.text ?? currentQuestion}</h2>
                 </section>
               </div>
 
@@ -1224,7 +1386,6 @@ export default function App() {
                   <p>Kalau ada pertanyaan yang terasa pas, tekan hati.</p>
                 </section>
               )}
-
             </>
           )}
 
@@ -1301,7 +1462,6 @@ export default function App() {
               >
                 RESET APLIKASI
               </button>
-
             </>
           )}
         </div>

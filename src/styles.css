@@ -354,7 +354,34 @@ button {
   gap: 12px;
   color: var(--ink);
   text-align: left;
+  position: relative;
 }
+
+.bebas-link {
+  display: block;
+  width: fit-content;
+  margin: 14px auto 4px;
+  padding: 8px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+
+.bebas-link:hover,
+.bebas-link:focus-visible {
+  color: var(--ink);
+  text-decoration-color: var(--muted);
+}
+
+
 
 .option-copy {
   display: flex;

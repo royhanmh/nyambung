@@ -88,6 +88,7 @@ export const moveLabels = {
 };
 
 export const modeConfig = {
+  bebas: { group: "cair", label: "Bebas", moves: ["ask", "story", "new_topic"], archetypes: ["open", "story"] },
   easy_mode: { group: "cair", label: "Easy Mode", moves: ["ask", "story", "new_topic"], archetypes: ["open", "story"] },
   worm_mode: { group: "cair", label: "Worm Mode", moves: ["ask", "guess", "reaction"], archetypes: ["scenario", "guess"] },
   hot_takes: { group: "cair", label: "Hot Takes", moves: ["ask", "debate", "reaction"], archetypes: ["reflection", "forced_choice"] },
