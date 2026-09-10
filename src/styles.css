@@ -910,9 +910,9 @@ button {
 
 .question-stack {
   position: relative;
-  width: 88%;
-  max-width: 336px;
-  height: 420px;
+  width: 92%;
+  max-width: 356px;
+  height: 448px;
   align-self: center;
   margin-top: 8px;
 }
@@ -958,7 +958,7 @@ button {
   font-size: var(--text-display-lg);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.08;
+  line-height: 1.32;
   color: var(--ink);
 }
 
@@ -1091,7 +1091,7 @@ button {
   font-size: var(--text-display-lg);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.08;
+  line-height: 1.32;
   text-wrap: balance;
   text-align: center;
 }
@@ -1105,7 +1105,7 @@ button {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin-top: 40px;
+  margin-top: 28px;
   color: var(--muted);
   font-family: var(--font-body);
   font-size: var(--text-hint-xs);
@@ -1484,8 +1484,8 @@ a:focus-visible {
   }
 
   .question-stack {
-    height: 320px;
-    width: 90%;
+    height: 335px;
+    width: 92%;
   }
 
   .question-card {
