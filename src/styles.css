@@ -316,11 +316,13 @@ button {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
-  max-height: min(52dvh, 520px);
+  max-height: min(62dvh, 620px);
+  flex: 1;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
   padding-right: 4px;
+  align-content: start;
 }
 
 .option-card {
