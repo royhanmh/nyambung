@@ -892,8 +892,36 @@ export default function App() {
 
           {screen === "setup" && (
             <div className="setup-screen">
+              <section className="section-block experience-picker first-block">
+                <h2>Pilih mode</h2>
+                <div className="primary-mode-list">
+                  {primaryModeOptions.map((option) => {
+                    const active = playMode === option.id;
+
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        className={`primary-mode-option ${option.id === "rage_bait" ? "is-rage" : ""} ${active ? "is-active" : ""}`}
+                        aria-pressed={active}
+                        onClick={() => {
+                          setPlayMode(option.id);
+                          setExperience("cair");
+                          setMode(option.id === "rage_bait" ? "rage_bait" : getDefaultMode({ playMode: "nyambung", relationship, playerCount, situation }));
+                        }}
+                      >
+                        <span>
+                          <strong>{option.label}</strong>
+                          <small>{option.description}</small>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
               {relationship === "group" && (
-                <section className="section-block first-block">
+                <section className="section-block">
                   <h2>Berapa orang?</h2>
                   <div className="participant-count-list" aria-label="Jumlah orang">
                     {playerCountOptions
@@ -954,34 +982,6 @@ export default function App() {
                     })}
                   </div>
                 )}
-              </section>
-
-              <section className="section-block experience-picker">
-                <h2>Pilih mode</h2>
-                <div className="primary-mode-list">
-                  {primaryModeOptions.map((option) => {
-                    const active = playMode === option.id;
-
-                    return (
-                      <button
-                        key={option.id}
-                        type="button"
-                        className={`primary-mode-option ${option.id === "rage_bait" ? "is-rage" : ""} ${active ? "is-active" : ""}`}
-                        aria-pressed={active}
-                        onClick={() => {
-                          setPlayMode(option.id);
-                          setExperience("cair");
-                          setMode(option.id === "rage_bait" ? "rage_bait" : getDefaultMode({ playMode: "nyambung", relationship, playerCount, situation }));
-                        }}
-                      >
-                        <span>
-                          <strong>{option.label}</strong>
-                          <small>{option.description}</small>
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
               </section>
 
               <p className="setup-summary">
@@ -1153,7 +1153,7 @@ export default function App() {
               >
                 <div className="setting-row">
                   <div>
-                    <h2>Getaran</h2>
+                    <h3>Getaran</h3>
                     <p>
                       Getar kecil saat kamu memilih atau menggeser pertanyaan.
                     </p>
@@ -1171,7 +1171,7 @@ export default function App() {
                 </div>
                 <div className="setting-row">
                   <div>
-                    <h2>Suara</h2>
+                    <h3>Suara</h3>
                     <p>
                       Tone pendek saat kamu memilih atau menggeser pertanyaan.
                     </p>
@@ -1187,7 +1187,7 @@ export default function App() {
                 </div>
                 <div className="setting-row">
                   <div>
-                    <h2>Mode gelap</h2>
+                    <h3>Mode gelap</h3>
                     <p>Ganti tampilan saat layar terasa terlalu terang.</p>
                   </div>
                   <button
