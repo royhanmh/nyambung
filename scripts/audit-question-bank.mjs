@@ -40,6 +40,23 @@ if (new Set(ids).size !== ids.length) errors.push("duplicate question ids");
 if (new Set(texts).size !== texts.length) errors.push("duplicate question texts");
 
 const categoryCounts = countBy(questions, "category");
+const expectedCategories = [
+  "kenalan",
+  "receh",
+  "penasaran",
+  "dalam",
+  "personal",
+  "berani",
+  "pdkt",
+  "pasangan",
+  "rame_rame",
+  "nostalgia",
+];
+for (const category of expectedCategories) {
+  if (categoryCounts[category] !== 100) {
+    errors.push(`${category} has ${categoryCounts[category] ?? 0} questions; expected 100`);
+  }
+}
 for (const [category, count] of Object.entries(categoryCounts)) {
   if (count !== 100) errors.push(`${category} has ${count} questions; expected 100`);
 }
@@ -58,6 +75,15 @@ questions.forEach((question, index) => {
   if (question.text.trim().length > 150) errors.push(`${question.id} is over 150 characters`);
   if (bannedPatterns.some((pattern) => pattern.test(question.text))) {
     errors.push(`${question.id} contains banned therapy/AI language`);
+  }
+  for (const field of ["situations", "experiences", "topics", "followUpTypes"]) {
+    if (!Array.isArray(question[field]) || question[field].length === 0) {
+      errors.push(`${question.id} missing ${field} metadata`);
+    }
+  }
+  if (!question.archetype) errors.push(`${question.id} missing archetype metadata`);
+  if (!Number.isFinite(question.energy) || !Number.isFinite(question.tension)) {
+    errors.push(`${question.id} missing conversation temperature metadata`);
   }
 });
 

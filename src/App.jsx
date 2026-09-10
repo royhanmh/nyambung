@@ -1,7 +1,38 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  FiArrowLeft,
+  FiChevronDown,
+  FiChevronRight,
+  FiChevronUp,
+  FiHeart,
+} from "react-icons/fi";
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
 import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
 import questionDataset from "./data/nyambung-1000-questions-id-ID.json";
+import {
+  modeConfig,
+  situationOptions,
+} from "./data/conversation-config";
+import {
+  getFallbackFollowUp,
+  getNextMove,
+  selectQuestions,
+} from "./engine/conversation-engine";
+
+const primaryModeOptions = [
+  { id: "nyambung", label: "NYAMBUNG", description: "Biar ngobrol ngalir." },
+  { id: "rage_bait", label: "RAGE BAIT", description: "Bikin pengen nyanggah." },
+];
+
+const getDefaultMode = ({ playMode, relationship, playerCount, situation }) => {
+  if (playMode === "rage_bait") return "rage_bait";
+  if (relationship === "group" || playerCount !== "1-1") return "most_likely_to";
+  if (relationship === "pdk_t") return "soft_spot";
+  if (relationship === "couple") {
+    return situation === "malam" ? "future_us" : "soft_spot";
+  }
+  return playerCount !== "1-1" ? "worm_mode" : "easy_mode";
+};
 
 const STORAGE_KEYS = {
   favorites: "nyambung.favoriteQuestions",
@@ -80,21 +111,12 @@ const clamp = (value, minimum, maximum) =>
 
 function HeartIcon({ filled = false }) {
   return (
-    <svg
+    <FiHeart
       className="heart-icon"
-      viewBox="0 0 24 24"
       aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M20.4 8.9c0 5.2-8.4 10.2-8.4 10.2S3.6 14.1 3.6 8.9a4.5 4.5 0 0 1 8.4-2.3 4.5 4.5 0 0 1 8.4 2.3Z"
-        fill={filled ? "currentColor" : "none"}
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+      fill={filled ? "currentColor" : "none"}
+      strokeWidth={1.8}
+    />
   );
 }
 
@@ -170,7 +192,7 @@ const shuffleArray = (items) => {
   return copy;
 };
 
-const buildQuestionBank = ({
+const buildQuestionBankLegacy = ({
   relationshipId,
   selectedVibes,
   depth,
@@ -250,11 +272,46 @@ const buildQuestionBank = ({
   );
 };
 
+const buildConversationQuestions = ({
+  relationship,
+  playerCount,
+  situation,
+  mode,
+  depth,
+  selectedVibes,
+  questionHistory,
+  rageIntensity,
+}) => {
+  const config = modeConfig[mode] ?? modeConfig.easy_mode;
+  const state = {
+    relationship,
+    playerCount: playerCount === "1-1" ? 2 : playerCount === "3-4" ? 4 : playerCount === "5-8" ? 8 : 10,
+    situation,
+    mode,
+    depth,
+    rageIntensity,
+    selectedVibes,
+    activeTopic: questionHistory.at(-1)?.metadata?.topics?.[0],
+    recentTopics: questionHistory.slice(-4).flatMap((item) => item.metadata?.topics ?? []),
+    recentArchetypes: questionHistory.slice(-3).map((item) => item.metadata?.archetype).filter(Boolean),
+    usedQuestionIds: questionHistory.map((item) => item.id),
+  };
+
+  return selectQuestions(questionDataset, state, config);
+};
+
 export default function App() {
   const [screen, setScreen] = useState("home");
   const [returnScreen, setReturnScreen] = useState("home");
   const [relationship, setRelationship] = useState("friends");
   const [playerCount, setPlayerCount] = useState("1-1");
+  const [participantMode, setParticipantMode] = useState("pair");
+  const [situation, setSituation] = useState("nongkrong");
+  const [isSituationOpen, setIsSituationOpen] = useState(false);
+  const [playMode, setPlayMode] = useState("nyambung");
+  const [experience, setExperience] = useState("cair");
+  const [mode, setMode] = useState("easy_mode");
+  const [rageIntensity, setRageIntensity] = useState(2);
   const [selectedVibes, setSelectedVibes] = useState(["funny"]);
   const [depth, setDepth] = useState(2);
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -262,6 +319,8 @@ export default function App() {
   const [answers, setAnswers] = useState([]);
   const [questionHistory, setQuestionHistory] = useState([]);
   const [lastAnswer, setLastAnswer] = useState(null);
+  const [conversationMove, setConversationMove] = useState("ask");
+  const [groupActionCount, setGroupActionCount] = useState(0);
   const [sessionNote, setSessionNote] = useState(
     "Biar obrolan tetap santai tapi nyambung.",
   );
@@ -320,6 +379,9 @@ export default function App() {
       language: "id-ID",
       relationship,
       playerCount,
+      situation,
+      experience,
+      mode,
       vibes: selectedVibes,
       depth,
       previousQuestions,
@@ -336,6 +398,9 @@ export default function App() {
       depth,
       previousQuestions,
       answers,
+      situation,
+      experience,
+      mode,
     ],
   );
 
@@ -350,6 +415,25 @@ export default function App() {
     setSelectedVibes((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
+  };
+
+  const openSetup = (nextRelationship = relationship) => {
+    setRelationship(nextRelationship);
+    const nextParticipantMode = nextRelationship === "group" ? "group" : "pair";
+    setParticipantMode(nextParticipantMode);
+    setPlayerCount(nextParticipantMode === "group" ? "3-4" : "1-1");
+    setSituation("nongkrong");
+    setIsSituationOpen(false);
+    setPlayMode("nyambung");
+    setExperience("cair");
+    setMode("easy_mode");
+    setDepth(2);
+    setScreen("setup");
+  };
+
+  const handleParticipantMode = (nextMode) => {
+    setParticipantMode(nextMode);
+    setPlayerCount(nextMode === "pair" ? "1-1" : "3-4");
   };
 
   const openSecondaryScreen = (nextScreen) => {
@@ -450,23 +534,41 @@ export default function App() {
     setDepth(2);
     setPlayerCount("1-1");
     setRelationship("friends");
+    setParticipantMode("pair");
+    setSituation("nongkrong");
+    setIsSituationOpen(false);
+    setPlayMode("nyambung");
+    setExperience("cair");
+    setMode("easy_mode");
+    setRageIntensity(2);
   };
 
   const startSession = () => {
-    const initialQuestions = buildQuestionBank({
-      relationshipId: relationship,
-      selectedVibes,
+    const sessionMode = getDefaultMode({
+      playMode,
+      relationship,
+      playerCount,
+      situation,
+    });
+    const initialQuestions = buildConversationQuestions({
+      relationship,
+      playerCount,
+      situation,
+      mode: sessionMode,
       depth,
-      usedQuestions: new Set(),
-      previousQuestions: [],
-      recentAnswers: [],
+      selectedVibes,
+      questionHistory: [],
+      rageIntensity,
     });
 
     setQuestionIndex(0);
     setSessionQuestions(initialQuestions);
+    setMode(sessionMode);
     setAnswers([]);
     setQuestionHistory([]);
     setLastAnswer(null);
+    setConversationMove("ask");
+    setGroupActionCount(0);
     setSessionNote("Biar obrolan tetap santai tapi nyambung.");
     setScreen("game");
   };
@@ -489,16 +591,42 @@ export default function App() {
 
   const handleAnswer = (answerValue) => {
     const answerText = answerValue === "skip" ? "Lewati" : "Lanjut";
+    const nextMove = answerValue === "skip"
+      ? "new_topic"
+      : getNextMove(
+          { allowedMoves: modeConfig[mode]?.moves, recentMoves: [conversationMove] },
+          currentQuestion?.metadata,
+        );
     const moodText =
       answerValue === "skip"
         ? "Kita lewati dulu. Cari pertanyaan yang lebih pas."
-        : "Oke, lanjut ke pertanyaan berikutnya.";
+        : getFallbackFollowUp(
+            currentQuestion?.metadata,
+            answerValue,
+            nextMove,
+          );
 
     setLastAnswer(answerText);
+    setConversationMove(nextMove);
     setSessionNote(moodText);
     setAnswers((prev) => [...prev, answerValue]);
 
     nextQuestion();
+  };
+
+  const handleModeAction = () => {
+    const action = modeConfig[mode]?.moves?.[0] ?? "reaction";
+    setGroupActionCount((count) => count + 1);
+    setConversationMove(action);
+    setSessionNote(
+      mode === "pass_the_phone"
+        ? "Oper ke orang berikutnya. Jangan intip jawabannya."
+        : action === "point"
+          ? "Tunjuk orangnya. Jangan kebanyakan mikir."
+          : action === "vote"
+            ? "Pilih satu. Alasan belakangan."
+            : "Oke, sekarang giliran kalian bereaksi.",
+    );
   };
 
   const handleGestureStart = (event) => {
@@ -517,9 +645,11 @@ export default function App() {
     if (!touchStartRef.current) return;
 
     const deltaX = event.clientX - touchStartRef.current.x;
+    const deltaY = event.clientY - touchStartRef.current.y;
+    const horizontal = Math.abs(deltaX) >= Math.abs(deltaY);
     setSwipeState({
-      x: clamp(deltaX, -150, 150),
-      y: 0,
+      x: horizontal ? clamp(deltaX, -150, 150) : 0,
+      y: horizontal ? 0 : clamp(deltaY, -110, 110),
       phase: "dragging",
     });
   };
@@ -549,6 +679,26 @@ export default function App() {
     }, 230);
   };
 
+  const animateDepth = (direction) => {
+    if (swipeState.phase === "exiting") return;
+
+    const nextDepth = clamp(depth + direction, 1, 5);
+    if (nextDepth === depth) {
+      settleCard();
+      return;
+    }
+
+    triggerVibration(14);
+    triggerTone(direction > 0 ? 700 : 420, 0.045);
+    setSwipeState({ x: 0, y: direction > 0 ? -180 : 180, phase: "exiting" });
+    window.clearTimeout(swipeExitTimerRef.current);
+    swipeExitTimerRef.current = window.setTimeout(() => {
+      setDepth(nextDepth);
+      setSessionNote(direction > 0 ? "Kita masuk sedikit lebih dalam." : "Santai dulu. Cari yang lebih ringan.");
+      setSwipeState({ x: 0, y: 0, phase: "idle" });
+    }, 230);
+  };
+
   const handleGestureEnd = (event) => {
     if (!touchStartRef.current || swipeState.phase === "exiting") return;
 
@@ -557,8 +707,13 @@ export default function App() {
     const threshold = 48;
     touchStartRef.current = null;
 
-    if (Math.abs(deltaX) < threshold || Math.abs(deltaX) < Math.abs(deltaY)) {
+    if (Math.abs(deltaX) < threshold && Math.abs(deltaY) < threshold) {
       settleCard();
+      return;
+    }
+
+    if (Math.abs(deltaY) > Math.abs(deltaX)) {
+      animateDepth(deltaY < 0 ? 1 : -1);
       return;
     }
 
@@ -581,6 +736,17 @@ export default function App() {
     );
     setLastAnswer("Sesi selesai");
     setScreen("summary");
+  };
+
+  const handleBackNavigation = () => {
+    if (screen === "setup") {
+      setScreen("home");
+      return;
+    }
+
+    if (screen === "saved" || screen === "settings") {
+      setScreen(returnScreen);
+    }
   };
 
   const isKnownPath = ["/", "/index.html"].includes(window.location.pathname);
@@ -610,6 +776,16 @@ export default function App() {
       <main className="page-shell">
         <div className="phone-frame">
           <header className="topbar">
+            {screen !== "home" && screen !== "game" && screen !== "summary" && (
+              <button
+                type="button"
+                className="topbar-back"
+                aria-label="Kembali"
+                onClick={handleBackNavigation}
+              >
+                <FiArrowLeft aria-hidden="true" />
+              </button>
+            )}
             <img
               className="brand-mark"
               src={brandWordmarkForTheme}
@@ -626,38 +802,22 @@ export default function App() {
 
               <section className="choice-list" aria-label="Pilih hubungan">
                 {relationshipOptions.map((option) => {
-                  const active = relationship === option.id;
-
                   return (
                     <button
                       key={option.id}
                       type="button"
-                      className={`option-card ${active ? "is-active" : ""}`}
-                      aria-pressed={active}
-                      onClick={() => setRelationship(option.id)}
+                      className="option-card"
+                      onClick={() => openSetup(option.id)}
                     >
                       <div className="option-copy">
                         <span className="option-label">{option.label}</span>
                         <span className="option-desc">{option.desc}</span>
                       </div>
-                      <span
-                        className={`dot ${active ? "show" : ""}`}
-                        aria-hidden="true"
-                      />
+                      <FiChevronRight className="choice-arrow" aria-hidden="true" />
                     </button>
                   );
                 })}
               </section>
-
-              <div className="spacer" />
-
-              <button
-                type="button"
-                className="primary-button home-start-button"
-                onClick={() => setScreen("setup")}
-              >
-                MULAI
-              </button>
 
               <nav className="meta-links" aria-label="Navigasi tambahan">
                 <button
@@ -677,62 +837,102 @@ export default function App() {
           )}
 
           {screen === "setup" && (
-            <>
-              <section className="section-block first-block">
-                <h2>Siapa aja yang ikut?</h2>
-                <div className="segmented-grid">
-                  {playerCountOptions.map((option) => {
-                    const active = playerCount === option.id;
+            <div className="setup-screen">
+              {relationship === "group" && (
+                <section className="section-block first-block">
+                  <h2>Berapa orang?</h2>
+                  <div className="participant-count-list" aria-label="Jumlah orang">
+                    {playerCountOptions
+                      .filter((option) => option.id !== "1-1")
+                      .map((option) => {
+                        const active = playerCount === option.id;
+
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            className={`participant-count ${active ? "is-active" : ""}`}
+                            aria-pressed={active}
+                            onClick={() => setPlayerCount(option.id)}
+                          >
+                            {option.label}
+                          </button>
+                        );
+                      })}
+                  </div>
+                </section>
+              )}
+
+              <section className="section-block">
+                <h2>Suasananya?</h2>
+                <button
+                  type="button"
+                  className="disclosure-button"
+                  aria-expanded={isSituationOpen}
+                  onClick={() => setIsSituationOpen((open) => !open)}
+                >
+                  <span>{situationOptions.find((item) => item.id === situation)?.label} · ubah</span>
+                  {isSituationOpen ? (
+                    <FiChevronUp aria-hidden="true" />
+                  ) : (
+                    <FiChevronDown aria-hidden="true" />
+                  )}
+                </button>
+                {isSituationOpen && (
+                  <div className="disclosure-options">
+                    {situationOptions.map((option) => {
+                      const active = situation === option.id;
+
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          className={`chip ${active ? "is-active" : ""}`}
+                          aria-pressed={active}
+                          onClick={() => {
+                            setSituation(option.id);
+                            setIsSituationOpen(false);
+                          }}
+                        >
+                          {option.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </section>
+
+              <section className="section-block experience-picker">
+                <h2>Pilih mode</h2>
+                <div className="primary-mode-list">
+                  {primaryModeOptions.map((option) => {
+                    const active = playMode === option.id;
 
                     return (
                       <button
                         key={option.id}
                         type="button"
-                        className={`segment ${active ? "is-active" : ""}`}
-                        onClick={() => setPlayerCount(option.id)}
+                        className={`primary-mode-option ${option.id === "rage_bait" ? "is-rage" : ""} ${active ? "is-active" : ""}`}
+                        aria-pressed={active}
+                        onClick={() => {
+                          setPlayMode(option.id);
+                          setExperience("cair");
+                          setMode(option.id === "rage_bait" ? "rage_bait" : getDefaultMode({ playMode: "nyambung", relationship, playerCount, situation }));
+                        }}
                       >
-                        {option.label}
+                        <span>
+                          <strong>{option.label}</strong>
+                          <small>{option.description}</small>
+                        </span>
                       </button>
                     );
                   })}
                 </div>
               </section>
 
-              <section className="section-block">
-                <h2>Pilih suasana</h2>
-                <div className="chip-list">
-                  {vibeOptions.map((vibe) => {
-                    const active = selectedVibes.includes(vibe.id);
-
-                    return (
-                      <button
-                        key={vibe.id}
-                        type="button"
-                        className={`chip ${active ? "is-active" : ""}`}
-                        onClick={() => toggleVibe(vibe.id)}
-                      >
-                        {vibe.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </section>
-
-              <section className="section-block">
-                <h2>Sedalam apa obrolannya?</h2>
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  value={depth}
-                  onChange={(event) => setDepth(Number(event.target.value))}
-                  className="depth-slider"
-                  aria-label="Tingkat kedalaman obrolan"
-                />
-                <div className="depth-readout">
-                  {depthLabels[depth]} · tingkat {depth}
-                </div>
-              </section>
+              <p className="setup-summary">
+                {getOptionLabel(relationshipOptions, relationship)} · {situationOptions.find((item) => item.id === situation)?.label} · {playMode === "rage_bait" ? "Rage Bait" : "Nyambung"}
+              </p>
 
               <div className="spacer" />
 
@@ -742,17 +942,10 @@ export default function App() {
                   className="primary-button"
                   onClick={startSession}
                 >
-                  LANJUT
-                </button>
-                <button
-                  type="button"
-                  className="ghost-button"
-                  onClick={() => setScreen("home")}
-                >
-                  KEMBALI
+                  MULAI AJA
                 </button>
               </div>
-            </>
+            </div>
           )}
 
           {screen === "game" && (
@@ -770,17 +963,6 @@ export default function App() {
                 onPointerUp={handleGestureEnd}
                 onPointerCancel={handleGestureCancel}
               >
-                <div className="question-meta">
-                  <span>
-                    {
-                      relationshipOptions.find(
-                        (item) => item.id === relationship,
-                      )?.label
-                    }
-                  </span>
-                  <span>{depthLabels[depth]}</span>
-                </div>
-
                 <button
                   type="button"
                   className={
@@ -830,6 +1012,18 @@ export default function App() {
                 </button>
               </div>
 
+              {(modeConfig[mode]?.group === "rame" ||
+                ["point", "vote", "guess", "reveal"].includes(currentQuestion?.metadata?.archetype)) && (
+                <button type="button" className="mode-action" onClick={handleModeAction}>
+                  {mode === "pass_the_phone"
+                    ? "Oper ke orang berikutnya"
+                    : currentQuestion?.metadata?.archetype === "point"
+                      ? "Tunjuk orangnya"
+                      : "Mulai reaksinya"}
+                  {groupActionCount > 0 ? ` · ${groupActionCount}` : ""}
+                </button>
+              )}
+
               <div className="spacer" />
 
               <button
@@ -855,6 +1049,10 @@ export default function App() {
                   <li>
                     Untuk: {getOptionLabel(relationshipOptions, relationship)}
                   </li>
+                  <li>
+                    Lagi: {situationOptions.find((item) => item.id === situation)?.label}
+                  </li>
+                  <li>Gaya: {modeConfig[mode]?.label ?? "Tanya santai"}</li>
                   <li>
                     Mode: {getOptionLabel(playerCountOptions, playerCount)}
                   </li>
@@ -914,14 +1112,6 @@ export default function App() {
                 </section>
               )}
 
-              <div className="spacer" />
-              <button
-                type="button"
-                className="ghost-button"
-                onClick={() => setScreen(returnScreen)}
-              >
-                KEMBALI
-              </button>
             </>
           )}
 
@@ -999,14 +1189,6 @@ export default function App() {
                 RESET APLIKASI
               </button>
 
-              <div className="spacer" />
-              <button
-                type="button"
-                className="ghost-button"
-                onClick={() => setScreen(returnScreen)}
-              >
-                KEMBALI
-              </button>
             </>
           )}
         </div>

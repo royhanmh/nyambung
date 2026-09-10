@@ -142,12 +142,40 @@ button {
 }
 
 .topbar {
-  width: fit-content;
+  position: relative;
+  width: 100%;
   margin: 0 auto;
   padding: 4px 0 8px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.topbar-back {
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translateY(-50%);
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--accent-dark);
+  cursor: pointer;
+}
+
+.topbar-back svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.2;
+}
+
+.topbar-back:hover,
+.topbar-back:focus-visible {
+  background: var(--accent-soft);
 }
 
 .brand-mark {
@@ -207,10 +235,6 @@ button {
   text-align: left;
 }
 
-.option-card.is-active {
-  background: var(--accent-soft);
-}
-
 .option-copy {
   display: flex;
   flex-direction: column;
@@ -231,22 +255,25 @@ button {
   line-height: 1.4;
 }
 
-.dot {
-  width: 10px;
-  height: 10px;
-  flex: 0 0 10px;
-  border-radius: 999px;
-  background: transparent;
-  border: 1.5px solid color-mix(in srgb, var(--ink) 42%, transparent);
-}
-
-.dot.show {
-  background: var(--accent);
-  border-color: var(--accent);
+.choice-arrow {
+  flex: 0 0 auto;
+  align-self: center;
+  color: var(--accent-dark);
+  width: 18px;
+  height: 18px;
 }
 
 .section-block {
   padding-top: 12px;
+}
+
+.setup-screen {
+  min-height: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: visible;
+  padding-right: 4px;
 }
 
 .first-block {
@@ -297,6 +324,193 @@ button {
   gap: 8px;
 }
 
+.participant-count-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.participant-count {
+  min-height: 44px;
+  padding: 8px 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.participant-count.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.disclosure-button {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--accent-dark);
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.disclosure-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.situation-list {
+  max-height: 92px;
+  overflow: hidden;
+}
+
+.experience-list {
+  display: grid;
+  gap: 6px;
+}
+
+.intention-list {
+  gap: 0;
+}
+
+.primary-mode-list {
+  display: grid;
+  gap: 0;
+}
+
+.primary-mode-option {
+  display: flex;
+  width: 100%;
+  min-height: 58px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.primary-mode-option span {
+  display: grid;
+  gap: 2px;
+}
+
+.primary-mode-option strong {
+  font-family: var(--font-display);
+  font-size: 0.96rem;
+  letter-spacing: 0.02em;
+}
+
+.primary-mode-option small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.primary-mode-option.is-active {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+.primary-mode-option.is-rage.is-active {
+  background: color-mix(in srgb, var(--orange) 10%, transparent);
+  color: var(--orange-dark);
+}
+
+.experience-option {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  padding: 9px 12px;
+  align-items: center;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.experience-option span {
+  display: grid;
+  gap: 2px;
+}
+
+.experience-option strong {
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+}
+
+.experience-option small {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.experience-option.is-active {
+  color: var(--accent-dark);
+}
+
+.experience-option.is-active strong {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 4px;
+}
+
+.disclosure-button > svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+}
+
+.mode-select-label {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.mode-select-label select {
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+}
+
+.rage-intensity-control {
+  margin-top: 8px;
+}
+
+.setup-summary {
+  margin: 16px 4px 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.setup-screen > .spacer {
+  min-height: 12px;
+}
+
 .chip {
   padding: 9px 12px;
   font-size: 0.8rem;
@@ -335,10 +549,6 @@ button {
   box-shadow: 0 10px 18px rgba(23, 66, 61, 0.14);
 }
 
-.home-start-button {
-  margin-top: 16px;
-}
-
 .primary-button:hover,
 .primary-button:focus-visible {
   background: var(--accent-dark);
@@ -354,6 +564,7 @@ button {
   display: grid;
   gap: 10px;
   margin-top: 16px;
+  flex-shrink: 0;
 }
 
 .question-card,
@@ -396,16 +607,6 @@ button {
 
 .question-card.is-dragging:active {
   box-shadow: 0 8px 16px rgba(29, 47, 70, 0.05);
-}
-
-.question-meta {
-  display: flex;
-  justify-content: space-between;
-  color: var(--muted);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
 }
 
 .prompt-note {
@@ -481,6 +682,19 @@ button {
   cursor: pointer;
   min-height: 44px;
   padding: 8px 4px;
+}
+
+.mode-action {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 8px;
+  border: 1px solid color-mix(in srgb, var(--orange) 50%, var(--line));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--orange) 8%, transparent);
+  color: var(--orange-dark);
+  font-family: var(--font-display);
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .meta-links button:hover,
