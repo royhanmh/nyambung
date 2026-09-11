@@ -1462,6 +1462,17 @@ export default function App() {
               >
                 RESET APLIKASI
               </button>
+
+              <footer className="settings-footer">
+                created by{" "}
+                <a
+                  href="https://royhanmh.netlify.app/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  royhanmh
+                </a>
+              </footer>
             </>
           )}
         </div>
