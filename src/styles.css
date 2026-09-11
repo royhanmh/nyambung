@@ -912,7 +912,7 @@ button {
   position: relative;
   width: 92%;
   max-width: 356px;
-  height: 448px;
+  height: 490px;
   align-self: center;
   margin-top: 8px;
 }
@@ -1484,7 +1484,7 @@ a:focus-visible {
   }
 
   .question-stack {
-    height: 335px;
+    height: 365px;
     width: 92%;
   }
 
