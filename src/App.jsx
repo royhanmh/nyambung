@@ -417,6 +417,7 @@ export default function App() {
 
   const screenRef = useRef(screen);
   const returnScreenRef = useRef(returnScreen);
+  const gameActionsRef = useRef(null);
   useEffect(() => {
     screenRef.current = screen;
   }, [screen]);
@@ -425,12 +426,59 @@ export default function App() {
   }, [returnScreen]);
 
   useEffect(() => {
+    gameActionsRef.current = { answer: animateAnswer, depth: animateDepth };
+  });
+
+  useEffect(() => {
+    if (screen !== "game") return;
+    const handleArrowKeys = (event) => {
+      if (isKebabOpen || event.repeat) return;
+      if (event.target instanceof HTMLElement) {
+        const tag = event.target.tagName;
+        if (
+          tag === "INPUT" ||
+          tag === "TEXTAREA" ||
+          tag === "SELECT" ||
+          event.target.isContentEditable
+        )
+          return;
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        gameActionsRef.current?.answer("next");
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        gameActionsRef.current?.answer("skip");
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        gameActionsRef.current?.depth(1);
+      } else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        gameActionsRef.current?.depth(-1);
+      }
+    };
+    document.addEventListener("keydown", handleArrowKeys);
+    return () => document.removeEventListener("keydown", handleArrowKeys);
+  }, [screen, isKebabOpen]);
+
+  useEffect(() => {
     if (typeof window === "undefined" || !window.history) return;
-    window.history.replaceState(
-      { screen: "home", returnScreen: "home" },
-      "",
-      window.location.href,
-    );
+    const initialHash = window.location.hash.replace("#", "");
+    if (initialHash === "saved" || initialHash === "settings") {
+      setReturnScreen("home");
+      setScreen(initialHash);
+      window.history.replaceState(
+        { screen: initialHash, returnScreen: "home" },
+        "",
+        `#${initialHash}`,
+      );
+    } else {
+      window.history.replaceState(
+        { screen: "home", returnScreen: "home" },
+        "",
+        "#home",
+      );
+    }
     const handlePopState = (event) => {
       const state = event.state;
       const current = screenRef.current;
@@ -462,8 +510,7 @@ export default function App() {
         return;
       }
       if (current === "saved" || current === "settings") {
-        const prev = state?.returnScreen ?? ret ?? "home";
-        setScreen(prev);
+        setScreen(returnScreenRef.current ?? "home");
         return;
       }
       if (current === "home") {
@@ -912,6 +959,10 @@ export default function App() {
   };
 
   const handleBackNavigation = () => {
+    if (screen === "saved" || screen === "settings") {
+      setScreen(returnScreenRef.current ?? "home");
+      return;
+    }
     if (
       typeof window !== "undefined" &&
       window.history &&
@@ -924,9 +975,6 @@ export default function App() {
       setScreen("home");
       return;
     }
-    if (screen === "saved" || screen === "settings") {
-      setScreen(returnScreen);
-    }
   };
 
   const isKnownPath = ["/", "/index.html"].includes(window.location.pathname);
@@ -937,22 +985,6 @@ export default function App() {
 
   return (
     <div className={"app-shell" + (settings.darkMode ? " theme-dark" : "")}>
-      <section
-        className="mobile-only-notice"
-        aria-labelledby="mobile-notice-title"
-      >
-        <img
-          className="mobile-only-notice__mark"
-          src={brandWordmarkForTheme}
-          alt="nyambung"
-        />
-        <p className="eyebrow">Untuk layar kecil</p>
-        <h1 id="mobile-notice-title">Buka lewat handphone, ya.</h1>
-        <p>
-          Nyambung dibuat untuk obrolan yang terasa dekat di layar handphone.
-        </p>
-      </section>
-
       <main className="page-shell">
         <div className="phone-frame">
           <header className="topbar">
@@ -1050,13 +1082,14 @@ export default function App() {
                 })}
               </section>
               <button type="button" className="bebas-link" onClick={startBebas}>
-                Langsung Ngobrol
+                Lewati, langsung mulai
               </button>
             </>
           )}
 
           {screen === "setup" && (
             <div className="setup-screen">
+              <h1 className="visually-hidden">Atur obrolan</h1>
               <section className="section-block experience-picker first-block">
                 <h2>Pilih mode</h2>
                 <div className="primary-mode-list">
@@ -1190,7 +1223,7 @@ export default function App() {
           {screen === "game" && (
             <>
               <div className={`question-stack is-${swipeState.phase}`}>
-                <div className="stack-card stack-2" aria-hidden="true">
+                <div className="stack-card stack-2" aria-hidden="true" inert>
                   <button
                     type="button"
                     className={
@@ -1241,7 +1274,7 @@ export default function App() {
                       ""}
                   </p>
                 </div>
-                <div className="stack-card stack-1" aria-hidden="true">
+                <div className="stack-card stack-1" aria-hidden="true" inert>
                   <button
                     type="button"
                     className={
@@ -1333,10 +1366,10 @@ export default function App() {
             <>
               <section className="summary-card thank-you">
                 <p className="eyebrow">Sesi selesai</p>
-                <h2>Udah nyambung.</h2>
+                <h1>Udah nyambung.</h1>
                 <p className="thank-lede">
                   {answers.length > 0
-                    ? `Kalian buka ${answers.length} topik hari ini. Yang mau diingat, simpan aja.`
+                    ? `Kalian buka ${answers.length} topik hari ini${savedQuestions.length > 0 ? `, ${savedQuestions.length} tersimpan` : ""}. Yang mau diingat, simpan aja.`
                     : "Gak apa. Ngobrolnya udah cukup buat hari ini."}
                 </p>
               </section>
@@ -1403,7 +1436,7 @@ export default function App() {
               >
                 <div className="setting-row">
                   <div>
-                    <h3>Getaran</h3>
+                    <h2>Getaran</h2>
                     <p>
                       Getar kecil saat kamu memilih atau menggeser pertanyaan.
                     </p>
@@ -1413,7 +1446,8 @@ export default function App() {
                     className={
                       "toggle" + (settings.vibration ? " is-active" : "")
                     }
-                    aria-pressed={settings.vibration}
+                    role="switch"
+                    aria-checked={settings.vibration}
                     onClick={handleVibrationToggle}
                   >
                     {settings.vibration ? "Nyala" : "Mati"}
@@ -1421,7 +1455,7 @@ export default function App() {
                 </div>
                 <div className="setting-row">
                   <div>
-                    <h3>Suara</h3>
+                    <h2>Suara</h2>
                     <p>
                       Tone pendek saat kamu memilih atau menggeser pertanyaan.
                     </p>
@@ -1429,7 +1463,8 @@ export default function App() {
                   <button
                     type="button"
                     className={"toggle" + (settings.sound ? " is-active" : "")}
-                    aria-pressed={settings.sound}
+                    role="switch"
+                    aria-checked={settings.sound}
                     onClick={handleSoundToggle}
                   >
                     {settings.sound ? "Nyala" : "Mati"}
@@ -1437,7 +1472,7 @@ export default function App() {
                 </div>
                 <div className="setting-row">
                   <div>
-                    <h3>Mode gelap</h3>
+                    <h2>Mode gelap</h2>
                     <p>Ganti tampilan saat layar terasa terlalu terang.</p>
                   </div>
                   <button
@@ -1445,7 +1480,8 @@ export default function App() {
                     className={
                       "toggle" + (settings.darkMode ? " is-active" : "")
                     }
-                    aria-pressed={settings.darkMode}
+                    role="switch"
+                    aria-checked={settings.darkMode}
                     onClick={() =>
                       updateSetting("darkMode", !settings.darkMode)
                     }
