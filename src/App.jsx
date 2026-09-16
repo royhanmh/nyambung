@@ -1350,19 +1350,11 @@ export default function App() {
                 </section>
               </div>
 
-              <div
-                className="gesture-hint"
-                role="group"
-                aria-label="Petunjuk geser"
-              >
+              <div className="gesture-hint" aria-label="Petunjuk gesture">
                 <FiArrowLeft aria-hidden="true" />
-                <span>Geser kiri lewati, kanan lanjut</span>
+                <span>Swipe</span>
                 <FiArrowRight aria-hidden="true" />
               </div>
-
-              <p className="session-note" aria-live="polite">
-                {sessionNote} · {depthLabels[depth]}
-              </p>
 
               <div className="spacer" />
 
