@@ -1374,11 +1374,9 @@ export default function App() {
                 </p>
               </section>
 
-              <div className="spacer" />
-
               <button
                 type="button"
-                className="primary-button"
+                className="primary-button summary-restart"
                 onClick={() => setScreen("home")}
               >
                 MULAI BARU

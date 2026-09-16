@@ -888,11 +888,18 @@ button {
 }
 
 .summary-card.thank-you {
+  margin-top: auto;
+  margin-bottom: 0;
   padding: 28px 20px 26px;
   text-align: center;
   display: grid;
   gap: 12px;
   justify-items: center;
+}
+
+.summary-card.thank-you + .summary-restart {
+  margin-top: 24px;
+  margin-bottom: auto;
 }
 
 .summary-card.thank-you .eyebrow {
