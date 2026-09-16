@@ -919,7 +919,7 @@ button {
 }
 
 .summary-card.thank-you {
-  margin-top: auto;
+  margin-top: clamp(32px, 10dvh, 96px);
   margin-bottom: 0;
   padding: 28px 20px 26px;
   text-align: center;
