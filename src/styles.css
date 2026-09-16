@@ -1267,23 +1267,41 @@ button {
   overscroll-behavior: contain;
 }
 
+.saved-list {
+  flex: 1 1 auto;
+  max-height: none;
+  gap: 0;
+  scrollbar-gutter: stable;
+  padding-right: 4px;
+  padding-bottom: 8px;
+}
+
 .saved-item {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
   gap: 12px;
   min-height: 76px;
-  padding: 13px 12px 13px 14px;
+  padding: 16px 12px;
   border-bottom: 1px solid var(--line);
+}
+
+.saved-item:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.saved-item:last-child {
+  border-bottom: 0;
 }
 
 .saved-item p {
   margin: 0;
-  max-width: 32ch;
+  min-width: 0;
+  max-width: none;
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.5;
   overflow-wrap: anywhere;
   text-wrap: pretty;
 }
@@ -1291,6 +1309,9 @@ button {
 .saved-remove {
   width: 44px;
   height: 44px;
+  flex: 0 0 auto;
+  align-self: start;
+  margin-top: 2px;
   border: 0;
   border-radius: 50%;
   background: transparent;
