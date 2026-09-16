@@ -976,8 +976,8 @@ button {
   flex-direction: column;
   padding: 18px 16px;
   border-radius: 22px;
-  border: 0;
-  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  background: var(--panel);
   box-shadow: none;
   overflow: hidden;
   transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
