@@ -354,6 +354,7 @@ export default function App() {
     "Biar obrolan tetap santai tapi nyambung.",
   );
   const [reportOpen, setReportOpen] = useState(false);
+  const [stopConfirmOpen, setStopConfirmOpen] = useState(false);
   const [expandedSavedId, setExpandedSavedId] = useState(null);
   const [savedQuestions, setSavedQuestions] = useState(readSavedQuestions);
   const [settings, setSettings] = useState(readSettings);
@@ -424,6 +425,15 @@ export default function App() {
   useEffect(() => {
     setExpandedSavedId(null);
   }, [screen]);
+
+  useEffect(() => {
+    if (!stopConfirmOpen) return;
+    const handleKey = (event) => {
+      if (event.key === "Escape") setStopConfirmOpen(false);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [stopConfirmOpen]);
 
   const screenRef = useRef(screen);
   const returnScreenRef = useRef(returnScreen);
@@ -867,9 +877,12 @@ export default function App() {
   const settleCard = () => {
     setSwipeState({ x: 0, y: 0, phase: "settling" });
     window.clearTimeout(swipeExitTimerRef.current);
-    swipeExitTimerRef.current = window.setTimeout(() => {
-      setSwipeState({ x: 0, y: 0, phase: "idle" });
-    }, prefersReducedMotion() ? 40 : 260);
+    swipeExitTimerRef.current = window.setTimeout(
+      () => {
+        setSwipeState({ x: 0, y: 0, phase: "idle" });
+      },
+      prefersReducedMotion() ? 40 : 260,
+    );
   };
 
   const animateAnswer = (
@@ -883,10 +896,13 @@ export default function App() {
     triggerTone(answerValue === "skip" ? 440 : 620);
     setSwipeState({ x: exitX, y: exitY, phase: "exiting" });
     window.clearTimeout(swipeExitTimerRef.current);
-    swipeExitTimerRef.current = window.setTimeout(() => {
-      handleAnswer(answerValue);
-      setSwipeState({ x: 0, y: 0, phase: "idle" });
-    }, prefersReducedMotion() ? 40 : 240);
+    swipeExitTimerRef.current = window.setTimeout(
+      () => {
+        handleAnswer(answerValue);
+        setSwipeState({ x: 0, y: 0, phase: "idle" });
+      },
+      prefersReducedMotion() ? 40 : 240,
+    );
   };
 
   const animateDepth = (direction) => {
@@ -902,15 +918,18 @@ export default function App() {
     triggerTone(direction > 0 ? 700 : 420, 0.045);
     setSwipeState({ x: 0, y: direction > 0 ? -180 : 180, phase: "exiting" });
     window.clearTimeout(swipeExitTimerRef.current);
-    swipeExitTimerRef.current = window.setTimeout(() => {
-      setDepth(nextDepth);
-      setSessionNote(
-        direction > 0
-          ? "Kita masuk sedikit lebih dalam."
-          : "Santai dulu. Cari yang lebih ringan.",
-      );
-      setSwipeState({ x: 0, y: 0, phase: "idle" });
-    }, prefersReducedMotion() ? 40 : 230);
+    swipeExitTimerRef.current = window.setTimeout(
+      () => {
+        setDepth(nextDepth);
+        setSessionNote(
+          direction > 0
+            ? "Kita masuk sedikit lebih dalam."
+            : "Santai dulu. Cari yang lebih ringan.",
+        );
+        setSwipeState({ x: 0, y: 0, phase: "idle" });
+      },
+      prefersReducedMotion() ? 40 : 230,
+    );
   };
 
   const handleGestureEnd = (event) => {
@@ -960,6 +979,7 @@ export default function App() {
   };
 
   const handleStopSession = () => {
+    setStopConfirmOpen(false);
     setReportOpen(false);
     setSessionNote(
       "Sesi kamu berhenti di sini. Kamu bisa mulai lagi kapan aja.",
@@ -1184,10 +1204,7 @@ export default function App() {
                   )}
                 </button>
                 {isSituationOpen && (
-                  <div
-                    className="disclosure-options"
-                    id="situation-options"
-                  >
+                  <div className="disclosure-options" id="situation-options">
                     {situationOptions.map((option) => {
                       const active = situation === option.id;
 
@@ -1366,10 +1383,47 @@ export default function App() {
               <button
                 type="button"
                 className="ghost-button"
-                onClick={handleStopSession}
+                onClick={() => setStopConfirmOpen(true)}
               >
                 Berhenti
               </button>
+
+              {stopConfirmOpen && (
+                <div
+                  className="report-overlay"
+                  onClick={() => setStopConfirmOpen(false)}
+                >
+                  <div
+                    className="report-card"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Konfirmasi berhenti"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <h2>Berhenti dulu?</h2>
+                    <p className="thank-lede">
+                      Obrolan udahan? Mulai lagi kapan aja.
+                    </p>
+                    <div className="report-list">
+                      <button
+                        type="button"
+                        className="report-button primary"
+                        autoFocus
+                        onClick={() => setStopConfirmOpen(false)}
+                      >
+                        LANJUTKAN
+                      </button>
+                      <button
+                        type="button"
+                        className="report-button ghost"
+                        onClick={handleStopSession}
+                      >
+                        YA, BERHENTI
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           )}
 
@@ -1413,9 +1467,7 @@ export default function App() {
 
                     return (
                       <article
-                        className={
-                          "saved-item" + (isOpen ? " is-open" : "")
-                        }
+                        className={"saved-item" + (isOpen ? " is-open" : "")}
                         key={question.id}
                       >
                         <button

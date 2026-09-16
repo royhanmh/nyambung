@@ -1555,6 +1555,12 @@ a:focus-visible {
   line-height: 1.08;
 }
 
+.report-card > .thank-lede {
+  margin-bottom: 8px;
+  text-align: left;
+  justify-self: start;
+}
+
 .report-list {
   display: grid;
   gap: 10px;
