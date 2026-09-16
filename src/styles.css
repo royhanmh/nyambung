@@ -1685,9 +1685,3 @@ a:focus-visible {
     height: clamp(380px, 62dvh, 580px);
   }
 }
-
-@media (max-width: 767px) and (max-height: 700px) {
-  .question-stack {
-    height: 365px;
-  }
-}
