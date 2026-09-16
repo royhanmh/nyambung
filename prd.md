@@ -1688,19 +1688,8 @@ Must support:
 - keyboard navigation where applicable
 - reduced-motion preference
 - screen-reader-friendly controls
-- gesture alternatives
 
-Gestures should enhance the experience, not be the only way to perform an action.
-
-For example:
-
-```text
-Swipe left
-OR
-Tap "Lewati"
-```
-
-when accessibility or device limitations require it.
+Game is gesture-first by design. There is no Lewati or Lanjut button. Swipe is the primary input. Arrow keys are the desktop alternative: ArrowRight for Lanjut, ArrowLeft for Lewati, ArrowUp and ArrowDown for depth.
 
 ---
 
