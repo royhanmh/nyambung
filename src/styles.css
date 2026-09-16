@@ -155,10 +155,10 @@ button {
   height: 100%;
   min-height: 0;
   max-height: min(860px, calc(100dvh - 24px));
-  background: color-mix(in srgb, var(--panel) 76%, transparent);
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 28px;
-  box-shadow: var(--shadow);
+  box-shadow: none;
   padding: 20px 18px 18px;
   display: flex;
   flex-direction: column;
@@ -343,7 +343,7 @@ button {
 .choice-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 12px;
   max-height: min(62dvh, 620px);
   flex: 1;
   overflow-y: auto;
@@ -359,7 +359,7 @@ button {
   border: 1px solid var(--line);
   border-radius: 14px;
   min-height: 76px;
-  padding: 11px 14px;
+  padding: 12px 16px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -856,7 +856,7 @@ button {
 .primary-button {
   background: var(--accent);
   color: #fffdfb;
-  box-shadow: 0 10px 18px rgba(23, 66, 61, 0.14);
+  box-shadow: none;
 }
 
 .primary-button:hover,
@@ -974,9 +974,9 @@ button {
   flex-direction: column;
   padding: 18px 16px;
   border-radius: 22px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  box-shadow: var(--shadow);
+  border: 0;
+  background: var(--panel-strong);
+  box-shadow: none;
   overflow: hidden;
   transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
 }
