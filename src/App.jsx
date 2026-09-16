@@ -14,7 +14,6 @@ import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
 import questionDataset from "./data/nyambung-1000-questions-id-ID.json";
 import { modeConfig, situationOptions } from "./data/conversation-config";
 import {
-  getFallbackFollowUp,
   getNextMove,
   selectQuestions,
 } from "./engine/conversation-engine";
@@ -101,23 +100,8 @@ const playerCountOptions = [
   { id: "any", label: "Nggak mau ribet" },
 ];
 
-const vibeOptions = [
-  { id: "funny", label: "Receh" },
-  { id: "deep", label: "Dalam" },
-  { id: "nostalgia", label: "Nostalgia" },
-  { id: "personal", label: "Personal" },
-];
-
 const getOptionLabel = (options, id) =>
   options.find((option) => option.id === id)?.label ?? id;
-
-const depthLabels = {
-  1: "Ringan",
-  2: "Santai",
-  3: "Penasaran",
-  4: "Personal",
-  5: "Dalam",
-};
 
 const clamp = (value, minimum, maximum) =>
   Math.min(Math.max(value, minimum), maximum);
@@ -137,49 +121,6 @@ function HeartIcon({ filled = false }) {
     />
   );
 }
-
-const relationshipAliasMap = {
-  friends: ["friends", "family"],
-  couple: ["couple", "pdk_t", "pasangan"],
-  pdk_t: ["pdk_t", "couple", "new_people"],
-  group: ["group", "rame_rame", "family"],
-  new: ["new_people", "kenalan"],
-  family: ["family", "friends", "group"],
-};
-
-const vibeCategoryMap = {
-  funny: ["receh", "kenalan", "penasaran", "berani"],
-  deep: ["dalam", "personal", "penasaran", "berani"],
-  nostalgia: ["nostalgia", "kenalan"],
-  personal: ["personal", "dalam"],
-};
-
-const fallbackQuestionBank = {
-  friends: [
-    "Kalau ngobrol santai, topik paling gampang bikin kamu ketawa itu apa?",
-    "Hal paling absurd yang pernah kamu percaya waktu kecil apa?",
-    "Apa kebiasaan orang lain yang ternyata bikin kamu nyaman?",
-    "Kapan terakhir kali kamu ngerasa benar-benar nyambung sama teman?",
-  ],
-  couple: [
-    "Momen paling 'wah, dia beda' itu kapan buat kamu?",
-    "Hal kecil yang bikin kamu ngerasa dicintai itu apa?",
-    "Kalau ada satu sifat yang mau kamu ubah dari diri kita, apa itu?",
-    "Apa yang bikin kamu ngerasa aman sama hubungan ini?",
-  ],
-  group: [
-    "Siapa yang paling sering bikin suasana group kaku tapi lucu?",
-    "Kalau ada trip bareng, destinasi paling cocok buat grup kita apa?",
-    "Di group ini, siapa yang paling gampang nyambung sama orang baru?",
-    "Kriteria 'kompak' buat grup kita itu apa sih?",
-  ],
-  new: [
-    "Hal pertama yang bikin kamu merasa nyaman sama orang baru itu apa?",
-    "Pernah nggak ada orang yang awalnya asing tapi jadi gampang diajak ngobrol?",
-    "Menurut kamu, cara paling natural mulai obrolan itu gimana?",
-    "Apa topik yang paling gampang bikin kamu terbuka tanpa canggung?",
-  ],
-};
 
 function NotFoundPage() {
   const notFoundWordmark = readSettings().darkMode
@@ -208,86 +149,6 @@ const shuffleArray = (items) => {
   }
 
   return copy;
-};
-
-const buildQuestionBankLegacy = ({
-  relationshipId,
-  selectedVibes,
-  depth,
-  usedQuestions,
-  previousQuestions,
-  recentAnswers = [],
-}) => {
-  const aliases =
-    relationshipAliasMap[relationshipId] ?? relationshipAliasMap.friends;
-  const recentAnswer = recentAnswers[recentAnswers.length - 1];
-  const answerMoodBoost =
-    recentAnswer === "nyambung"
-      ? ["personal", "dalam", "berani"]
-      : recentAnswer === "skip"
-        ? ["kenalan", "receh", "penasaran"]
-        : [];
-
-  const chosenCategories = [
-    ...new Set([
-      ...selectedVibes.flatMap((vibeId) => vibeCategoryMap[vibeId] ?? []),
-      ...answerMoodBoost,
-    ]),
-  ];
-
-  const filteredQuestions = questionDataset.questions.filter((question) => {
-    const relationshipMatch = question.relationships?.some((relationship) =>
-      aliases.includes(relationship),
-    );
-    const categoryMatch = chosenCategories.includes(question.category);
-    const depthMatch = question.depth <= depth;
-    const notUsed = !usedQuestions.has(question.id);
-    const notRepeating = !previousQuestions.includes(question.text);
-
-    return (
-      relationshipMatch &&
-      categoryMatch &&
-      depthMatch &&
-      notUsed &&
-      notRepeating
-    );
-  });
-
-  if (filteredQuestions.length > 0) {
-    const rankedQuestions = filteredQuestions
-      .map((question) => {
-        const categoryScore = chosenCategories.includes(question.category)
-          ? 3
-          : 0;
-        const vibeScore = question.vibes?.filter((vibe) =>
-          [...selectedVibes, ...answerMoodBoost].includes(vibe),
-        ).length;
-        const depthScore = Math.max(0, depth - question.depth + 1);
-        const recencyScore =
-          recentAnswer === "nyambung" && question.category === "personal"
-            ? 2
-            : recentAnswer === "skip" && question.category === "receh"
-              ? 2
-              : 0;
-
-        return {
-          question,
-          score: categoryScore + (vibeScore ?? 0) + depthScore + recencyScore,
-        };
-      })
-      .sort((first, second) => second.score - first.score);
-
-    return shuffleArray(rankedQuestions).map(({ question }) => ({
-      id: question.id,
-      text: question.text,
-    }));
-  }
-
-  return shuffleArray(
-    (fallbackQuestionBank[relationshipId] ?? fallbackQuestionBank.friends).map(
-      (text, index) => ({ id: `fallback-${relationshipId}-${index}`, text }),
-    ),
-  );
 };
 
 const buildConversationQuestions = ({
@@ -339,7 +200,6 @@ export default function App() {
   const [situation, setSituation] = useState("nongkrong");
   const [isSituationOpen, setIsSituationOpen] = useState(false);
   const [playMode, setPlayMode] = useState("nyambung");
-  const [experience, setExperience] = useState("cair");
   const [mode, setMode] = useState("easy_mode");
   const [rageIntensity, setRageIntensity] = useState(2);
   const [selectedVibes, setSelectedVibes] = useState(["funny"]);
@@ -350,10 +210,6 @@ export default function App() {
   const [questionHistory, setQuestionHistory] = useState([]);
   const [lastAnswer, setLastAnswer] = useState(null);
   const [conversationMove, setConversationMove] = useState("ask");
-  const [sessionNote, setSessionNote] = useState(
-    "Biar obrolan tetap santai tapi nyambung.",
-  );
-  const [reportOpen, setReportOpen] = useState(false);
   const [stopConfirmOpen, setStopConfirmOpen] = useState(false);
   const [expandedSavedId, setExpandedSavedId] = useState(null);
   const [savedQuestions, setSavedQuestions] = useState(readSavedQuestions);
@@ -504,9 +360,6 @@ export default function App() {
       const current = screenRef.current;
       const ret = returnScreenRef.current;
       if (current === "game") {
-        setSessionNote(
-          "Sesi kamu berhenti di sini. Kamu bisa mulai lagi kapan aja.",
-        );
         setLastAnswer("Sesi selesai");
         setScreen("summary");
         window.history.pushState(
@@ -565,58 +418,8 @@ export default function App() {
     window.history.pushState({ screen, returnScreen }, "", `#${screen}`);
   }, [screen, returnScreen]);
 
-  const usedQuestions = useMemo(
-    () => new Set(questionHistory.map((item) => item.id)),
-    [questionHistory],
-  );
-
-  const previousQuestions = useMemo(
-    () => questionHistory.map((item) => item.text),
-    [questionHistory],
-  );
-
-  const conversationContext = useMemo(
-    () => ({
-      language: "id-ID",
-      relationship,
-      playerCount,
-      situation,
-      experience,
-      mode,
-      vibes: selectedVibes,
-      depth,
-      previousQuestions,
-      previousAnswers: answers,
-      skippedQuestions: [],
-      topics: selectedVibes,
-      sessionDuration: answers.length * 30,
-      preferredQuestionTypes: selectedVibes,
-    }),
-    [
-      relationship,
-      playerCount,
-      selectedVibes,
-      depth,
-      previousQuestions,
-      answers,
-      situation,
-      experience,
-      mode,
-    ],
-  );
-
   const currentQuestion =
     sessionQuestions[questionIndex] ?? sessionQuestions[0];
-  const sessionProgress = Math.min(
-    questionHistory.length + (screen === "game" && currentQuestion ? 1 : 0),
-    Math.max(sessionQuestions.length, 1),
-  );
-
-  const toggleVibe = (id) => {
-    setSelectedVibes((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
-    );
-  };
 
   const openSetup = (nextRelationship = relationship) => {
     setRelationship(nextRelationship);
@@ -626,15 +429,9 @@ export default function App() {
     setSituation("nongkrong");
     setIsSituationOpen(false);
     setPlayMode("nyambung");
-    setExperience("cair");
     setMode("easy_mode");
     setDepth(2);
     setScreen("setup");
-  };
-
-  const handleParticipantMode = (nextMode) => {
-    setParticipantMode(nextMode);
-    setPlayerCount(nextMode === "pair" ? "1-1" : "3-4");
   };
 
   const startBebas = () => {
@@ -660,7 +457,6 @@ export default function App() {
     setQuestionHistory([]);
     setLastAnswer(null);
     setConversationMove("ask");
-    setSessionNote("Mode bebas. Semua soal diacak.");
     setScreen("game");
   };
 
@@ -766,7 +562,6 @@ export default function App() {
     setSituation("nongkrong");
     setIsSituationOpen(false);
     setPlayMode("nyambung");
-    setExperience("cair");
     setMode("easy_mode");
     setRageIntensity(2);
   };
@@ -803,7 +598,6 @@ export default function App() {
     setQuestionHistory([]);
     setLastAnswer(null);
     setConversationMove("ask");
-    setSessionNote("Biar obrolan tetap santai tapi nyambung.");
     setScreen("game");
   };
 
@@ -835,14 +629,8 @@ export default function App() {
             },
             currentQuestion?.metadata,
           );
-    const moodText =
-      answerValue === "skip"
-        ? "Kita lewati dulu. Cari pertanyaan yang lebih pas."
-        : getFallbackFollowUp(currentQuestion?.metadata, answerValue, nextMove);
-
     setLastAnswer(answerText);
     setConversationMove(nextMove);
-    setSessionNote(moodText);
     setAnswers((prev) => [...prev, answerValue]);
 
     nextQuestion();
@@ -921,11 +709,6 @@ export default function App() {
     swipeExitTimerRef.current = window.setTimeout(
       () => {
         setDepth(nextDepth);
-        setSessionNote(
-          direction > 0
-            ? "Kita masuk sedikit lebih dalam."
-            : "Santai dulu. Cari yang lebih ringan.",
-        );
         setSwipeState({ x: 0, y: 0, phase: "idle" });
       },
       prefersReducedMotion() ? 40 : 230,
@@ -980,10 +763,6 @@ export default function App() {
 
   const handleStopSession = () => {
     setStopConfirmOpen(false);
-    setReportOpen(false);
-    setSessionNote(
-      "Sesi kamu berhenti di sini. Kamu bisa mulai lagi kapan aja.",
-    );
     setLastAnswer("Sesi selesai");
     setScreen("summary");
   };
@@ -1130,7 +909,6 @@ export default function App() {
                         aria-pressed={active}
                         onClick={() => {
                           setPlayMode(option.id);
-                          setExperience("cair");
                           setMode(
                             option.id === "rage_bait"
                               ? "rage_bait"
