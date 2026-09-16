@@ -354,6 +354,7 @@ export default function App() {
     "Biar obrolan tetap santai tapi nyambung.",
   );
   const [reportOpen, setReportOpen] = useState(false);
+  const [expandedSavedId, setExpandedSavedId] = useState(null);
   const [savedQuestions, setSavedQuestions] = useState(readSavedQuestions);
   const [settings, setSettings] = useState(readSettings);
   const [isKebabOpen, setIsKebabOpen] = useState(false);
@@ -418,6 +419,10 @@ export default function App() {
 
   useEffect(() => {
     setIsKebabOpen(false);
+  }, [screen]);
+
+  useEffect(() => {
+    setExpandedSavedId(null);
   }, [screen]);
 
   const screenRef = useRef(screen);
@@ -1403,19 +1408,42 @@ export default function App() {
                   className="saved-list"
                   aria-label="Pertanyaan tersimpan"
                 >
-                  {savedQuestions.map((question) => (
-                    <article className="saved-item" key={question.id}>
-                      <p>{question.text}</p>
-                      <button
-                        type="button"
-                        className="saved-remove"
-                        aria-label="Hapus pertanyaan dari tersimpan"
-                        onClick={() => toggleFavorite(question)}
+                  {savedQuestions.map((question) => {
+                    const isOpen = expandedSavedId === question.id;
+
+                    return (
+                      <article
+                        className={
+                          "saved-item" + (isOpen ? " is-open" : "")
+                        }
+                        key={question.id}
                       >
-                        <HeartIcon filled />
-                      </button>
-                    </article>
-                  ))}
+                        <button
+                          type="button"
+                          className="saved-open"
+                          aria-expanded={isOpen}
+                          aria-label={
+                            isOpen
+                              ? "Tutup pertanyaan lengkap"
+                              : "Lihat pertanyaan lengkap"
+                          }
+                          onClick={() =>
+                            setExpandedSavedId(isOpen ? null : question.id)
+                          }
+                        >
+                          <span aria-hidden="true">{question.text}</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="saved-remove"
+                          aria-label="Hapus pertanyaan dari tersimpan"
+                          onClick={() => toggleFavorite(question)}
+                        >
+                          <HeartIcon filled />
+                        </button>
+                      </article>
+                    );
+                  })}
                 </section>
               ) : (
                 <section className="empty-state">

@@ -875,6 +875,8 @@ button {
 
 .primary-button:active,
 .ghost-button:active,
+.report-button:active,
+.saved-open:active,
 .option-card:active,
 .chip:active,
 .participant-count:active,
@@ -1313,9 +1315,9 @@ button {
 }
 
 .saved-list {
+  display: block;
   flex: 1 1 auto;
   max-height: none;
-  gap: 0;
   scrollbar-gutter: stable;
   padding-right: 4px;
   padding-bottom: 8px;
@@ -1327,9 +1329,9 @@ button {
 }
 
 .saved-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
+  display: flex;
+  height: auto;
+  align-items: flex-start;
   gap: 12px;
   min-height: 76px;
   padding: 16px 12px;
@@ -1344,16 +1346,35 @@ button {
   border-bottom: 0;
 }
 
-.saved-item p {
-  margin: 0;
+.saved-open {
+  flex: 1 1 auto;
   min-width: 0;
-  max-width: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.saved-open span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
-  overflow-wrap: anywhere;
-  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+.saved-item.is-open .saved-open span {
+  display: block;
+  -webkit-line-clamp: none;
+  line-clamp: none;
+  overflow: visible;
 }
 
 .saved-remove {
@@ -1519,7 +1540,7 @@ a:focus-visible {
   background: color-mix(in srgb, var(--accent-dark) 28%, transparent);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   padding: 20px 16px;
   z-index: 50;
@@ -1529,7 +1550,7 @@ a:focus-visible {
   width: min(100%, 420px);
   background: color-mix(in srgb, var(--panel) 96%, transparent);
   border: 1px solid var(--line);
-  border-radius: 24px 24px 18px 18px;
+  border-radius: 22px;
   box-shadow: var(--shadow);
   padding: 18px 16px 16px;
 }
