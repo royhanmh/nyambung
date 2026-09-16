@@ -1003,11 +1003,7 @@ export default function App() {
               src={brandWordmarkForTheme}
               alt="nyambung"
             />
-            <div
-              className="topbar-actions"
-              ref={kebabRef}
-              aria-label="Aksi atas"
-            >
+            <div className="topbar-actions" ref={kebabRef}>
               <button
                 type="button"
                 className="topbar-kebab"
@@ -1161,6 +1157,7 @@ export default function App() {
                   type="button"
                   className="disclosure-button"
                   aria-expanded={isSituationOpen}
+                  aria-controls="situation-options"
                   onClick={() => setIsSituationOpen((open) => !open)}
                 >
                   <span>
@@ -1177,7 +1174,10 @@ export default function App() {
                   )}
                 </button>
                 {isSituationOpen && (
-                  <div className="disclosure-options">
+                  <div
+                    className="disclosure-options"
+                    id="situation-options"
+                  >
                     {situationOptions.map((option) => {
                       const active = situation === option.id;
 
@@ -1222,6 +1222,7 @@ export default function App() {
 
           {screen === "game" && (
             <>
+              <h1 className="visually-hidden">Pertanyaan</h1>
               <div className={`question-stack is-${swipeState.phase}`}>
                 <div className="stack-card stack-2" aria-hidden="true" inert>
                   <button
@@ -1453,6 +1454,7 @@ export default function App() {
                       "toggle" + (settings.vibration ? " is-active" : "")
                     }
                     role="switch"
+                    aria-label="Getaran"
                     aria-checked={settings.vibration}
                     onClick={handleVibrationToggle}
                   >
@@ -1470,6 +1472,7 @@ export default function App() {
                     type="button"
                     className={"toggle" + (settings.sound ? " is-active" : "")}
                     role="switch"
+                    aria-label="Suara"
                     aria-checked={settings.sound}
                     onClick={handleSoundToggle}
                   >
@@ -1487,6 +1490,7 @@ export default function App() {
                       "toggle" + (settings.darkMode ? " is-active" : "")
                     }
                     role="switch"
+                    aria-label="Mode gelap"
                     aria-checked={settings.darkMode}
                     onClick={() =>
                       updateSetting("darkMode", !settings.darkMode)
