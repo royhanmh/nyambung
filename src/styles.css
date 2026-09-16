@@ -1042,7 +1042,7 @@ button {
   transform: translate3d(var(--swipe-x), var(--swipe-y), 0)
     rotate(var(--swipe-rotate));
   transform-origin: 50% 85%;
-  touch-action: pan-y;
+  touch-action: none;
   cursor: grab;
   will-change: transform;
   z-index: 2;
@@ -1148,6 +1148,17 @@ button {
   height: 14px;
   stroke-width: 2;
   flex: 0 0 14px;
+}
+
+.session-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm);
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: pretty;
 }
 
 .answer-actions {
