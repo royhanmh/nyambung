@@ -343,7 +343,11 @@ button {
 .choice-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: transparent;
+  overflow: hidden auto;
   max-height: min(62dvh, 620px);
   flex: 1;
   overflow-y: auto;
@@ -355,9 +359,10 @@ button {
 
 .option-card {
   width: 100%;
-  background: color-mix(in srgb, var(--panel) 48%, transparent);
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
   min-height: 76px;
   padding: 12px 16px;
   display: flex;
@@ -369,9 +374,13 @@ button {
   position: relative;
 }
 
+.option-card:last-child {
+  border-bottom: 0;
+}
+
 .option-card:hover,
 .option-card:focus-visible {
-  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .bebas-link {
