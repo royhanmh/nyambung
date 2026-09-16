@@ -169,7 +169,7 @@ button {
   position: relative;
   width: 100%;
   margin: 0 auto;
-  padding: 4px 0 8px;
+  padding: 4px 8px 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1653,7 +1653,7 @@ a:focus-visible {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
   .phone-frame {
     border-radius: 0;
     border-left: none;
@@ -1682,5 +1682,11 @@ a:focus-visible {
 @media (max-width: 767px) {
   .question-stack {
     height: clamp(380px, 62dvh, 580px);
+  }
+}
+
+@media (max-width: 767px) and (max-height: 700px) {
+  .question-stack {
+    height: 365px;
   }
 }
