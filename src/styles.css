@@ -182,8 +182,8 @@ button {
   left: -8px;
   transform: translateY(-57%);
   display: grid;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   border: 0;
   border-radius: 50%;
@@ -369,9 +369,16 @@ button {
   position: relative;
 }
 
+.option-card:hover,
+.option-card:focus-visible {
+  border-color: var(--accent);
+}
+
 .bebas-link {
-  display: block;
+  display: grid;
   width: fit-content;
+  min-height: 44px;
+  align-content: center;
   margin: 14px auto 4px;
   padding: 8px 12px;
   border: 0;
@@ -857,10 +864,32 @@ button {
   background: var(--accent-dark);
 }
 
+.primary-button:active,
+.ghost-button:active,
+.option-card:active,
+.chip:active,
+.participant-count:active,
+.favorite-button:active,
+.toggle:active,
+.primary-mode-option:active,
+.disclosure-button:active,
+.bebas-link:active {
+  transform: scale(0.98);
+}
+
 .ghost-button {
-  background: color-mix(in srgb, var(--panel) 52%, transparent);
-  border: 1px solid var(--line);
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+
+.ghost-button:hover,
+.ghost-button:focus-visible {
   color: var(--ink);
+  text-decoration-color: var(--muted);
 }
 
 .setup-actions {
@@ -1220,12 +1249,12 @@ button {
   align-items: center;
   gap: 6px;
   margin: 6px 0 4px;
-  padding: 7px 10px;
+  padding: 12px 16px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: transparent;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
 }
