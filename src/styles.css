@@ -996,7 +996,7 @@ button {
   width: auto;
   margin: 6px 0 4px;
   padding: 7px 10px;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .stack-card p {
@@ -1590,6 +1590,11 @@ a:focus-visible {
   .disclosure-options,
   .kebab-menu {
     animation: none;
+  }
+
+  .stack-card {
+    transition-duration: 0.01ms;
+    transition-delay: 0ms;
   }
 }
 

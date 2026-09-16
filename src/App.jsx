@@ -122,6 +122,11 @@ const depthLabels = {
 const clamp = (value, minimum, maximum) =>
   Math.min(Math.max(value, minimum), maximum);
 
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function HeartIcon({ filled = false }) {
   return (
     <FiHeart
@@ -859,7 +864,7 @@ export default function App() {
     window.clearTimeout(swipeExitTimerRef.current);
     swipeExitTimerRef.current = window.setTimeout(() => {
       setSwipeState({ x: 0, y: 0, phase: "idle" });
-    }, 260);
+    }, prefersReducedMotion() ? 40 : 260);
   };
 
   const animateAnswer = (
@@ -876,7 +881,7 @@ export default function App() {
     swipeExitTimerRef.current = window.setTimeout(() => {
       handleAnswer(answerValue);
       setSwipeState({ x: 0, y: 0, phase: "idle" });
-    }, 240);
+    }, prefersReducedMotion() ? 40 : 240);
   };
 
   const animateDepth = (direction) => {
@@ -900,7 +905,7 @@ export default function App() {
           : "Santai dulu. Cari yang lebih ringan.",
       );
       setSwipeState({ x: 0, y: 0, phase: "idle" });
-    }, 230);
+    }, prefersReducedMotion() ? 40 : 230);
   };
 
   const handleGestureEnd = (event) => {
