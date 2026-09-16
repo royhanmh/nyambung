@@ -1332,6 +1332,11 @@ button {
   padding-bottom: 8px;
 }
 
+.settings-list {
+  scrollbar-gutter: stable;
+  padding-right: 4px;
+}
+
 .saved-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
