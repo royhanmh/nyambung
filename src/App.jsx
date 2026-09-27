@@ -669,7 +669,7 @@ export default function App() {
       () => {
         setSwipeState({ x: 0, y: 0, phase: "idle" });
       },
-      prefersReducedMotion() ? 40 : 260,
+      prefersReducedMotion() ? 1 : 260,
     );
   };
 
@@ -689,7 +689,7 @@ export default function App() {
         handleAnswer(answerValue);
         setSwipeState({ x: 0, y: 0, phase: "idle" });
       },
-      prefersReducedMotion() ? 40 : 240,
+      prefersReducedMotion() ? 1 : 220,
     );
   };
 
@@ -711,7 +711,7 @@ export default function App() {
         setDepth(nextDepth);
         setSwipeState({ x: 0, y: 0, phase: "idle" });
       },
-      prefersReducedMotion() ? 40 : 230,
+      prefersReducedMotion() ? 1 : 220,
     );
   };
 
@@ -1029,7 +1029,18 @@ export default function App() {
             <>
               <h1 className="visually-hidden">Pertanyaan</h1>
               <div className={`question-stack is-${swipeState.phase}`}>
-                <div className="stack-card stack-2" aria-hidden="true" inert>
+                <div
+                  className="stack-card stack-2"
+                  aria-hidden="true"
+                  inert
+                  style={
+                    swipeState.phase === "dragging"
+                      ? {
+                          transform: `translateY(${16 - Math.min(6, (Math.abs(swipeState.x) + Math.abs(swipeState.y)) / 25)}px)`,
+                        }
+                      : undefined
+                  }
+                >
                   <button
                     type="button"
                     className={
@@ -1080,7 +1091,18 @@ export default function App() {
                       ""}
                   </p>
                 </div>
-                <div className="stack-card stack-1" aria-hidden="true" inert>
+                <div
+                  className="stack-card stack-1"
+                  aria-hidden="true"
+                  inert
+                  style={
+                    swipeState.phase === "dragging"
+                      ? {
+                          transform: `translateY(${8 - Math.min(4, (Math.abs(swipeState.x) + Math.abs(swipeState.y)) / 30)}px)`,
+                        }
+                      : undefined
+                  }
+                >
                   <button
                     type="button"
                     className={
@@ -1117,7 +1139,7 @@ export default function App() {
                   style={{
                     "--swipe-x": `${swipeState.x}px`,
                     "--swipe-y": `${swipeState.y}px`,
-                    "--swipe-rotate": `${clamp(swipeState.x / 18, -8, 8)}deg`,
+                    "--swipe-rotate": `${clamp(swipeState.x / 14, -11, 11)}deg`,
                     "--swipe-opacity": "1",
                   }}
                   onPointerDown={handleGestureStart}
