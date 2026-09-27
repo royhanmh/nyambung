@@ -710,6 +710,18 @@ Move to the next question.
 
 Hold the question card to request another contextual follow-up.
 
+> Status versi ini: NONAKTIF. Target versi berikutnya (lihat P1).
+
+---
+
+## Swipe Up / Swipe Down
+
+### Lebih dalam / Santai dulu
+
+Vertical swipe adjusts conversation depth.
+
+> Status versi ini: NONAKTIF. Tidak ada hint, undiscoverable. Target versi berikutnya (lihat P1).
+
 ---
 
 ## Tap
@@ -1613,6 +1625,7 @@ The team should optimize for meaningful conversations, not raw question count.
 # 48. P1 — SHOULD HAVE
 
 - Long press follow-up
+- Swipe vertikal depth (lebih dalam / santai dulu)
 - Haptic feedback
 - Saved questions
 - Group voting
@@ -1689,7 +1702,7 @@ Must support:
 - reduced-motion preference
 - screen-reader-friendly controls
 
-Game is gesture-first by design. There is no Lewati or Lanjut button. Swipe is the primary input. Arrow keys are the desktop alternative: ArrowRight for Lanjut, ArrowLeft for Lewati, ArrowUp and ArrowDown for depth.
+Game is gesture-first by design. There is no Lewati or Lanjut button. Swipe is the primary input. Arrow keys are the desktop alternative: ArrowRight for Lanjut, ArrowLeft for Lewati. Depth keys (ArrowUp/ArrowDown) and vertical swipe are disabled in this version, target next version.
 
 ---
 
@@ -1791,8 +1804,9 @@ The entire product should ultimately reduce to:
           │  QUESTION   │
           │             │
           └─────────────┘
-             ↙ ↓ ↘
-          skip  next  deeper
+             ↙ ↘
+          skip  next
+   (deeper: versi berikutnya)
                  ↓
               ANSWER
                  ↓

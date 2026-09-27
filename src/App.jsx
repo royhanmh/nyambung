@@ -317,7 +317,7 @@ export default function App() {
   }, [returnScreen]);
 
   useEffect(() => {
-    gameActionsRef.current = { answer: animateAnswer, depth: animateDepth };
+    gameActionsRef.current = { answer: animateAnswer };
   });
 
   useEffect(() => {
@@ -340,12 +340,6 @@ export default function App() {
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
         gameActionsRef.current?.answer("skip");
-      } else if (event.key === "ArrowUp") {
-        event.preventDefault();
-        gameActionsRef.current?.depth(1);
-      } else if (event.key === "ArrowDown") {
-        event.preventDefault();
-        gameActionsRef.current?.depth(-1);
       }
     };
     document.addEventListener("keydown", handleArrowKeys);
@@ -691,11 +685,9 @@ export default function App() {
     if (!touchStartRef.current) return;
 
     const deltaX = event.clientX - touchStartRef.current.x;
-    const deltaY = event.clientY - touchStartRef.current.y;
-    const horizontal = Math.abs(deltaX) >= Math.abs(deltaY);
     setSwipeState({
-      x: horizontal ? clamp(deltaX, -150, 150) : 0,
-      y: horizontal ? 0 : clamp(deltaY, -110, 110),
+      x: clamp(deltaX, -150, 150),
+      y: 0,
       phase: "dragging",
     });
   };
@@ -731,28 +723,6 @@ export default function App() {
     );
   };
 
-  const animateDepth = (direction) => {
-    if (swipeState.phase === "exiting") return;
-
-    const nextDepth = clamp(depth + direction, 1, 5);
-    if (nextDepth === depth) {
-      settleCard();
-      return;
-    }
-
-    triggerVibration(14);
-    triggerTone(direction > 0 ? 700 : 420, 0.045);
-    setSwipeState({ x: 0, y: direction > 0 ? -180 : 180, phase: "exiting" });
-    window.clearTimeout(swipeExitTimerRef.current);
-    swipeExitTimerRef.current = window.setTimeout(
-      () => {
-        setDepth(nextDepth);
-        setSwipeState({ x: 0, y: 0, phase: "idle" });
-      },
-      prefersReducedMotion() ? 1 : 220,
-    );
-  };
-
   const handleGestureEnd = (event) => {
     if (
       !touchStartRef.current ||
@@ -779,7 +749,7 @@ export default function App() {
     }
 
     if (Math.abs(deltaY) > Math.abs(deltaX)) {
-      animateDepth(deltaY < 0 ? 1 : -1);
+      settleCard();
       return;
     }
 
