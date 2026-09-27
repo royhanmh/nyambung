@@ -11,7 +11,6 @@ import {
 } from "react-icons/fi";
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
 import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
-import questionDataset from "./data/nyambung-1000-questions-id-ID.json";
 import { modeConfig, situationOptions } from "./data/conversation-config";
 import {
   getNextMove,
@@ -152,6 +151,7 @@ const shuffleArray = (items) => {
 };
 
 const buildConversationQuestions = ({
+  dataset,
   relationship,
   playerCount,
   situation,
@@ -188,7 +188,16 @@ const buildConversationQuestions = ({
     usedQuestionIds: questionHistory.map((item) => item.id),
   };
 
-  return selectQuestions(questionDataset, state, config);
+  return selectQuestions(dataset, state, config);
+};
+
+let cachedDatasetPromise = null;
+
+const loadQuestionDataset = () => {
+  cachedDatasetPromise ??= import(
+    "./data/nyambung-1000-questions-id-ID.json"
+  ).then((module) => module.default ?? module);
+  return cachedDatasetPromise;
 };
 
 export default function App() {
@@ -213,6 +222,8 @@ export default function App() {
   const [stopConfirmOpen, setStopConfirmOpen] = useState(false);
   const [expandedSavedId, setExpandedSavedId] = useState(null);
   const [savedQuestions, setSavedQuestions] = useState(readSavedQuestions);
+  const [isStarting, setIsStarting] = useState(false);
+  const [startError, setStartError] = useState(null);
   const [settings, setSettings] = useState(readSettings);
   const [isKebabOpen, setIsKebabOpen] = useState(false);
   const kebabRef = useRef(null);
@@ -236,6 +247,10 @@ export default function App() {
     },
     [],
   );
+
+  useEffect(() => {
+    loadQuestionDataset().catch(() => {});
+  }, []);
 
   useEffect(() => {
     writeStorage(STORAGE_KEYS.favorites, savedQuestions);
@@ -434,30 +449,41 @@ export default function App() {
     setScreen("setup");
   };
 
-  const startBebas = () => {
-    const shuffled = shuffleArray(questionDataset.questions).map((q) => ({
-      id: q.id,
-      text: q.text,
-      metadata: q,
-    }));
-    setRelationship("bebas");
-    setSituation("acak");
-    setMode("bebas");
-    setPlayMode("nyambung");
-    setSessionMeta({
-      relationship: "bebas",
-      situation: "acak",
-      mode: "bebas",
-      playerCount: "1-1",
-      selectedVibes: [],
-    });
-    setQuestionIndex(0);
-    setSessionQuestions(shuffled);
-    setAnswers([]);
-    setQuestionHistory([]);
-    setLastAnswer(null);
-    setConversationMove("ask");
-    setScreen("game");
+  const startBebas = async () => {
+    if (isStarting) return;
+    setIsStarting(true);
+    setStartError(null);
+
+    try {
+      const dataset = await loadQuestionDataset();
+      const shuffled = shuffleArray(dataset.questions).map((q) => ({
+        id: q.id,
+        text: q.text,
+        metadata: q,
+      }));
+      setRelationship("bebas");
+      setSituation("acak");
+      setMode("bebas");
+      setPlayMode("nyambung");
+      setSessionMeta({
+        relationship: "bebas",
+        situation: "acak",
+        mode: "bebas",
+        playerCount: "1-1",
+        selectedVibes: [],
+      });
+      setQuestionIndex(0);
+      setSessionQuestions(shuffled);
+      setAnswers([]);
+      setQuestionHistory([]);
+      setLastAnswer(null);
+      setConversationMove("ask");
+      setScreen("game");
+    } catch {
+      setStartError("Hmm, pertanyaannya lagi nyangkut 😅");
+    } finally {
+      setIsStarting(false);
+    }
   };
 
   const openSecondaryScreen = (nextScreen) => {
@@ -566,39 +592,51 @@ export default function App() {
     setRageIntensity(2);
   };
 
-  const startSession = () => {
-    const sessionMode = getDefaultMode({
-      playMode,
-      relationship,
-      playerCount,
-      situation,
-    });
-    const initialQuestions = buildConversationQuestions({
-      relationship,
-      playerCount,
-      situation,
-      mode: sessionMode,
-      depth,
-      selectedVibes,
-      questionHistory: [],
-      rageIntensity,
-    });
+  const startSession = async () => {
+    if (isStarting) return;
+    setIsStarting(true);
+    setStartError(null);
 
-    setQuestionIndex(0);
-    setSessionQuestions(initialQuestions);
-    setMode(sessionMode);
-    setSessionMeta({
-      relationship,
-      situation,
-      mode: sessionMode,
-      playerCount,
-      selectedVibes: [...selectedVibes],
-    });
-    setAnswers([]);
-    setQuestionHistory([]);
-    setLastAnswer(null);
-    setConversationMove("ask");
-    setScreen("game");
+    try {
+      const dataset = await loadQuestionDataset();
+      const sessionMode = getDefaultMode({
+        playMode,
+        relationship,
+        playerCount,
+        situation,
+      });
+      const initialQuestions = buildConversationQuestions({
+        dataset,
+        relationship,
+        playerCount,
+        situation,
+        mode: sessionMode,
+        depth,
+        selectedVibes,
+        questionHistory: [],
+        rageIntensity,
+      });
+
+      setQuestionIndex(0);
+      setSessionQuestions(initialQuestions);
+      setMode(sessionMode);
+      setSessionMeta({
+        relationship,
+        situation,
+        mode: sessionMode,
+        playerCount,
+        selectedVibes: [...selectedVibes],
+      });
+      setAnswers([]);
+      setQuestionHistory([]);
+      setLastAnswer(null);
+      setConversationMove("ask");
+      setScreen("game");
+    } catch {
+      setStartError("Hmm, pertanyaannya lagi nyangkut 😅");
+    } finally {
+      setIsStarting(false);
+    }
   };
 
   const nextQuestion = () => {
@@ -886,9 +924,19 @@ export default function App() {
                   );
                 })}
               </section>
-              <button type="button" className="bebas-link" onClick={startBebas}>
-                Lewati, langsung mulai
+              <button
+                type="button"
+                className="bebas-link"
+                onClick={startBebas}
+                disabled={isStarting}
+              >
+                {isStarting ? "Bentar, cari yang menarik dulu..." : "Lewati, langsung mulai"}
               </button>
+              {screen === "home" && startError && (
+                <p className="setup-summary" role="alert">
+                  {startError} Coba lagi.
+                </p>
+              )}
             </>
           )}
 
@@ -1018,9 +1066,15 @@ export default function App() {
                   type="button"
                   className="primary-button"
                   onClick={startSession}
+                  disabled={isStarting}
                 >
-                  MULAI AJA
+                  {isStarting ? "BENTAR..." : "MULAI AJA"}
                 </button>
+                {startError && (
+                  <p className="setup-summary" role="alert">
+                    {startError} Coba lagi.
+                  </p>
+                )}
               </div>
             </div>
           )}
