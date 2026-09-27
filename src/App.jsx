@@ -308,6 +308,7 @@ export default function App() {
 
   const screenRef = useRef(screen);
   const returnScreenRef = useRef(returnScreen);
+  const stopConfirmRef = useRef(stopConfirmOpen);
   const gameActionsRef = useRef(null);
   useEffect(() => {
     screenRef.current = screen;
@@ -315,6 +316,9 @@ export default function App() {
   useEffect(() => {
     returnScreenRef.current = returnScreen;
   }, [returnScreen]);
+  useEffect(() => {
+    stopConfirmRef.current = stopConfirmOpen;
+  }, [stopConfirmOpen]);
 
   useEffect(() => {
     gameActionsRef.current = { answer: animateAnswer };
@@ -369,12 +373,15 @@ export default function App() {
       const current = screenRef.current;
       const ret = returnScreenRef.current;
       if (current === "game") {
-        setLastAnswer("Sesi selesai");
-        setScreen("summary");
+        if (stopConfirmRef.current) {
+          setStopConfirmOpen(false);
+        } else {
+          setStopConfirmOpen(true);
+        }
         window.history.pushState(
-          { screen: "summary", returnScreen: ret },
+          { screen: "game", returnScreen: ret },
           "",
-          "#summary",
+          "#game",
         );
         return;
       }
