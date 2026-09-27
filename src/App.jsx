@@ -227,6 +227,9 @@ export default function App() {
   const [settings, setSettings] = useState(readSettings);
   const [isKebabOpen, setIsKebabOpen] = useState(false);
   const kebabRef = useRef(null);
+  const stopTriggerRef = useRef(null);
+  const stopDialogRef = useRef(null);
+  const stopWasOpenRef = useRef(false);
   const [sessionMeta, setSessionMeta] = useState(null);
   const touchStartRef = useRef(null);
   const swipeExitTimerRef = useRef(null);
@@ -298,7 +301,14 @@ export default function App() {
   }, [screen]);
 
   useEffect(() => {
-    if (!stopConfirmOpen) return;
+    if (!stopConfirmOpen) {
+      if (stopWasOpenRef.current) {
+        stopWasOpenRef.current = false;
+        stopTriggerRef.current?.focus();
+      }
+      return;
+    }
+    stopWasOpenRef.current = true;
     const handleKey = (event) => {
       if (event.key === "Escape") setStopConfirmOpen(false);
     };
@@ -776,6 +786,23 @@ export default function App() {
     settleCard();
   };
 
+  const handleStopDialogKeyDown = (event) => {
+    if (event.key !== "Tab" || !stopDialogRef.current) return;
+    const focusables = stopDialogRef.current.querySelectorAll(
+      'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+    );
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
   const handleStopSession = () => {
     setStopConfirmOpen(false);
     setLastAnswer("Sesi selesai");
@@ -1199,7 +1226,9 @@ export default function App() {
                     {isFavorite() ? "Tersimpan" : "Simpan"}
                   </button>
 
-                  <h2>{currentQuestion?.text ?? currentQuestion}</h2>
+                  <h2 aria-live="polite">
+                    {currentQuestion?.text ?? currentQuestion}
+                  </h2>
                 </section>
               </div>
 
@@ -1214,6 +1243,7 @@ export default function App() {
               <button
                 type="button"
                 className="ghost-button"
+                ref={stopTriggerRef}
                 onClick={() => setStopConfirmOpen(true)}
               >
                 Berhenti
@@ -1229,6 +1259,8 @@ export default function App() {
                     role="dialog"
                     aria-modal="true"
                     aria-label="Konfirmasi berhenti"
+                    ref={stopDialogRef}
+                    onKeyDown={handleStopDialogKeyDown}
                     onClick={(event) => event.stopPropagation()}
                   >
                     <h2>Berhenti dulu?</h2>
