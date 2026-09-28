@@ -9,6 +9,9 @@ const relationshipAliases = {
   family: ["family", "friends", "group"],
 };
 
+const getAliases = (relationship) =>
+  relationshipAliases[relationship] ?? relationshipAliases.friends;
+
 export const fallbackFollowUps = {
   why: "Yang bikin kamu ngerasa begitu karena apa?",
   example: "Contoh paling nyata yang pernah kamu alami apa?",
@@ -20,22 +23,35 @@ export const fallbackFollowUps = {
 };
 
 const scoreQuestion = (question, state, config) => {
-  const aliases = relationshipAliases[state.relationship] ?? relationshipAliases.friends;
+  const aliases = getAliases(state.relationship);
   let score = 0;
   if (question.experiences?.includes(state.mode)) score += 40;
   if (question.relationships?.some((item) => aliases.includes(item))) score += 20;
   if (!state.situation || question.situations?.includes(state.situation)) score += 15;
   else if (question.situations?.some((item) => universalSituations.has(item))) score += 5;
-  if (question.depth === state.depth) score += 12;
-  else score -= Math.min(Math.abs(question.depth - state.depth) * 2, 8);
-  if (question.minPlayers <= state.playerCount && question.maxPlayers >= state.playerCount) score += 8;
+  if (Number.isFinite(question.depth) && Number.isFinite(state.depth)) {
+    if (question.depth === state.depth) score += 12;
+    else score -= Math.min(Math.abs(question.depth - state.depth) * 2, 8);
+  }
+  const playerCount = Number.isFinite(state.playerCount) ? state.playerCount : null;
+  if (
+    playerCount !== null &&
+    question.minPlayers <= playerCount &&
+    question.maxPlayers >= playerCount
+  )
+    score += 8;
   if (config?.archetypes?.includes(question.archetype)) score += 15;
   score += (question.vibes ?? []).filter((vibe) => state.selectedVibes?.includes(vibe)).length * 3;
   if (state.activeTopic && question.topics?.includes(state.activeTopic)) score += 8;
   if (state.recentTopics?.includes(question.topics?.[0])) score -= 5;
   if (state.recentArchetypes?.includes(question.archetype)) score -= 15;
   if (state.usedQuestionIds?.includes(question.id)) score -= 1000;
-  if (state.mode === "rage_bait" && question.rageBait?.enabled) score += Math.min(question.rageBait.intensity, state.rageIntensity ?? 2) * 5;
+  if (state.mode === "rage_bait" && question.rageBait?.enabled) {
+    const intensity = Number.isFinite(question.rageBait.intensity)
+      ? question.rageBait.intensity
+      : (state.rageIntensity ?? 2);
+    score += Math.min(intensity, state.rageIntensity ?? 2) * 5;
+  }
   if (state.mode === "rage_bait" && !question.rageBait?.enabled) score -= 12;
   return score;
 };
@@ -43,11 +59,15 @@ const scoreQuestion = (question, state, config) => {
 export function selectQuestions(dataset, state, config) {
   const questions = dataset.questions ?? [];
   const compatible = questions.filter((question) => {
-    const aliases = relationshipAliases[state.relationship] ?? relationshipAliases.friends;
+    const aliases = getAliases(state.relationship);
     const relationshipMatch = question.relationships?.some((item) => aliases.includes(item));
-    const playerMatch = question.minPlayers <= state.playerCount && question.maxPlayers >= state.playerCount;
-    const depthCeiling = state.mode === "rage_bait" ? state.depth + 2 : state.depth + 1;
-    const depthMatch = question.depth <= Math.min(depthCeiling, 5);
+    const playerMatch =
+      !Number.isFinite(state.playerCount) ||
+      (question.minPlayers <= state.playerCount && question.maxPlayers >= state.playerCount);
+    const depthCeiling = Number.isFinite(state.depth)
+      ? Math.min(state.mode === "rage_bait" ? state.depth + 2 : state.depth + 1, 5)
+      : 5;
+    const depthMatch = !Number.isFinite(question.depth) || question.depth <= depthCeiling;
     const modeMatch = !state.mode || question.experiences?.includes(state.mode);
     const rageMatch = state.mode !== "rage_bait" || question.rageBait?.enabled === true;
     return relationshipMatch && playerMatch && depthMatch && modeMatch && rageMatch && !state.usedQuestionIds?.includes(question.id);
