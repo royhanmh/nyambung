@@ -11,7 +11,13 @@ import {
 } from "react-icons/fi";
 import brandWordmark from "./assets/brand/nyambung-wordmark.png";
 import brandWordmarkDark from "./assets/brand/nyambung-wordmark-dark.png";
-import { modeConfig, situationOptions } from "./data/conversation-config";
+import {
+  creatorLink,
+  modeConfig,
+  playerCountOptions,
+  relationshipOptions,
+  situationOptions,
+} from "./data/conversation-config";
 import {
   getNextMove,
   selectQuestions,
@@ -34,7 +40,6 @@ const getDefaultMode = ({ playMode, relationship, playerCount, situation }) => {
   if (relationship === "couple") {
     return situation === "malam" ? "future_us" : "soft_spot";
   }
-  if (playerCount !== "1-1") return "worm_mode";
   const nyambungPools = {
     friends: ["easy_mode", "worm_mode", "pop_quiz", "red_flags"],
     new: ["easy_mode", "spill", "lore"],
@@ -83,22 +88,6 @@ const readSettings = () => ({
   ...(readStorage(STORAGE_KEYS.settings, defaultSettings) ?? {}),
 });
 
-const relationshipOptions = [
-  { id: "friends", label: "Teman", desc: "Sering nongkrong & seru-seruan" },
-  { id: "couple", label: "Pasangan", desc: "Bikin hubungan makin deket" },
-  { id: "pdk_t", label: "PDKT", desc: "Buka percakapan yang makin nyaman" },
-  { id: "group", label: "Rame-rame", desc: "Cairin suasana biar akrab" },
-  { id: "new", label: "Baru kenal", desc: "Kenalan santai tanpa canggung" },
-  { id: "family", label: "Keluarga", desc: "Nyaman, hangat, nostalgia" },
-];
-
-const playerCountOptions = [
-  { id: "1-1", label: "Aku + 1 orang" },
-  { id: "3-4", label: "3–4 orang" },
-  { id: "5-8", label: "5–8 orang" },
-  { id: "any", label: "Nggak mau ribet" },
-];
-
 const getOptionLabel = (options, id) =>
   options.find((option) => option.id === id)?.label ?? id;
 
@@ -122,9 +111,8 @@ function HeartIcon({ filled = false }) {
 }
 
 function NotFoundPage() {
-  const notFoundWordmark = readSettings().darkMode
-    ? brandWordmarkDark
-    : brandWordmark;
+  const [isDark] = useState(() => readSettings().darkMode);
+  const notFoundWordmark = isDark ? brandWordmarkDark : brandWordmark;
 
   return (
     <main className="not-found-page">
@@ -195,8 +183,13 @@ let cachedDatasetPromise = null;
 
 const loadQuestionDataset = () => {
   cachedDatasetPromise ??= import(
-    "./data/nyambung-1000-questions-id-ID.json"
-  ).then((module) => module.default ?? module);
+    "./data/nyambung-1000-questions-id-ID.json",
+  )
+    .then((module) => module.default ?? module)
+    .catch((error) => {
+      cachedDatasetPromise = null;
+      throw error;
+    });
   return cachedDatasetPromise;
 };
 
@@ -828,7 +821,9 @@ export default function App() {
     }
   };
 
-  const isKnownPath = ["/", "/index.html"].includes(window.location.pathname);
+  const isKnownPath =
+    typeof window === "undefined" ||
+    ["/", "/index.html"].includes(window.location.pathname);
 
   if (!isKnownPath) {
     return <NotFoundPage />;
@@ -1337,16 +1332,14 @@ export default function App() {
                           type="button"
                           className="saved-open"
                           aria-expanded={isOpen}
-                          aria-label={
-                            isOpen
-                              ? "Tutup pertanyaan lengkap"
-                              : "Lihat pertanyaan lengkap"
-                          }
                           onClick={() =>
                             setExpandedSavedId(isOpen ? null : question.id)
                           }
                         >
-                          <span aria-hidden="true">{question.text}</span>
+                          <span>{question.text}</span>
+                          <span className="visually-hidden">
+                            {isOpen ? ", tutup" : ", lihat lengkap"}
+                          </span>
                         </button>
                         <button
                           type="button"
@@ -1452,7 +1445,7 @@ export default function App() {
               <footer className="settings-footer">
                 created by{" "}
                 <a
-                  href="https://royhanmh.netlify.app/"
+                  href={creatorLink}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
