@@ -64,7 +64,7 @@ export const vibeOptions = [
 
 export const depthLabels = {
   1: "Santai",
-  2: "Penasaran",
+  2: "Ringan",
   3: "Penasaran",
   4: "Personal",
   5: "Dalam",
@@ -74,7 +74,9 @@ export const moveLabels = {
   ask: "Tanya",
   follow_up: "Tanya lagi",
   go_deeper: "Lebih dalam",
+  deeper: "Lebih dalam",
   go_lighter: "Santai dulu",
+  scenario: "Skenario",
   debate: "Debat",
   defend: "Bela pendapatmu",
   story: "Ceritain",
@@ -113,6 +115,8 @@ export const modeConfig = {
   heavy_stuff: { group: "heart", label: "Heavy Stuff", moves: ["ask", "deeper", "story"], archetypes: ["reflection", "open"] },
   money_talks: { group: "heart", label: "Money Talks", moves: ["ask", "debate", "story"], archetypes: ["reflection", "scenario"] },
 };
+
+export const creatorLink = "https://royhanmh.netlify.app/";
 
 export const rageBaitLevels = [
   { id: 1, label: "Nyenggol" },
