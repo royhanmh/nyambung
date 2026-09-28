@@ -11,9 +11,6 @@
   --accent: #557872;
   --accent-dark: #3d5a53;
   --accent-soft: #e6efea;
-  --green: #557872;
-  --green-dark: #3d5a53;
-  --green-soft: #e6efea;
   --shadow: 0 18px 36px rgba(23, 66, 61, 0.08);
   --font-display: "Nunito", "Arial Rounded MT Bold", "Segoe UI", sans-serif;
   --font-body: "Plus Jakarta Sans", "Segoe UI", sans-serif;
@@ -1776,6 +1773,12 @@ a:focus-visible {
   }
 }
 
+@media (max-width: 767px) {
+  .question-stack {
+    height: clamp(380px, 62dvh, 580px);
+  }
+}
+
 @media (min-width: 1024px) {
   .page-shell {
     padding: 32px 16px;
@@ -1783,11 +1786,5 @@ a:focus-visible {
 
   .phone-frame {
     max-height: min(880px, calc(100dvh - 64px));
-  }
-}
-
-@media (max-width: 767px) {
-  .question-stack {
-    height: clamp(380px, 62dvh, 580px);
   }
 }
